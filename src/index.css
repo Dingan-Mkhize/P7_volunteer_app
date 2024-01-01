@@ -1,68 +1,77 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: 'InterTight';
+  src: url('/src/fonts/InterTight-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900; /* Adjust based on the font's weight range */
+  font-style: normal;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+@font-face {
+  font-family: 'InterTight Italic';
+  src: url('/src/fonts/InterTight-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900; /* Adjust based on the font's weight range */
+  font-style: italic;
 }
 
-body {
-  margin: 0;
+/* Apply InterTight as the default font for the whole app */
+body, button, input, textarea {
+  font-family: 'InterTight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Specify italic style */
+em, i {
+  font-family: 'InterTight Italic', sans-serif;
+}
+
+.pb-9.px-6 {
+  position: relative;
+  z-index: 1;
+  /* Keep your padding and other styles */
+  overflow: hidden; /* This will ensure that anything outside this div is not shown */
+}
+
+.text-black {
+  position: relative;
+  z-index: 2; /* Higher than .circle-bg */
+}
+
+.circle-bg {
+  position: absolute;
+  top: 50%; /* Adjust as necessary */
+  left: 50%; /* Adjust as necessary */
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 0;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.circle-bg::before,
+.circle-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.5;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.circle-bg::before {
+  width: 200px; /* Your desired size */
+  height: 200px; /* Your desired size */
+  background-color: #f17d2b; /* Your desired color */
+  top: 10%; /* Your desired position */
+  left: 20%; /* Your desired position */
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.circle-bg::after {
+  width: 300px; /* Your desired size */
+  height: 300px; /* Your desired size */
+  background-color: #17ced1; /* Your desired color */
+  bottom: 10%; /* Your desired position */
+  right: 30%; /* Your desired position */
 }
