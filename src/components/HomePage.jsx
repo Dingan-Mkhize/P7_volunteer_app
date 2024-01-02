@@ -124,7 +124,7 @@ const HomePage = () => {
                 <img
                   src={HomeImg3}
                   alt="/"
-                  className="rounded-xl shadow-xl shadow-[#7d7d7d] shadow object-center w-full overflow-hidden"
+                  className="rounded-xl shadow-xl shadow-[#7d7d7d] object-center w-full overflow-hidden"
                 />
                 <div className="text-black text-center text-3xl font-bold leading-10 mt-8">
                   Medium length section heading goes here

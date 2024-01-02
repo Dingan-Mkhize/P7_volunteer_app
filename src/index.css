@@ -75,3 +75,10 @@ em, i {
   bottom: 10%; /* Your desired position */
   right: 30%; /* Your desired position */
 }
+
+.outline-text-white {
+  color: white; /* Set font color to yellow */
+  text-shadow: -2px -2px 0 #000, /* Top-left shadow */ 2px -2px 0 #000,
+    /* Top-right shadow */ -2px 2px 0 #000,
+    /* Bottom-left shadow */ 2px 2px 0 #000; /* Bottom-right shadow */
+}

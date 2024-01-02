@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
 
@@ -13,13 +13,17 @@ const NavBar = () => {
         <div className="justify-between items-center self-stretch flex gap-5 max-md:max-w-full max-md:flex-wrap">
           <div className="items-stretch flex justify-between gap-5 my-auto">
             <div className="text-black text-base leading-6 grow whitespace-nowrap">
-              About Us
+              <Link to="about">About Us</Link>
             </div>
-            <div className="text-black text-base leading-6">Services</div>
-            <div className="text-black text-base leading-6">Contact</div>
+            <div className="text-black text-base leading-6">
+              <Link to="help-request">Help Request</Link>
+            </div>
+            <div className="text-black text-base leading-6">
+              <Link to="contact">Contact</Link>
+            </div>
             <div className="justify-between items-stretch flex gap-1">
               <div className="text-black text-base leading-6 grow whitespace-nowrap">
-                More
+                <Link to="map">Map</Link>
               </div>
               <img
                 loading="lazy"
@@ -30,10 +34,10 @@ const NavBar = () => {
           </div>
           <div className="justify-between items-stretch self-stretch flex gap-4">
             <button className="text-black text-base leading-6 whitespace-nowrap justify-center items-stretch px-6 py-3 border-2 border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
-              Learn More
+              Log In
             </button>
             <button className="text-white text-base leading-6 whitespace-nowrap justify-center items-stretch border bg-black grow px-6 py-3 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
-              Sign Up
+              <Link to="/signup">Sign Up</Link>
             </button>
           </div>
         </div>

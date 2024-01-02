@@ -26,7 +26,7 @@
   background-color: #f17d2b; /* Pink circle color */
   top: 50%; /* Vertically center */
   left: 50%; /* Horizontally center */
-  transform: translate(-5%, -25%); /* Adjust to move right and a bit lower */
+  transform: translate(-5%, -55%); /* Adjust to move right and a bit lower */
   z-index: 1; /* Above the text */
 }
 
@@ -36,7 +36,7 @@
   background-color: #17ced1; /* Blue circle color */
   top: 45%; /* Vertically center */
   left: 50%; /* Horizontally center */
-  transform: translate(30%, -60%); /* Adjust to move further right */
+  transform: translate(30%, -80%); /* Adjust to move further right */
   z-index: 0; /* Below the pink circle */
 }
 
