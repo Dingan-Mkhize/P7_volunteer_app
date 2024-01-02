@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const NavBar = () => {
 
   return (
-    <div className="justify-center items-stretch bg-white flex flex-col px-16 py-4 border-solid max-md:px-5">
+    <div className="sticky top-0 z-10 justify-center items-stretch bg-white flex flex-col px-16 py-4 border-solid max-md:px-5">
       <div className="justify-between items-center flex w-full gap-5 max-md:max-w-full max-md:flex-wrap max-md:mr-1">
         <img
           loading="lazy"
