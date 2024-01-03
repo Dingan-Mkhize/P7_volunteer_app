@@ -217,9 +217,9 @@ const SignUpPage = () => {
                   />
                 </div>
                 <div className="text-black text-2xl font-bold leading-9 mt-8 max-md:max-w-full">
-                  Joining Kindred Connect has been a life-changing experience.
-                  The platform has allowed me to connect with others in my
-                  community and make a real difference.
+                  Joining Hands United has been a life-changing experience. The
+                  platform has allowed me to connect with others in my community
+                  and make a real difference.
                 </div>
                 <div className="items-stretch flex gap-5 mt-8 self-start">
                   <div className="items-stretch self-center flex grow basis-[0%] flex-col my-auto">
@@ -247,14 +247,14 @@ const SignUpPage = () => {
           <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
             <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0">
               <div className="text-black text-5xl font-bold leading-[58px] max-md:max-w-full max-md:text-4xl max-md:leading-[54px] max-md:mt-10">
-                Join Kindred Connect Community Today
+                Join Hands United Community Today
               </div>
             </div>
             <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">
               <div className="items-stretch flex grow flex-col max-md:max-w-full max-md:mt-10">
                 <div className="text-black text-lg leading-7 max-md:max-w-full">
                   Start making a difference in your community by signing up for
-                  Kindred Connect. Join our trusted community of volunteers and
+                  Hands United. Join our trusted community of volunteers and
                   help those in need. Together, we can create a more
                   compassionate world.
                 </div>
@@ -273,6 +273,6 @@ const SignUpPage = () => {
       </div>
     </div>
   );
-}
+};
 
-export default SignUpPage
+export default SignUpPage;

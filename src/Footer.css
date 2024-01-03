@@ -1,7 +1,7 @@
 .footerContainer {
   position: relative;
-  width: 100%; /* Ensure the footer container spans the entire width */
-  /* Other styling for the footer */
+  width: 100%;
+  overflow-x: hidden; 
 }
 
 .footerCircleBg {
@@ -9,7 +9,9 @@
   width: 100%;
   height: 100%;
   z-index: 0;
-  pointer-events: none; /* Ensures clicks go through to elements below */
+  pointer-events: none;
+  right: 0; 
+  bottom: 0; 
 }
 
 .footerCircleBg::before,
@@ -18,6 +20,8 @@
   position: absolute;
   border-radius: 50%;
   opacity: 0.5; /* Match the opacity of the main content circles */
+  width: 15vw; /* Use viewport width relative sizes */
+  height: 15vw; /* Use viewport width relative sizes */
 }
 
 .footerCircleBg::before {
@@ -26,7 +30,7 @@
   background-color: #f17d2b; /* Pink circle color */
   top: 50%; /* Vertically center */
   left: 50%; /* Horizontally center */
-  transform: translate(-5%, -55%); /* Adjust to move right and a bit lower */
+  transform: translate(45%, -30%); /* Adjust to move right and a bit lower */
   z-index: 1; /* Above the text */
 }
 
@@ -34,11 +38,14 @@
   width: 300px; /* Blue circle size */
   height: 300px; /* Blue circle size */
   background-color: #17ced1; /* Blue circle color */
-  top: 45%; /* Vertically center */
+  top: 50%; /* Vertically center */
   left: 50%; /* Horizontally center */
-  transform: translate(30%, -80%); /* Adjust to move further right */
+  transform: translate(70%, -65%); /* Adjust to move further right */
   z-index: 0; /* Below the pink circle */
 }
+
+
+
 
 
 

@@ -3,17 +3,17 @@ import MapImg1 from "../assets/volunteer_10.png"; // Replace with your actual im
 const MapPage = () => {
   return (
     <div className="flex flex-col items-stretch">
-      {/* Background image with text overlay */}
-      <div 
-        className="w-full h-[500px] bg-no-repeat bg-cover flex flex-col pl-16 pr-20 py-12 items-start justify-center" 
-        style={{ backgroundImage: `url(${MapImg1})`}}
+      <div
+        className="w-full h-[500px] bg-no-repeat bg-cover flex flex-col pl-16 pr-20 py-12 items-start justify-center rounded-2xl"
+        style={{ backgroundImage: `url(${MapImg1})` }}
       >
-        <div className="bg-black bg-opacity-50 w-full">
-          <div className="text-white text-6xl font-bold leading-[67.2px] mt-16 max-md:max-w-full max-md:text-4xl max-md:mt-10">
+        <div className="w-full">
+          <div className="outline-text-white text-6xl font-bold leading-[67.2px] mt-16 max-md:max-w-full max-md:text-4xl max-md:mt-10">
             Explore Community Needs
           </div>
-          <div className="text-white text-lg leading-7 mt-6 mb-16 max-md:max-w-full max-md:mb-10">
-            Discover how to navigate the needs of your community and make a difference.
+          <div className="outline-text-white text-lg leading-7 mt-6 mb-16 max-md:max-w-full max-md:mb-10">
+            Discover how to navigate the needs of your community and make a
+            difference.
           </div>
         </div>
       </div>{" "}
@@ -28,7 +28,7 @@ const MapPage = () => {
             </div>{" "}
             <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">
               <div className="self-stretch text-black text-lg leading-7 max-md:max-w-full max-md:mt-10">
-                The interactive map in Kindred Connect allows users to easily
+                The interactive map in Hands United allows users to easily
                 locate help requests in their community. By clicking on markers,
                 users can access powerful stories and initiate direct
                 communication with those in need. Additionally, the map
@@ -115,6 +115,6 @@ const MapPage = () => {
       </div>
     </div>
   );
-}
+};
 
 export default MapPage;
