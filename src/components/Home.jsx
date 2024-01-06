@@ -6,7 +6,7 @@ import HomeImg3 from "../assets/volunteer_4.png";
 import HomeImg4 from "../assets/volunteer_5.png";
 
 
-const HomePage = () => {
+const Home = () => {
   // Placeholder state for unfulfilled help requests
   const [unfulfilledRequests, setUnfulfilledRequests] = useState(50);
 
@@ -251,4 +251,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Home;

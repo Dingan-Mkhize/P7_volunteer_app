@@ -1,4 +1,4 @@
-const ContactPage = () => {
+const Contact = () => {
   return (
     <div className="items-stretch bg-white flex flex-col">
       <div className="bg-black bg-opacity-50 flex w-full flex-col pl-16 pr-20 py-12 items-start max-md:max-w-full max-md:px-5">
@@ -69,4 +69,4 @@ const ContactPage = () => {
   );
 }
 
-export default ContactPage;
+export default Contact;

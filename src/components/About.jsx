@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import AboutImg1 from "../assets/volunteer_9.png";
 
-const AboutPage = () => {
+const About = () => {
   return (
     <div className="flex flex-col items-stretch">
       {/* Section with background image and title */}
@@ -296,4 +296,4 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage;
+export default About;

@@ -2,12 +2,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 //import "./App.css";
 import NavBar from "./components/NavBar";
-import HomePage from "./components/HomePage";
-import AboutPage from "./components/AboutPage";
-import SignUpPage from "./components/SignUpPage";
-import MapPage from "./components/MapPage";
-import HelpRequestPage from "./components/HelpRequestPage";
-import ContactPage from "./components/ContactPage";
+import Home from "./components/Home";
+import About from "./components/About";
+import LogIn from "./components/LogIn";
+import SignUp from "./components/SignUp";
+import Dashboard from "./components/Dashboard";
+import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
 function App() {
@@ -15,14 +15,14 @@ function App() {
     <Router>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <NavBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/map" element={<MapPage />} />
-            <Route path="/help-request" element={<HelpRequestPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-          </Routes>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
         <Footer />
       </div>
     </Router>
