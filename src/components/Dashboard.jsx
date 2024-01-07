@@ -1,4 +1,5 @@
-import ProfImg from "../assets/volunteer_11.png"; // Make sure the path is correct
+import ProfImg from "../assets/volunteer_11.png";
+import FooterBackground from "../assets/overlapping_circles.svg";
 
 const Dashboard = () => {
   return (
@@ -17,9 +18,15 @@ const Dashboard = () => {
             Michaela Johnson
           </div>
         </div>
-        <div className="relative pb-9 pt-6 px-12">
+        <div
+          className="relative pb-9 pt-6 p-12" style={{
+        backgroundImage: `url(${FooterBackground})`,
+        backgroundSize: '190%', // Adjust this as needed
+        backgroundPosition: 'center center', // Moves the SVG further to the right
+        backgroundRepeat: 'no-repeat'
+      }}
+        >
           <div className="self-center flex flex-col items-stretch my-auto max-md:max-w-full">
-            <div className="circle-bg"></div>
             <div className="text-black text-4xl font-bold leading-10 max-md:max-w-full">
               Discover Help Requests and Explore Different Areas on the
               Interactive Map

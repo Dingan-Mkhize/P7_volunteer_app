@@ -26,6 +26,13 @@ em, i {
   font-family: 'InterTight Italic', sans-serif;
 }
 
+/* Add this to your CSS file */
+.sticky-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* High enough to stay above other page elements */
+}
+
 .pb-9.px-6 {
   position: relative;
   z-index: 1;

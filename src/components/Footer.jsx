@@ -1,9 +1,17 @@
 import '../Footer.css';
+import FooterBackground from "../assets/overlapping_circles.svg";
 
 const Footer = () => {
   return (
-    <div className="footerContainer relative items-stretch  bg-white flex w-full flex-col px-16 py-12 max-md:max-w-full max-md:px-5">
-      <div className="footerCircleBg"></div>
+    <div
+      className="footerContainer relative items-stretch bg-white flex w-full flex-col px-16 py-16 pb-3 max-md:max-w-full max-md:px-5"
+      style={{
+        backgroundImage: `url(${FooterBackground})`,
+        backgroundSize: "95%",
+        backgroundPosition: "center center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="mt-8 p-12  max-md:max-w-full max-md:px-5  border-r-2 border-l-2 border-black">
         <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
           <div className="flex flex-col items-stretch w-9/12 max-md:w-full max-md:ml-0">

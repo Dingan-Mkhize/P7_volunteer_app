@@ -33,7 +33,7 @@ const About = () => {
 
       {/* Section with team members */}
       <div className="flex flex-col items-stretch">
-        <div className="items-center bg-white flex w-full flex-col px-16 py-12 max-md:max-w-full max-md:px-5">
+        <div className="items-center bg-white flex w-full flex-col px-16 max-md:max-w-full max-md:px-5">
           <div className="text-black text-center text-base font-semibold leading-6 self-center whitespace-nowrap mt-16 max-md:mt-10">
             Empowering
           </div>
@@ -189,14 +189,14 @@ const About = () => {
             </div>
           </div>
           <div className="self-center text-black text-center text-3xl font-bold leading-10 mt-24 max-md:max-w-full max-md:mt-10">
-            We’re hiring!
+            We are hiring!
           </div>
           <div className="self-center text-black text-center text-lg leading-7 mt-4 max-md:max-w-full">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
           </div>
-          <div className="text-black text-base leading-6 whitespace-nowrap justify-center items-stretch border self-center mt-6 mb-10 px-14 py-3 border-solid border-black max-md:px-5">
-            Button
-          </div>
+          <button className="mt-3 text-black text-base leading-6 whitespace-nowrap justify-center items-stretch px-6 py-3 border-2 border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
+            <Link to="contact">Contact</Link>
+          </button>
         </div>
         <div className="items-center bg-white flex w-full flex-col px-16 py-12 max-md:max-w-full max-md:px-5">
           <div className="text-black text-lg font-bold leading-7 whitespace-nowrap mt-8">
