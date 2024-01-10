@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
-import AboutImg1 from "../assets/volunteer_9.png";
+import AboutImg1 from "../assets/volunteer_8.png";
+import teamImg1 from "../assets/teamPic1.jpeg";
+import teamImg2 from "../assets/teamPic2.jpeg";
+import teamImg3 from "../assets/teamPic3.jpeg";
+import teamImg4 from "../assets/teamPic4.jpeg";
+import testImg1 from "../assets/testPic1.jpeg";
+
 
 const About = () => {
   return (
@@ -48,9 +54,9 @@ const About = () => {
               <div className="flex flex-col items-stretch w-3/12 max-md:w-full max-md:ml-0">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
-                    loading="lazy"
-                    srcSet="..."
-                    className="aspect-square object-contain object-center w-20 overflow-hidden max-w-full"
+                    src={teamImg1}
+                    className="aspect-[1.01] object-contain object-center w-full overflow-hidden "
+                    alt="Profile"
                   />
                   <div className="self-stretch text-black text-center text-xl font-semibold leading-8 whitespace-nowrap mt-6">
                     John Doe
@@ -84,9 +90,9 @@ const About = () => {
               <div className="flex flex-col items-stretch w-3/12 ml-5 max-md:w-full max-md:ml-0">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
-                    loading="lazy"
-                    srcSet="..."
-                    className="aspect-square object-contain object-center w-20 overflow-hidden max-w-full"
+                    src={teamImg3}
+                    className="aspect-[1.01] object-contain object-center w-full overflow-hidden"
+                    alt="Profile"
                   />
                   <div className="self-stretch text-black text-center text-xl font-semibold leading-8 whitespace-nowrap mt-6">
                     Jane Smith
@@ -119,9 +125,9 @@ const About = () => {
               <div className="flex flex-col items-stretch w-3/12 ml-5 max-md:w-full max-md:ml-0">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
-                    loading="lazy"
-                    srcSet="..."
-                    className="aspect-square object-contain object-center w-20 overflow-hidden max-w-full"
+                    src={teamImg4}
+                    className="aspect-[1.01] object-contain object-center w-full overflow-hidden"
+                    alt="Profile"
                   />
                   <div className="self-stretch text-black text-center text-xl font-semibold leading-8 whitespace-nowrap mt-6">
                     Michael Johnson
@@ -154,9 +160,9 @@ const About = () => {
               <div className="flex flex-col items-stretch w-3/12 ml-5 max-md:w-full max-md:ml-0">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
-                    loading="lazy"
-                    srcSet="..."
-                    className="aspect-square object-contain object-center w-20 overflow-hidden max-w-full"
+                    src={teamImg2}
+                    className="aspect-[1.01] object-contain object-center w-full overflow-hidden"
+                    alt="Profile"
                   />
                   <div className="self-stretch text-black text-center text-xl font-semibold leading-8 whitespace-nowrap mt-6">
                     Emily Davis
@@ -188,15 +194,6 @@ const About = () => {
               </div>
             </div>
           </div>
-          <div className="self-center text-black text-center text-3xl font-bold leading-10 mt-24 max-md:max-w-full max-md:mt-10">
-            We are hiring!
-          </div>
-          <div className="self-center text-black text-center text-lg leading-7 mt-4 max-md:max-w-full">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
-          </div>
-          <button className="mt-3 text-black text-base leading-6 whitespace-nowrap justify-center items-stretch px-6 py-3 border-2 border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
-            <Link to="contact">Contact</Link>
-          </button>
         </div>
         <div className="items-center bg-white flex w-full flex-col px-16 py-12 max-md:max-w-full max-md:px-5">
           <div className="text-black text-lg font-bold leading-7 whitespace-nowrap mt-8">
@@ -254,18 +251,20 @@ const About = () => {
             <div className="text-black text-center text-2xl font-bold leading-8 self-center max-w-[253px]">
               Community Testimonial
             </div>
-            <div className="self-stretch text-black text-center text-2xl font-bold leading-9 mt-24 max-md:max-w-full max-md:mt-10">
-              Hands United has been a game-changer for me. It has allowed me to
-              connect with people in my community and make a real difference in
-              their lives.
+            <div className="self-stretch text-black text-center text-xl font-bold leading-9 mt-9 max-md:max-w-full max-md:mt-10">
+              &ldquo;<i>Hands United has been a game-changer for me. It has
+              allowed me to connect with people in my community and make a real
+              difference in their lives.</i>&ldquo;
             </div>
-            <img
-              loading="lazy"
-              srcSet="..."
-              className="aspect-square object-contain object-center w-14 overflow-hidden self-center max-w-full mt-8 rounded-[50%]"
-            />
+            <div className="items-center flex grow flex-col max-md:mt-8">
+              <img
+                src={testImg1}
+                className="w-32 h-32 object-cover rounded-full mt-9"
+                alt="Profile"
+              />
+            </div>
             <div className="self-center text-black text-center text-base font-semibold leading-6 whitespace-nowrap mt-4">
-              John Doe
+              Jane Doe
             </div>
             <div className="self-center text-black text-center text-base leading-6 whitespace-nowrap">
               Community Volunteer

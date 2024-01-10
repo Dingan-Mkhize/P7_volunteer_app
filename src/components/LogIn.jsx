@@ -4,71 +4,73 @@ import FooterBackground from "../assets/overlapping_circles.svg";
 
 const LogIn = () => {
   return (
-    <div className="bg-white flex flex-col items-center justify-center min-h-screen py-12">
+    <div className="bg-white flex flex-col items-center justify-center min-h-screen py-9">
       <div
-        className="text-6xl font-bold text-white w-full max-w-4xl justify-center py-28 px-16 rounded-3xl text-center mt-3.5 mb-16"
-        style={{
-          backgroundImage: `url(${LogInImg1})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-        }}
+        className="w-full h-[500px] object-contain bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-2xl leading-[67px] px-16"
+        style={{ backgroundImage: `url(${LogInImg1})` }}
       >
-        Join Our Community
+        <div className="outline-text-white w-full text-center py-28">
+          Welcome Back To Hands United
+        </div>
       </div>
+
       <div
-        className="w-full max-w-md flex flex-col justify-center px-12"
+        className="w-full flex justify-center items-center px-12 mt-16 mb-9"
         style={{
           backgroundImage: `url(${FooterBackground})`,
-          backgroundSize: "195%",
+          backgroundSize: "1500px",
           backgroundPosition: "center center",
           backgroundRepeat: "no-repeat",
         }}
       >
-        <form className="flex flex-col mt-4 mb-1.5 space-y-6 p-6 rounded-3xl relative z-10">
-          <label
-            htmlFor="first-name"
-            className="text-black text-base leading-6"
-          >
-            First name
-          </label>
-          <input
-            id="first-name"
-            type="text"
-            className="text-base leading-6 border p-3 rounded-3xl border-solid border-black bg-white"
-            placeholder="Your first name"
-          />
-
-          <label htmlFor="last-name" className="text-black text-base leading-6">
-            Last name
-          </label>
-          <input
-            id="last-name"
-            type="text"
-            className="text-base leading-6 border p-3 rounded-3xl border-solid border-black bg-white"
-            placeholder="Your last name"
-          />
-
-          <label htmlFor="email" className="text-black text-base leading-6">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            className="text-base leading-6 border p-3 rounded-3xl border-solid border-black bg-white"
-            placeholder="Your email address"
-          />
-
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="text-white text-base leading-6 whitespace-nowrap justify-center items-center border bg-black px-6 py-3 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full w-24" // Adjust width as needed
+        <div className="w-full max-w-md">
+          <form className="flex flex-col mt-3 mb-3 space-y-6 p-6 rounded-3xl relative z-10">
+            <label
+              htmlFor="first-name"
+              className="text-black text-base leading-6"
             >
-              Log In
-            </button>
-          </div>
-        </form>
+              First name
+            </label>
+            <input
+              id="first-name"
+              type="text"
+              className="text-base leading-6 border p-3 rounded-3xl border-solid border-black bg-white"
+              placeholder="Your first name"
+            />
+
+            <label
+              htmlFor="last-name"
+              className="text-black text-base leading-6"
+            >
+              Last name
+            </label>
+            <input
+              id="last-name"
+              type="text"
+              className="text-base leading-6 border p-3 rounded-3xl border-solid border-black bg-white"
+              placeholder="Your last name"
+            />
+
+            <label htmlFor="email" className="text-black text-base leading-6">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              className="text-base leading-6 border p-3 rounded-3xl border-solid border-black bg-white"
+              placeholder="Your email address"
+            />
+
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="text-white text-base leading-6 whitespace-nowrap border bg-black px-6 py-3 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+              >
+                Contact
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
 
       <div className="items-stretch bg-white self-stretch flex w-full flex-col pt-12 pb-3.5 px-16 max-md:max-w-full max-md:px-5">
