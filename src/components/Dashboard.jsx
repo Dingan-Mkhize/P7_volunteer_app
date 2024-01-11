@@ -2,16 +2,39 @@ import ProfImg from "../assets/volunteer_11.png";
 import FooterBackground from "../assets/overlapping_circles.svg";
 
 const Dashboard = () => {
+
+const volunteerRequests = [
+  {
+    id: 1,
+    title: "Beach Cleanup",
+    description: "Join us to clean the local beach area. Tools provided.",
+    location: "Oceanview Beach",
+  },
+  {
+    id: 2,
+    title: "Food Bank Help",
+    description: "Assist in organizing and distributing food.",
+    location: "Downtown Food Bank",
+  },
+  {
+    id: 3,
+    title: "Park Tree Planting",
+    description: "Help plant trees in the city park.",
+    location: "Greenfield Park",
+  },
+  // ...fetch or generate data dynamically
+];
+
   return (
     <div className="bg-white flex flex-col px-16 py-12 max-md:px-5">
       <div className="self-stretch flex items-stretch justify-between gap-5 mt-24 mx-11 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
         <div className="flex flex-col items-start pr-16">
-          <p className="text-xs self-stretch text-black text-center leading-10 whitespace-nowrap pt-6">
-            Welcome back, Michaela!
+          <p className="text-xs self-stretch text-black text-center leading-10 whitespace-nowrap pt-3">
+            <i>Welcome back, Michaela!</i>
           </p>
           <img
             src={ProfImg}
-            className="aspect-[1.01] object-contain object-center w-full overflow-hidden"
+            className="aspect-[1.01] object-contain object-center w-full overflow-hidden border-2 border-black rounded-full"
             alt="Profile"
           />
           <div className="self-stretch text-black text-center font-semibold leading-10 whitespace-nowrap">
@@ -19,12 +42,13 @@ const Dashboard = () => {
           </div>
         </div>
         <div
-          className="relative pb-9 pt-6 p-12" style={{
-        backgroundImage: `url(${FooterBackground})`,
-        backgroundSize: '190%', // Adjust this as needed
-        backgroundPosition: 'center center', // Moves the SVG further to the right
-        backgroundRepeat: 'no-repeat'
-      }}
+          className="relative pb-9 pt-6 p-12"
+          style={{
+            backgroundImage: `url(${FooterBackground})`,
+            backgroundSize: "190%", // Adjust this as needed
+            backgroundPosition: "center center", // Moves the SVG further to the right
+            backgroundRepeat: "no-repeat",
+          }}
         >
           <div className="self-center flex flex-col items-stretch my-auto max-md:max-w-full">
             <div className="text-black text-4xl font-bold leading-10 max-md:max-w-full">
@@ -44,28 +68,38 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="flex max-w-full flex-row px-5 py-16">
-        {/* Three similar sections */}
-        {[1, 2, 3].map((item) => (
-          <div key={item} className="flex max-w-[405px] flex-col px-5">
-            <img
-              loading="lazy"
-              srcSet="..."
-              className="aspect-[1.69] object-contain object-center w-full self-stretch overflow-hidden"
-              alt={`Section ${item}`}
-            />
-            <div className="self-stretch text-black text-center text-3xl font-bold leading-10 w-full mt-8">
-              Medium length section heading goes here
-            </div>
-            <div className="self-stretch text-black text-center text-base leading-6 w-full mt-6">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse varius enim in eros elementum tristique. Duis cursus,
-              mi quis viverra ornare, eros dolor interdum nulla.
-            </div>
-            <div className="flex justify-center mt-9">
-              <button className="w-32 h-12 min-w-32 min-h-12 text-black text-base leading-6 whitespace-nowrap items-center border-2 border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
-                Contact
-              </button>
+      {/* Map Section Placeholder */}
+      <div className="mt-10 mx-5 w-full">
+        <div className="border border-dashed border-gray-400 bg-gray-200 h-64 flex justify-center items-center rounded-3xl">
+          <h2 className="text-lg font-semibold text-gray-700">
+            Interactive Map Placeholder
+          </h2>
+        </div>
+      </div>
+
+      <div className="flex flex-row px-5 py-16 justify-between space-x-5">
+        {/* Volunteer Request Cards */}
+        {volunteerRequests.map((request) => (
+          <div
+            key={request.id}
+            className="flex flex-col border border-gray-300 rounded-xl shadow-xl shadow-[#7d7d7d] object-center w-full overflow-hidden"
+            style={{ width: "calc(33% - 10px)", minHeight: "320px" }}
+          >
+            <div className="p-4 flex flex-col justify-between flex-grow">
+              <div>
+                <h3 className="text-xl font-semibold text-black mb-2">
+                  {request.title}
+                </h3>
+                <p className="text-black mb-4">{request.description}</p>
+                <p className="text-gray-600 text-sm">
+                  Location: {request.location}
+                </p>
+              </div>
+              <div className="mt-4">
+                <button className="w-full h-12 text-black text-base leading-6 border-2 border-black rounded-full shadow-md hover:bg-black hover:text-white transition duration-300">
+                  Volunteer Now
+                </button>
+              </div>
             </div>
           </div>
         ))}
@@ -124,12 +158,8 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">
-            <img
-              loading="lazy"
-              srcSet="..."
-              className="aspect-[0.84] object-contain object-center w-full overflow-hidden grow max-md:max-w-full max-md:mt-10"
-              alt="Map Visualization"
-            />
+            {/* Image Placeholder */}
+            <div className="aspect-[0.84] object-contain object-center w-full overflow-hidden grow max-md:max-w-full max-md:mt-10 bg-gray-200 rounded-3xl"></div>
           </div>
         </div>
       </div>

@@ -1,4 +1,6 @@
-import '../Footer.css';
+import { Link } from "react-router-dom";
+import Logo from "../assets/LogoImg.png";
+import "../Footer.css";
 import FooterBackground from "../assets/overlapping_circles.svg";
 
 const Footer = () => {
@@ -16,11 +18,13 @@ const Footer = () => {
         <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
           <div className="flex flex-col items-stretch w-9/12 max-md:w-full max-md:ml-0">
             <div className="items-start flex grow flex-col max-md:max-w-full max-md:mt-10">
-              <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/91a89694dcf241f98fa3d3e204255212441c486cd58285fc16a05369e6071407?"
-                className="aspect-[2.33] object-contain object-center w-[63px] overflow-hidden max-w-full self-start"
-              />
+              <Link to="/">
+                <img
+                  loading="lazy"
+                  src={Logo}
+                  className="object-contain object-center w-[50px] h-[54px] overflow-hidden shrink-0 my-auto"
+                />
+              </Link>
               <div className="self-stretch text-black text-sm font-semibold leading-5 mt-8 max-md:max-w-full">
                 Address:
               </div>

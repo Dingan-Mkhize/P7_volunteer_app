@@ -1,7 +1,6 @@
 import LogInImg1 from "../assets/volunteer_7.png";
 import FooterBackground from "../assets/overlapping_circles.svg";
 
-
 const LogIn = () => {
   return (
     <div className="bg-white flex flex-col items-center justify-center min-h-screen py-9">
@@ -66,7 +65,7 @@ const LogIn = () => {
                 type="submit"
                 className="text-white text-base leading-6 whitespace-nowrap border bg-black px-6 py-3 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
               >
-                Contact
+                Log In
               </button>
             </div>
           </form>
