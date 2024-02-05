@@ -24,7 +24,7 @@ const Home = () => {
     <div className="flex flex-col items-stretch">
       <div className="items-center bg-white flex w-full flex-col px-16 py-12 max-md:max-w-full max-md:px-5">
         <div className="self-center text-black text-center text-6xl font-bold leading-[67px] max-w-screen-md mt-16 max-md:max-w-full max-md:text-4xl max-md:leading-[54px] max-md:mt-10">
-          Connecting Communities, One Request at a Time
+          Hands United <p></p>Connecting Communities, One Request at a Time
         </div>
         <div className="self-center text-black text-center text-lg leading-7 max-w-screen-md mt-6 max-md:max-w-full">
           Welcome to our platform where neighbors help neighbors. Join our
@@ -34,7 +34,7 @@ const Home = () => {
           <button className="text-white text-base leading-6 whitespace-nowrap justify-center items-stretch border bg-black grow px-6 py-3 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
             Sign Up
           </button>
-          <button className="text-black text-base leading-6 whitespace-nowrap justify-center items-stretch px-6 py-3 border-2 border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
+          <button className="text-black text-base leading-6 whitespace-nowrap justify-center items-stretch px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
             Learn More
           </button>
         </div>
@@ -103,7 +103,7 @@ const Home = () => {
             Empower Your Community, One Act at a Time
           </div>
           <div className="self-center text-black text-center text-5xl font-bold leading-[58px] max-w-screen-md mt-4 max-md:max-w-full max-md:text-4xl max-md:leading-[54px]">
-            Join Hands for a Stronger Tomorrow
+            Join Hands United for a Stronger Tomorrow
           </div>
           <div className="self-center text-black text-center text-lg leading-7 max-w-screen-md mt-6 max-md:max-w-full">
             Every helping hand makes a difference in our community. By
@@ -124,7 +124,7 @@ const Home = () => {
                 <img
                   src={HomeImg3}
                   alt="/"
-                  className="rounded-xl shadow-xl shadow-[#7d7d7d] object-center w-full overflow-hidden"
+                  className="rounded-xl shadow-xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden"
                 />
                 <div className="text-black text-center text-3xl font-bold leading-10 mt-8">
                   Medium length section heading goes here
@@ -141,7 +141,7 @@ const Home = () => {
                 <img
                   src={HomeImg2}
                   alt="/"
-                  className="rounded-xl shadow-xl shadow-[#7d7d7d] object-center w-full overflow-hidden"
+                  className="rounded-xl shadow-xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden"
                 />
                 <div className="text-black text-center text-3xl font-bold leading-10 mt-8">
                   Medium length section heading goes here
@@ -158,7 +158,7 @@ const Home = () => {
                 <img
                   src={HomeImg4}
                   alt="/"
-                  className="rounded-xl shadow-xl shadow-[#7d7d7d]  object-center w-full overflow-hidden"
+                  className="rounded-xl shadow-xl shadow-[#7d7d7d]  object-center w-full border border-black overflow-hidden"
                 />
                 <div className="text-black text-center text-3xl font-bold leading-10 mt-8">
                   Medium length section heading goes here
@@ -243,7 +243,7 @@ const Home = () => {
         <div className="text-black text-center text-lg leading-7 mb-4 mt-4 max-md:max-w-full">
           Contact us for further assistance.
         </div>
-        <button className="text-black text-base leading-6 whitespace-nowrap justify-center items-stretch px-6 py-3 border-2 border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
+        <button className="text-black text-base leading-6 whitespace-nowrap justify-center items-stretch px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
           Contact
         </button>
       </div>

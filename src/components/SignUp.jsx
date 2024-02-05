@@ -106,53 +106,17 @@ const SignUpPage = () => {
                     className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full"
                   />
                 </div>
-                <div className="text-black text-base leading-6 self-stretch mt-10 max-md:max-w-full">
-                  Which best describes you?
-                </div>
+                
                 <div className="self-stretch mt-4 max-md:max-w-full">
                   <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                     <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0">
                       <div className="items-stretch flex grow flex-col max-md:mt-6">
-                        <div className="items-center flex justify-between gap-2 pr-11 max-md:pr-5">
-                          <div className="border bg-white flex w-[18px] shrink-0 h-[18px] flex-col my-auto border-solid border-black" />
-                          <div className="text-black text-base leading-6">
-                            Checkbox
-                          </div>
-                        </div>
-                        <div className="items-center flex justify-between gap-2 mt-3.5 pr-14 max-md:pr-5">
-                          <div className="border bg-white flex w-[18px] shrink-0 h-[18px] flex-col my-auto border-solid border-black" />
-                          <div className="text-black text-base leading-6">
-                            Checkbox
-                          </div>
-                        </div>
-                        <div className="items-center flex justify-between gap-2 mt-3.5 pr-11 max-md:pr-5">
-                          <div className="border bg-white flex w-[18px] shrink-0 h-[18px] flex-col my-auto border-solid border-black" />
-                          <div className="text-black text-base leading-6">
-                            Checkbox
-                          </div>
-                        </div>
+                        
                       </div>
                     </div>
                     <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">
                       <div className="items-stretch flex grow flex-col max-md:mt-6">
-                        <div className="items-center flex justify-between gap-2 pr-20 max-md:pr-5">
-                          <div className="border bg-white flex w-[18px] shrink-0 h-[18px] flex-col my-auto border-solid border-black" />
-                          <div className="text-black text-base leading-6">
-                            Checkbox
-                          </div>
-                        </div>
-                        <div className="items-center flex justify-between gap-2 mt-3.5 pr-16 max-md:pr-5">
-                          <div className="border bg-white flex w-[18px] shrink-0 h-[18px] flex-col my-auto border-solid border-black" />
-                          <div className="text-black text-base leading-6">
-                            Checkbox
-                          </div>
-                        </div>
-                        <div className="items-center flex justify-between gap-2 mt-3.5">
-                          <div className="border bg-white flex w-[18px] shrink-0 h-[18px] flex-col my-auto border-solid border-black" />
-                          <div className="text-black text-base leading-6 self-stretch grow shrink basis-auto">
-                            Checkbox
-                          </div>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>

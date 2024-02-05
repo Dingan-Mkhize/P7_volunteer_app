@@ -22,7 +22,7 @@ const Footer = () => {
                 <img
                   loading="lazy"
                   src={Logo}
-                  className="object-contain object-center w-[50px] h-[54px] overflow-hidden shrink-0 my-auto"
+                  className="object-contain object-center w-[50px] h-[50px] overflow-hidden scale-x-150 scale-y-150 border border-black rounded-full"
                 />
               </Link>
               <div className="self-stretch text-black text-sm font-semibold leading-5 mt-8 max-md:max-w-full">
