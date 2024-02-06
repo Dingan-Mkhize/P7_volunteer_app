@@ -6,13 +6,12 @@ import teamImg3 from "../assets/teamPic3.jpeg";
 import teamImg4 from "../assets/teamPic4.jpeg";
 import testImg1 from "../assets/testPic1.jpeg";
 
-
 const About = () => {
   return (
-    <div className="flex flex-col items-stretch">
+    <div className="flex flex-col items-stretch mt-3 p-9">
       {/* Section with background image and title */}
       <div
-        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-2xl leading-[67px] px-16"
+        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-2xl shadow-grey mb-6"
         style={{ backgroundImage: `url(${AboutImg1})` }}
       >
         <div className="outline-text-white w-full text-center py-28">
@@ -21,7 +20,7 @@ const About = () => {
       </div>
 
       {/* Section with a description of the platform */}
-      <div className="items-center bg-white flex w-full flex-col px-20 py-12 max-md:max-w-full max-md:px-5">
+      <div className="px-6 rounded-3xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6">
         <div className="relative pb-9 px-9 pt-9">
           <div className="circle-bg"></div>
 
@@ -39,8 +38,8 @@ const About = () => {
 
       {/* Section with team members */}
       <div className="flex flex-col items-stretch">
-        <div className="items-center bg-white flex w-full flex-col px-16 max-md:max-w-full max-md:px-5">
-          <div className="text-black text-center text-base font-semibold leading-6 self-center whitespace-nowrap mt-16 max-md:mt-10">
+        <div className="items-center bg-white flex w-full flex-col px-16 max-md:max-w-full max-md:px-5 mt-16">
+          <div className="text-black text-center text-base font-semibold leading-6 self-center whitespace-nowrap max-md:mt-10">
             Empowering
           </div>
           <div className="self-center text-black text-center text-5xl font-bold leading-[57.6px] mt-4 max-md:max-w-full max-md:text-4xl">
@@ -51,7 +50,7 @@ const About = () => {
           </div>
           <div className="self-stretch mt-20 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-              <div className="flex flex-col items-stretch w-3/12 max-md:w-full max-md:ml-0">
+              <div className="pb-9 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
                     src={teamImg1}
@@ -87,7 +86,7 @@ const About = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col items-stretch w-3/12 ml-5 max-md:w-full max-md:ml-0">
+              <div className="pb-9 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
                     src={teamImg3}
@@ -122,7 +121,7 @@ const About = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col items-stretch w-3/12 ml-5 max-md:w-full max-md:ml-0">
+              <div className="pb-9 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
                     src={teamImg4}
@@ -157,7 +156,7 @@ const About = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col items-stretch w-3/12 ml-5 max-md:w-full max-md:ml-0">
+              <div className="pb-9 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
                     src={teamImg2}
@@ -247,27 +246,33 @@ const About = () => {
           </div>
         </div>
         <div className="items-center bg-white flex w-full flex-col justify-center px-16 py-12 max-md:max-w-full max-md:px-5">
-          <div className="flex w-[768px] max-w-full flex-col mt-2 mb-10">
-            <div className="text-black text-center text-2xl font-bold leading-8 self-center max-w-[253px]">
-              Community Testimonial
-            </div>
-            <div className="self-stretch text-black text-center text-xl font-bold leading-9 mt-9 max-md:max-w-full max-md:mt-10">
-              &ldquo;<i>Hands United has been a game-changer for me. It has
-              allowed me to connect with people in my community and make a real
-              difference in their lives.</i>&ldquo;
-            </div>
-            <div className="items-center flex grow flex-col max-md:mt-8">
-              <img
-                src={testImg1}
-                className="w-32 h-32 object-cover rounded-full mt-9"
-                alt="Profile"
-              />
-            </div>
-            <div className="self-center text-black text-center text-base font-semibold leading-6 whitespace-nowrap mt-4">
-              Jane Doe
-            </div>
-            <div className="self-center text-black text-center text-base leading-6 whitespace-nowrap">
-              Community Volunteer
+          <div className="pt-3 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
+            <div className="flex w-[768px] max-w-full flex-col mt-2 mb-10">
+              <div className="text-black text-center text-2xl font-bold leading-8 self-center max-w-[253px]">
+                Community Testimonial
+              </div>
+              <div className="self-stretch text-black text-center text-xl font-bold leading-9 mt-9 max-md:max-w-full max-md:mt-10">
+                &ldquo;
+                <i>
+                  Hands United has been a game-changer for me. It has allowed me
+                  to connect with people in my community and make a real
+                  difference in their lives.
+                </i>
+                &ldquo;
+              </div>
+              <div className="items-center flex grow flex-col max-md:mt-8">
+                <img
+                  src={testImg1}
+                  className="w-32 h-32 object-cover rounded-full mt-9 shadow-2xl shadow-[#7d7d7d] object-center border border-black"
+                  alt="Profile"
+                />
+              </div>
+              <div className="self-center text-black text-center text-base font-semibold leading-6 whitespace-nowrap mt-4">
+                Jane Doe
+              </div>
+              <div className="self-center text-black text-center text-base leading-6 whitespace-nowrap">
+                Community Volunteer
+              </div>
             </div>
           </div>
         </div>
@@ -275,8 +280,9 @@ const About = () => {
 
       {/* Call to action section */}
       <div className="items-stretch bg-white flex w-full flex-col justify-center px-16 py-12 max-md:max-w-full max-md:px-5">
-        <div className="items-stretch flex w-full justify-between gap-5 mt-16 mb-10 max-md:max-w-full max-md:flex-wrap max-md:mr-1 max-md:mt-10">
+        <div className="items-stretch flex w-full justify-between gap-5 max-md:max-w-full max-md:flex-wrap max-md:mr-1 max-md:mt-10">
           <div className="items-stretch flex flex-col max-md:max-w-full">
+            <div className="shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black">
             <div className="text-black text-4xl font-bold leading-10 max-md:max-w-full">
               Be Part Of These Inspiring Success Stories
             </div>
@@ -288,6 +294,7 @@ const About = () => {
             <button className="text-white text-base leading-6 whitespace-nowrap justify-center items-stretch border bg-black grow px-6 py-3 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
               <Link to="/signup">Sign Up</Link>
             </button>
+            </div>
           </div>
         </div>
       </div>

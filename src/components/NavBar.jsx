@@ -4,13 +4,13 @@ import Logo from "../assets/LogoImg.png";
 const NavBar = () => {
 
   return (
-    <div className="sticky-navbar top-0 z-10 justify-center items-stretch bg-white flex flex-col px-16 py-4 border-solid max-md:px-5">
+    <div className="sticky-navbar top-0 z-10 justify-center items-stretch bg-white flex flex-col px-12 py-6 shadow-md shadow-white">
       <div className="justify-between items-center flex w-full gap-5 max-md:max-w-full max-md:flex-wrap max-md:mr-1">
         <Link to="/">
           <img
             loading="lazy"
             src={Logo}
-            className="object-cover object-center w-[50px] h-[50px] overflow-hidden border border-black rounded-full scale-x-150 scale-y-150 my-auto"
+            className="object-cover object-center w-[50px] h-[50px] overflow-hidden shadow-md shadow-[#7d7d7d] border border-black rounded-full scale-x-150 scale-y-150 my-auto"
           />
         </Link>
         <div className="justify-between items-center self-stretch flex gap-5 max-md:max-w-full max-md:flex-wrap">

@@ -1,7 +1,4 @@
-
 import ContactImg1 from "../assets/volunteer_9.png";
-
-
 
 const Contact = () => {
   // Function to handle form submission
@@ -12,9 +9,9 @@ const Contact = () => {
   };
 
   return (
-    <div className="items-stretch bg-white flex flex-col">
+    <div className="items-stretch bg-white flex flex-col mt-3 p-9">
       <div
-        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-2xl leading-[67px] px-16"
+        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-2xl shadow-grey mb-6"
         style={{ backgroundImage: `url(${ContactImg1})` }}
       >
         <div className="outline-text-white w-full text-center py-28">
@@ -23,8 +20,8 @@ const Contact = () => {
       </div>
 
       <div className="items-center bg-white flex w-full flex-col justify-center px-16 py-12 max-md:max-w-full max-md:px-5">
-        <div className="flex w-[768px] max-w-full flex-col mt-16 mb-10 max-md:mt-10">
-          <div className="self-stretch text-black text-center text-5xl font-bold leading-[57.6px] mt-4 max-md:max-w-full max-md:text-4xl">
+        <div className="flex w-[768px] max-w-full flex-col max-md:mt-10 rounded-2xl border border-black shadow-xl shadow-[#7d7d7d]">
+          <div className="self-stretch text-black text-center text-5xl font-bold leading-[57.6px] max-md:max-w-full max-md:text-4xl mt-6">
             Contact us
           </div>{" "}
           <div className="self-stretch text-black text-center text-lg leading-7 mt-6 max-md:max-w-full">
@@ -88,6 +85,6 @@ const Contact = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Contact;
