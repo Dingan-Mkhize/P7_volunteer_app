@@ -9,7 +9,7 @@ const Footer = () => {
       className="footerContainer relative items-stretch bg-white flex w-full flex-col px-16 py-16 pb-3 max-md:max-w-full max-md:px-5"
       style={{
         backgroundImage: `url(${FooterBackground})`,
-        backgroundSize: "95%",
+        backgroundSize: "90%",
         backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
       }}

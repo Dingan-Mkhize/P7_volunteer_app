@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import ProfImg from "../assets/volunteer_11.png";
 import FooterBackground from "../assets/overlapping_circles.svg";
+import Message from "./Message";
+
 
 const Dashboard = () => {
   const [unfulfilledRequests, setUnfulfilledRequests] = useState(0);
@@ -52,7 +54,7 @@ const Dashboard = () => {
   return (
     <div className="bg-white flex flex-col px-16 py-12 max-md:px-5 lg:flex-row">
       <div className="flex-grow">
-        <div className="self-stretch flex items-stretch justify-between gap-5 mt-24 mx-11 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+        <div className="self-stretch flex items-stretch justify-between gap-5 mt-3 mx-11 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <div className="flex flex-col items-start">
             <div className="border border-black rounded-xl shadow-xl shadow-[#7d7d7d]">
               <p className="text-xs self-stretch text-black text-center leading-10 whitespace-nowrap">
@@ -67,7 +69,7 @@ const Dashboard = () => {
                 Michaela Johnson
               </div>
             </div>
-            <div className="mt-4 border border-black rounded-xl shadow-xl shadow-[#7d7d7d] p-4 text-center">
+            <div className="mt-4 border border-black rounded-xl shadow-xl shadow-[#7d7d7d] p-4 text-center ml-4">
               <h3 className="text-lg font-semibold">
                 Unfulfilled Help Requests
               </h3>
@@ -121,7 +123,7 @@ const Dashboard = () => {
               </h2>
             </div>
             {/* Volunteer Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 ">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-12">
               {volunteerRequests.map((request) => (
                 <div
                   key={request.id}
@@ -151,71 +153,11 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="self-center w-full mt-6 max-md:max-w-full max-md:mt-12 p-6 border border-black rounded-xl shadow-xl shadow-[#7d7d7d]">
-          <div className="flex flex-col lg:flex-row gap-5">
-            <div className="w-full lg:w-1/3 xl:w-1/4">
-              <h3 className="text-lg font-semibold">Conversations</h3>
-            </div>
-
-            <div className="flex-grow">
-              <h3 className="text-lg font-semibold">Message Details</h3>
-            </div>
-
-            <div className="w-full lg:w-2/3 xl:w-3/4 mt-6 lg:mt-0">
-              <h3 className="text-lg font-semibold">Submit a Help Request</h3>
-              <form>
-                {["Name", "Email", "Description"].map((label) => (
-                  <div key={label} className="mb-4">
-                    <label className="block text-black text-sm font-bold mb-2">
-                      {label}
-                    </label>
-                    <input
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      type={label === "Message" ? "textarea" : "text"}
-                      placeholder={label}
-                    />
-                  </div>
-                ))}
-                <button
-                  className="text-white text-sm leading-4 whitespace-nowrap justify-center items-stretch border bg-black px-6 py-1 border-solid border-black shadow-sm hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
-                  type="submit"
-                >
-                  Submit Request
-                </button>
-              </form>
-            </div>
-          </div>
+        {/* Message Component */}
+        <div className="px-6 rounded-3xl shadow-2xl shadow-[#7d7d7d] object-center border border-black overflow-hidden">
+          <Message />
         </div>
 
-        <div className="text-black text-5xl font-bold leading-[57.6px] ml-14 mt-40 self-start max-md:max-w-full max-md:text-4xl max-md:mt-10">
-          FAQs
-        </div>
-        <div className="text-black text-lg leading-7 w-[712px] max-w-full ml-14 mt-6 self-start">
-          Find answers to common questions about navigating the map,
-          understanding markers, and interacting with requests.
-        </div>
-        {[
-          "How do I navigate?",
-          "What are markers?",
-          "How do I respond?",
-          "How do I submit?",
-          "What happens after submission?",
-        ].map((faq) => (
-          <div
-            key={faq}
-            className="justify-center items-center self-center border flex w-full max-w-[1315px] gap-0 mt-4 px-6 py-5 rounded-3xl border-solid border-black max-md:max-w-full max-md:flex-wrap max-md:px-5"
-          >
-            <div className="text-black text-lg font-bold leading-7 grow my-auto max-md:max-w-full">
-              {faq}
-            </div>
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/b3a75a396df1c14cf7801dd5b1cf9120e26afbca73ccb0cbcb562fd1514afc9c?"
-              className="aspect-square object-contain object-center w-8 overflow-hidden self-stretch shrink-0 max-w-full"
-              alt="FAQ Icon"
-            />
-          </div>
-        ))}
         <div className="text-black text-3xl font-bold leading-10 self-center whitespace-nowrap mt-24 max-md:mt-10">
           Still have questions?
         </div>
