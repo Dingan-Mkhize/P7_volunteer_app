@@ -146,7 +146,7 @@ class Message extends Component {
               </div>
             </div>
             {/* Chat content */}
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex-1 overflow-y-auto p-4 mt-3 mb-3 border border-black rounded-xl">
               {this.state.chat.map((item, index) => (
                 <div
                   key={index}
