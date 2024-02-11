@@ -128,54 +128,57 @@ class Message extends Component {
 
   render() {
     return (
-      <div className="flex h-full">
-        <div className="w-1/4 bg-gray-100 p-4 overflow-y-auto border rounded-xl mt-3 mb-3">
-          {this.renderChatListItems()}
-        </div>
-        <div className="flex-1 flex flex-col ml-3 mt-3">
-          {/* Header */}
-          <div className="p-4 bg-gray-100 border-b flex justify-between items-center rounded-xl">
-            <div className="flex items-center">
-              <Avatar
-                image="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU"
-                isOnline={true}
-              />
-              <p className="ml-2 font-semibold">Chat</p>
-            </div>
+      <div className="w-full mx-auto lg:max-w-4xl">
+        <div className="flex flex-col lg:flex-row h-full">
+          {/* Sidebar - Adjusted for mobile */}
+          <div className="lg:w-1/4 w-full bg-gray-100 p-4 overflow-y-auto border border-black rounded-xl mt-3 mb-3 lg:mb-3 lg:mt-3 lg:mr-3">
+            {this.renderChatListItems()}
           </div>
-          {/* Chat content */}
-          <div className="flex-1 overflow-y-auto p-4">
-            {this.state.chat.map((item, index) => (
-              <div
-                key={index}
-                className={`flex ${
-                  item.type === "me" ? "justify-end" : "justify-start"
-                } my-2`}
-              >
-                <Avatar image={item.image} isOnline={index % 2 === 0} />
-                <div className="bg-gray-200 rounded-lg p-2 mx-2">
-                  <p>{item.msg}</p>
-                </div>
+          <div className="flex-1 flex flex-col ml-3 mt-3">
+            {/* Header */}
+            <div className="p-4 bg-gray-100 border border-black flex justify-between items-center rounded-xl">
+              <div className="flex items-center">
+                <Avatar
+                  image="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU"
+                  isOnline={true}
+                />
+                <p className="ml-2 font-semibold">Chat</p>
               </div>
-            ))}
-            <div ref={this.messagesEndRef} />
-          </div>
-          {/* Message input */}
-          <div className="p-4 bg-gray-200 mb-3 rounded-xl">
-            <div className="flex items-center space-x-2">
-              <input
-                type="text"
-                placeholder="Type a message here..."
-                onChange={this.onStateChange}
-                value={this.state.msg}
-                className="flex-1 p-2 border rounded-full"
-              />
-              <button
-                onClick={this.sendMessage}
-                className="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full"
-              >
-                Send
-              </button>
+            </div>
+            {/* Chat content */}
+            <div className="flex-1 overflow-y-auto p-4">
+              {this.state.chat.map((item, index) => (
+                <div
+                  key={index}
+                  className={`flex ${
+                    item.type === "me" ? "justify-end" : "justify-start"
+                  } my-2`}
+                >
+                  <Avatar image={item.image} isOnline={index % 2 === 0} />
+                  <div className="bg-gray-200 rounded-lg p-2 mx-2 ">
+                    <p>{item.msg}</p>
+                  </div>
+                </div>
+              ))}
+              <div ref={this.messagesEndRef} />
+            </div>
+            {/* Message input */}
+            <div className="p-4 bg-gray-200 mb-3 rounded-xl border border-black">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  placeholder="Type a message here..."
+                  onChange={this.onStateChange}
+                  value={this.state.msg}
+                  className="flex-1 p-2 border border-black rounded-full"
+                />
+                <button
+                  onClick={this.sendMessage}
+                  className="text-white text-base leading-6 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-2 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full"
+                >
+                  Send
+                </button>
+              </div>
             </div>
           </div>
         </div>
