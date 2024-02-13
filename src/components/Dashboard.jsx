@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ProfImg from "../assets/volunteer_11.png";
 import FooterBackground from "../assets/overlapping_circles.svg";
+import "../index.css";
 import Message from "./Message";
 import { volunteerRequests } from "../Data";
 
@@ -8,28 +9,64 @@ const Dashboard = () => {
   const [unfulfilledRequests, setUnfulfilledRequests] = useState(0);
   const [sidebarRequests, setSidebarRequests] = useState([]);
   const [urgentRequests, setUrgentRequests] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [animationClass, setAnimationClass] = useState("fadeIn");
+  const requestsPerPage = 3; // Adjust based on your preference
+
+  const fetchUnfulfilledRequestCount = () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const simulatedCount = Math.floor(Math.random() * 100); // Random count for demonstration
+        resolve(simulatedCount);
+      }, 1000); // Simulate network delay
+    });
+  };
 
   useEffect(() => {
-    // Sort volunteerRequests by urgency in descending order
-    const sortedByUrgency = [...volunteerRequests].sort(
+    // Existing sorting logic for requests
+    const sortedRequests = [...volunteerRequests].sort(
       (a, b) => b.urgency - a.urgency
     );
+    setUrgentRequests(sortedRequests.slice(0, 3)); // Top 3 for urgent requests
+    setSidebarRequests(sortedRequests.slice(3)); // Rest for sidebar
+  }, []);
 
-    // Top 3 for the urgent volunteer cards
-    const topUrgentRequests = sortedByUrgency.slice(0, 3);
-    setUrgentRequests(topUrgentRequests);
-
-    // The rest for the sidebar, excluding the top 3
-    const sidebarRequestsExcludingTopUrgent = sortedByUrgency.slice(3);
-    setSidebarRequests(sidebarRequestsExcludingTopUrgent);
-
-    // Fetch unfulfilled requests count (placeholder)
-    const fetchUnfulfilledRequestsCount = async () => {
-      const count = 42; // Example static count
+  // New useEffect for updating unfulfilled requests count
+  useEffect(() => {
+    const updateUnfulfilledRequests = async () => {
+      const count = await fetchUnfulfilledRequestCount();
       setUnfulfilledRequests(count);
     };
-    fetchUnfulfilledRequestsCount();
+
+    updateUnfulfilledRequests(); // Initial fetch
+
+    const intervalId = setInterval(() => {
+      updateUnfulfilledRequests(); // Periodic fetch
+    }, 5000); // Update every 5 seconds
+
+    return () => clearInterval(intervalId); // Cleanup on unmount
   }, []);
+
+  const totalPages = Math.ceil(sidebarRequests.length / requestsPerPage);
+
+  const displayedRequests = sidebarRequests.slice(
+    currentPage * requestsPerPage,
+    (currentPage + 1) * requestsPerPage
+  );
+
+  const changePage = (direction) => {
+    setAnimationClass("fadeOut");
+
+    setTimeout(() => {
+      if (direction === "next") {
+        setCurrentPage((currentPage + 1) % totalPages);
+      } else {
+        setCurrentPage((currentPage ? currentPage : totalPages) - 1);
+      }
+
+      setAnimationClass("fadeIn");
+    }, 500); // Ensure this matches your CSS animation duration
+  };
 
   return (
     <div className="bg-white flex flex-col px-16 py-12 max-md:px-5 lg:flex-row">
@@ -79,28 +116,63 @@ const Dashboard = () => {
         </div>
 
         <div className="grid lg:grid-cols-5 gap-4 p-12 mt-6">
-          {/* Sidebar */}
-          <div className="lg:col-span-1 mb-8 lg:mb-0 flex flex-col p-3 border border-black rounded-xl shadow-xl shadow-[#7d7d7d]" style={{ maxHeight: 'calc(575px + 200px)', overflowY: 'auto' }}>
-            <h3 className="text-xl font-semibold mb-4">
+          {/* Sidebar Section */}
+          <div
+            className="lg:col-span-1 mb-8 lg:mb-0 flex flex-col p-3 border border-black rounded-xl shadow-xl shadow-[#7d7d7d]"
+            style={{ maxHeight: "773px", overflowY: "hidden" }}
+          >
+            <h3 className="text-xl font-semibold mb-3">
               More Volunteer Requests
             </h3>
-            
-            <ul>
-              {sidebarRequests.map((request) => (
-                <li key={request.id} className="mb-4 p-1 border border-black rounded-xl">
-                  <div className="text-sm text-gray-600 hover:text-gray-800 cursor-pointer">
-                    <div className="font-semibold">{request.title}</div>
-                    <div className="text-xs mt-1">{request.description}</div>
-                    <a
-                      href={`/volunteer-requests/${request.id}`}
-                      className="inline-block mt-2 text-blue-500 hover:text-blue-700 text-xs font-semibold"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            {/* Content area for volunteer info boxes */}
+            <div className={`flex-grow overflow-hidden ${animationClass}`}>
+              <ul>
+                {displayedRequests.map((request, index) => (
+                  <li
+                    key={index}
+                    className="border border-black p-1 rounded-xl mb-3"
+                    style={{ height: "190px" }}
+                  >
+                    <div className="flex flex-col justify-between text-sm text-gray-600 hover:text-gray-800 h-full">
+                      <div>
+                        <div
+                          className={`text-sm font-semibold mb-1 ${request.type === "task" ? "text-[#15bec1]" : "text-[#f17d2b]"}`}
+                        >
+                          {request.title}
+                        </div>
+                        <div className="text-xs mt-1 overflow-hidden">
+                          {request.description}
+                        </div>
+                      </div>
+                      <div className="flex justify-center">
+                        <a
+                          href={`/volunteer-requests/${request.id}`}
+                          className="mt-2 text-white text-xs leading-4 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+                        >
+                          View Details
+                        </a>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Pagination buttons */}
+            <div className="mt-auto ml-3 mr-3 flex justify-between">
+              <button
+                onClick={() => changePage("next")}
+                className="text-sm bg-black text-white px-3 py-2 hover:bg-gray-600 shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+              >
+                &#9650;
+              </button>
+              <button
+                onClick={() => changePage("prev")}
+                className="text-sm bg-black text-white px-3 py-2 hover:bg-gray-600 shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+              >
+                &#9660;
+              </button>
+            </div>
           </div>
 
           {/* Container for Map and Volunteer Cards */}
@@ -111,6 +183,7 @@ const Dashboard = () => {
                 Interactive Map Placeholder
               </h2>
             </div>
+
             {/* Volunteer Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-12">
               {urgentRequests.map((request) => (
@@ -119,7 +192,9 @@ const Dashboard = () => {
                   className="flex flex-col p-3 border border-black rounded-xl shadow-xl shadow-[#7d7d7d] overflow-hidden"
                 >
                   <div className="p-2 flex flex-col justify-between flex-grow">
-                    <h3 className="text-sm font-semibold text-black mb-1">
+                    <h3
+                      className={`text-sm font-semibold mb-1 ${request.type === "task" ? "text-[#15bec1]" : "text-[#f17d2b]"}`}
+                    >
                       {request.title}
                     </h3>
                     <p className="text-xs text-black mb-2">
@@ -128,7 +203,7 @@ const Dashboard = () => {
                     <p className="text-xs text-gray-600">
                       Location: {request.location}
                     </p>
-                    <button className="mt-2 text-white text-xs leading-4 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-1 border-solid border-black shadow-sm hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
+                    <button className="mt-2 text-white text-xs leading-4 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full">
                       Volunteer Now
                     </button>
                   </div>

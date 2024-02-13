@@ -31,9 +31,7 @@ const Home = () => {
 
       <div className="rounded-xl shadow-xl shadow-white mx-auto w-full max-w-3xl overflow-hidden p-6 mt-3 mb-3">
         <div className="self-center text-black text-center text-6xl font-bold">
-          Hands United,
-        </div>
-        <div className="text-black text-center text-6xl font-bold">
+          Hands United<p className="text-sm mt-3">———————</p>
           Connecting Communities, One Request at a Time
         </div>
         <div className="text-black text-center text-lg mt-3">

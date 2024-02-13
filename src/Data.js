@@ -5,6 +5,7 @@ export const volunteerRequests = [
     description: "Join us this Saturday to clean up the local park.",
     location: "Central Park",
     urgency: 10,
+    type: "task",
   },
   {
     id: 2,
@@ -13,6 +14,7 @@ export const volunteerRequests = [
       "We need volunteers to help organize the food drive next week.",
     location: "Community Center",
     urgency: 5,
+    type: "task",
   },
   {
     id: 3,
@@ -21,6 +23,7 @@ export const volunteerRequests = [
       "Looking for volunteers to assist with grocery shopping for elderly residents.",
     location: "Various Locations",
     urgency: 8,
+    type: "task",
   },
   {
     id: 4,
@@ -29,6 +32,7 @@ export const volunteerRequests = [
       "Collecting school supplies for underprivileged children. Donations needed!",
     location: "Local Library",
     urgency: 7,
+    type: "material",
   },
   {
     id: 5,
@@ -36,6 +40,7 @@ export const volunteerRequests = [
     description: "Help maintain our community garden. No experience necessary!",
     location: "Greenway Community Garden",
     urgency: 4,
+    type: "task",
   },
   {
     id: 6,
@@ -44,6 +49,7 @@ export const volunteerRequests = [
       "Join our monthly effort to keep our beaches clean. Meet at the main pier.",
     location: "Seaview Beach",
     urgency: 9,
+    type: "task",
   },
   {
     id: 7,
@@ -52,6 +58,7 @@ export const volunteerRequests = [
       "Volunteers needed to manage stations during our charity run event.",
     location: "City Park",
     urgency: 6,
+    type: "task",
   },
   {
     id: 8,
@@ -60,6 +67,7 @@ export const volunteerRequests = [
       "Interested in art or history? Volunteer as a guide at our local museum.",
     location: "City Museum",
     urgency: 3,
+    type: "task",
   },
   {
     id: 9,
@@ -68,6 +76,7 @@ export const volunteerRequests = [
       "Volunteer to help students with homework after school. Background check required.",
     location: "Community Youth Center",
     urgency: 8,
+    type: "task",
   },
   {
     id: 10,
@@ -76,6 +85,7 @@ export const volunteerRequests = [
       "Collecting gently used winter coats for distribution to those in need.",
     location: "Town Hall",
     urgency: 7,
+    type: "material",
   },
 ];
 
