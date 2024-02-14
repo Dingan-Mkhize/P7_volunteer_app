@@ -19,7 +19,7 @@ const Contact = () => {
         </div>
       </div>
 
-      <div className="items-center bg-white flex w-full flex-col justify-center px-16 py-12 max-md:max-w-full max-md:px-5">
+      <div className="items-center bg-white flex w-full flex-col justify-center px-16 py-9 max-md:max-w-full max-md:px-5 mt-6">
         <div className="flex w-[768px] max-w-full flex-col max-md:mt-10 rounded-2xl border border-black shadow-xl shadow-[#7d7d7d]">
           <div className="self-stretch text-black text-center text-5xl font-bold leading-[57.6px] max-md:max-w-full max-md:text-4xl mt-6">
             Contact us

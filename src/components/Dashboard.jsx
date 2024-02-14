@@ -118,7 +118,7 @@ const Dashboard = () => {
         <div className="grid lg:grid-cols-5 gap-4 p-12 mt-6">
           {/* Sidebar Section */}
           <div
-            className="lg:col-span-1 mb-8 lg:mb-0 flex flex-col p-3 border border-black rounded-xl shadow-xl shadow-[#7d7d7d]"
+            className="lg:col-span-1 mb-8 lg:mb-0 flex flex-col p-4 border border-black rounded-xl shadow-xl shadow-[#7d7d7d]"
             style={{ maxHeight: "773px", overflowY: "hidden" }}
           >
             <h3 className="text-xl font-semibold mb-3">
@@ -131,7 +131,7 @@ const Dashboard = () => {
                   <li
                     key={index}
                     className="border border-black p-1 rounded-xl mb-3"
-                    style={{ height: "190px" }}
+                    style={{ height: "175px" }}
                   >
                     <div className="flex flex-col justify-between text-sm text-gray-600 hover:text-gray-800 h-full">
                       <div>
@@ -214,7 +214,7 @@ const Dashboard = () => {
         </div>
 
         {/* Message Component */}
-        <div className="lg:col-span-4 ml-12 mr-12 mt-6 px-3 rounded-3xl shadow-2xl shadow-[#7d7d7d] border border-black overflow-hidden">
+        <div className="lg:col-span-4 ml-12 mr-12 mt-6 p-3 rounded-3xl shadow-2xl shadow-[#7d7d7d] border border-black overflow-hidden">
           <Message />
         </div>
 

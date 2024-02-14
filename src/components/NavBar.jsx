@@ -1,42 +1,74 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/LogoImg.png";
 
 const NavBar = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Navbar is visible only when at the top of the page
+      setIsVisible(window.pageYOffset <= 10);
+    };
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <div className="sticky-navbar top-0 z-10 justify-center items-stretch bg-white flex flex-col px-12 py-6 shadow-md shadow-white">
-      <div className="justify-between items-center flex w-full gap-5 max-md:max-w-full max-md:flex-wrap max-md:mr-1">
+    <div
+      className={`sticky top-0 z-10 px-6 py-3 shadow-md grid grid-cols-3 items-center bg-white rounded-full transition-transform duration-500 ${!isVisible ? "-translate-y-full" : "translate-y-0"}`}
+    >
+      {/* Logo on the left */}
+      <div className="justify-self-start">
         <Link to="/">
           <img
             loading="lazy"
             src={Logo}
-            className="object-cover object-center w-[50px] h-[50px] overflow-hidden shadow-md shadow-[#7d7d7d] border border-black rounded-full scale-x-150 scale-y-150 my-auto"
+            alt="Logo"
+            className="w-[90px] h-[90px] object-cover border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 shadow-md rounded-full"
           />
         </Link>
-        <div className="justify-between items-center self-stretch flex gap-5 max-md:max-w-full max-md:flex-wrap">
-          <div className="items-stretch flex justify-between gap-5 my-auto">
-            <div className="text-black text-base leading-6 grow whitespace-nowrap">
-              <Link to="about">About Us</Link>
-            </div>
-            <div className="text-black text-base leading-6">
-              <Link to="dashboard">Dashboard</Link>
-            </div>
-            <div className="text-black text-base leading-6">
-              <Link to="contact">Contact</Link>
-            </div>
-          </div>
-          <div className="justify-between items-stretch self-stretch flex gap-4">
-            <button className="text-black text-base leading-6 whitespace-nowrap justify-center items-stretch px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
-              <Link to="login">Log In</Link>
-            </button>
-            <button className="text-white text-base leading-6 whitespace-nowrap justify-center items-stretch border bg-black grow px-6 py-3 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
-              <Link to="/signup">Sign Up</Link>
-            </button>
-          </div>
-        </div>
+      </div>
+
+      {/* Center links */}
+      <div className="flex justify-center gap-9">
+        <Link
+          to="/about"
+          className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+        >
+          About Us
+        </Link>
+        <Link
+          to="/dashboard"
+          className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+        >
+          Dashboard
+        </Link>
+        <Link
+          to="/contact"
+          className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+        >
+          Contact
+        </Link>
+      </div>
+
+      {/* Buttons on the right */}
+      <div className="justify-self-end flex gap-2">
+        <button className="px-6 py-3 border border-black text-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full">
+          <Link to="/login">Log In</Link>
+        </button>
+        <button className="px-6 py-3 border border-black text-white bg-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full">
+          <Link to="/signup">Sign Up</Link>
+        </button>
       </div>
     </div>
   );
-}
+};
 
 export default NavBar;

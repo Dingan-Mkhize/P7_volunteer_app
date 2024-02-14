@@ -20,7 +20,7 @@ const About = () => {
       </div>
 
       {/* Section with a description of the platform */}
-      <div className="px-6 rounded-3xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6">
+      <div className="flex justify-center px-6 rounded-3xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6">
         <div className="relative pb-9 px-9 pt-9">
           <div className="circle-bg"></div>
 
@@ -245,8 +245,9 @@ const About = () => {
             </div>
           </div>
         </div>
-        <div className="items-center bg-white flex w-full flex-col justify-center px-16 py-12 max-md:max-w-full max-md:px-5">
-          <div className="pt-3 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
+        
+        <div className="flex justify-center items-center bg-white w-full flex-col px-16 py-12 max-md:max-w-full max-md:px-5">
+          <div className="flex justify-center pt-3 mb-6 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
             <div className="flex w-[768px] max-w-full flex-col mt-2 mb-10">
               <div className="text-black text-center text-2xl font-bold leading-8 self-center max-w-[253px]">
                 Community Testimonial
@@ -279,22 +280,21 @@ const About = () => {
       </div>
 
       {/* Call to action section */}
-      <div className="items-stretch bg-white flex w-full flex-col justify-center px-16 py-12 max-md:max-w-full max-md:px-5">
-        <div className="items-stretch flex w-full justify-between gap-5 max-md:max-w-full max-md:flex-wrap max-md:mr-1 max-md:mt-10">
-          <div className="items-stretch flex flex-col max-md:max-w-full">
-            <div className="shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black">
-            <div className="text-black text-4xl font-bold leading-10 max-md:max-w-full">
+      <div className="bg-white flex flex-col justify-center items-center px-16 py-12 max-w-full max-md:px-5">
+        <div className="flex flex-col items-center text-center gap-5 max-w-full">
+          <div className="shadow-2xl shadow-[#7d7d7d] border border-black p-6 rounded-xl">
+            <div className="text-black text-4xl font-bold leading-10">
               Be Part Of These Inspiring Success Stories
             </div>
-            <div className="text-black text-lg leading-7 mt-6 max-md:max-w-full">
+            <div className="text-black text-lg leading-7 mt-6">
               Join our community and make a difference today!
             </div>
-          </div>
-          <div className="items-stretch self-center flex gap-4 my-auto">
-            <button className="text-white text-base leading-6 whitespace-nowrap justify-center items-stretch border bg-black grow px-6 py-3 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
-              <Link to="/signup">Sign Up</Link>
-            </button>
-            </div>
+          
+          <button className="text-white text-base whitespace-nowrap justify-center items-center bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 mt-6 rounded-full">
+            <Link to="/signup" className="block text-white">
+              Sign Up
+            </Link>
+          </button>
           </div>
         </div>
       </div>

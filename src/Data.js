@@ -87,6 +87,94 @@ export const volunteerRequests = [
     urgency: 7,
     type: "material",
   },
+  {
+    id: 1,
+    title: "Help Needed: Park Cleanup",
+    description: "Join us this Saturday to clean up the local park.",
+    location: "Central Park",
+    urgency: 10,
+    type: "task",
+  },
+  {
+    id: 2,
+    title: "Volunteer: Food Drive",
+    description:
+      "We need volunteers to help organize the food drive next week.",
+    location: "Community Center",
+    urgency: 5,
+    type: "task",
+  },
+  {
+    id: 3,
+    title: "Urgent: Elderly Assistance",
+    description:
+      "Looking for volunteers to assist with grocery shopping for elderly residents.",
+    location: "Various Locations",
+    urgency: 8,
+    type: "task",
+  },
+  {
+    id: 4,
+    title: "School Supplies Drive",
+    description:
+      "Collecting school supplies for underprivileged children. Donations needed!",
+    location: "Local Library",
+    urgency: 7,
+    type: "material",
+  },
+  {
+    id: 5,
+    title: "Community Garden Volunteer",
+    description: "Help maintain our community garden. No experience necessary!",
+    location: "Greenway Community Garden",
+    urgency: 4,
+    type: "task",
+  },
+  {
+    id: 6,
+    title: "Beach Clean-Up Event",
+    description:
+      "Join our monthly effort to keep our beaches clean. Meet at the main pier.",
+    location: "Seaview Beach",
+    urgency: 9,
+    type: "task",
+  },
+  {
+    id: 7,
+    title: "Charity Run for Health",
+    description:
+      "Volunteers needed to manage stations during our charity run event.",
+    location: "City Park",
+    urgency: 6,
+    type: "task",
+  },
+  {
+    id: 8,
+    title: "Local Museum Guides",
+    description:
+      "Interested in art or history? Volunteer as a guide at our local museum.",
+    location: "City Museum",
+    urgency: 3,
+    type: "task",
+  },
+  {
+    id: 9,
+    title: "Homework Helpers",
+    description:
+      "Volunteer to help students with homework after school. Background check required.",
+    location: "Community Youth Center",
+    urgency: 8,
+    type: "task",
+  },
+  {
+    id: 10,
+    title: "Winter Coat Drive",
+    description:
+      "Collecting gently used winter coats for distribution to those in need.",
+    location: "Town Hall",
+    urgency: 7,
+    type: "material",
+  },
 ];
 
 export const chatItms = [

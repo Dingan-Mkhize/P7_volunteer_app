@@ -1,12 +1,15 @@
-import LogInImg1 from "../assets/volunteer_3.png";
+import { Link } from "react-router-dom";
+import SignUpImg1 from "../assets/volunteer_3.png";
+import SignUpImg2 from "../assets/volunteer_13.webp";
 import Logo from "../assets/LogoImg.png";
 
 const SignUpPage = () => {
   return (
     <div className="bg-white flex flex-col items-center justify-center min-h-screen mt-3 p-9">
+      {/* Hero section with background image and call-to-action text */}
       <div
         className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-2xl shadow-grey mb-6"
-        style={{ backgroundImage: `url(${LogInImg1})` }}
+        style={{ backgroundImage: `url(${SignUpImg1})` }}
       >
         <div className="outline-text-white w-full text-center py-28">
           Join Our Community
@@ -15,30 +18,38 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
-      <div className="items-stretch bg-white flex w-full flex-col justify-center px-16 py-12 max-md:max-w-full max-md:px-5">
+
+      {/* Main content section for joining the community */}
+      <div className="items-stretch bg-white flex w-full flex-col justify-center px-16 py-12 max-md:max-w-full max-md:px-5 mt-6">
         <div className="max-md:max-w-full max-md:mr-1 max-md:mt-10">
           <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+            {/* Left side content: Community description and logo unified in one section */}
             <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0">
-              <div className="items-stretch flex flex-col max-md:max-w-full max-md:mt-10 rounded-2xl border border-black shadow-xl shadow-[#7d7d7d] p-6">
-                <div className="text-black text-5xl font-bold leading-[58px] max-md:max-w-full max-md:text-4xl max-md:leading-[54px] max-md:mt-10">
+              <div className="flex flex-col max-md:max-w-full rounded-2xl border border-black shadow-xl shadow-[#7d7d7d] p-6">
+                {/* Logo placement at the top of the unified section */}
+                <div className="flex justify-center">
+                  <img
+                    loading="lazy"
+                    src={Logo}
+                    alt="Hands United Logo"
+                    className="object-contain object-center w-[230px] h-[230px] overflow-hidden border border-black rounded-full shadow-xl shadow-[#7d7d7d] mb-4"
+                  />
+                </div>
+
+                {/* Community description follows the logo */}
+                <div className="text-black text-5xl font-bold leading-[58px] max-md:max-w-full max-md:text-4xl max-md:leading-[54px] text-center mt-6">
                   Join Hands United Community Today
                 </div>
-                <div className="text-black text-lg leading-7 max-md:max-w-full mt-3">
+                <div className="text-black text-lg leading-7 max-md:max-w-full mt-3 text-center">
                   Start making a difference in your community by signing up for
                   Hands United. Join our trusted community of volunteers and
                   help those in need. Together, we can create a more
                   compassionate world.
                 </div>
               </div>
-
-              <div className="p-12">
-                <img
-                  loading="lazy"
-                  src={Logo}
-                  className="object-contain object-center w-[230px] h-[230px] overflow-hidden scale-x-100 scale-y-100 border border-black rounded-full shadow-xl shadow-[#7d7d7d] mt-9"
-                />
-              </div>
             </div>
+
+            {/* Form section for user details */}
             <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0 p-6 rounded-2xl border border-black shadow-xl shadow-[#7d7d7d]">
               <div className="items-start flex grow flex-col max-md:max-w-full max-md:mt-10">
                 <div className="items-stretch self-stretch flex justify-between gap-5 max-md:max-w-full max-md:flex-wrap">
@@ -77,19 +88,6 @@ const SignUpPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="self-stretch text-black text-base leading-6 mt-6 max-md:max-w-full">
-                  Choose a topic
-                </div>
-                <div className="items-stretch self-stretch border bg-white flex justify-between gap-4 mt-2 p-3 border-solid border-black max-md:max-w-full max-md:flex-wrap">
-                  <div className="text-neutral-600 text-base leading-6 grow max-md:max-w-full">
-                    Select one...
-                  </div>
-                  <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/3b585ad9d40cea458a4aa3a4a7372351487045c2cf6e7c470e8258aaccec9be0?"
-                    className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full"
-                  />
-                </div>
 
                 <div className="self-stretch mt-4 max-md:max-w-full">
                   <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
@@ -107,15 +105,11 @@ const SignUpPage = () => {
                 <div className="text-neutral-600 text-base leading-6 items-stretch self-stretch border bg-white mt-2 pt-3 pb-28 px-3 border-solid border-black max-md:max-w-full max-md:pb-10">
                   Type your message...
                 </div>
-                <div className="flex gap-2 mt-6 pr-11 pb-3.5 self-start items-start max-md:pr-5">
-                  <div className="border bg-white flex w-[18px] shrink-0 h-[18px] flex-col border-solid border-black" />
-                  <div className="text-black text-base leading-6 self-stretch grow whitespace-nowrap">
-                    Checkbox
-                  </div>
-                </div>
-                <div className="text-white text-base leading-6 whitespace-nowrap justify-center items-stretch border bg-black mt-6 px-7 py-3 border-solid border-black self-start max-md:px-5">
-                  Button
-                </div>
+                <button className="text-white text-base whitespace-nowrap justify-center items-center bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 mt-6 rounded-full">
+                  <Link to="" type="submit" className="block text-white">
+                    Submit
+                  </Link>
+                </button>
               </div>
             </div>
           </div>
@@ -127,12 +121,13 @@ const SignUpPage = () => {
             <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0 rounded-2xl border border-black shadow-xl shadow-[#7d7d7d]">
               <img
                 loading="lazy"
-                srcSet="..."
-                className="aspect-[0.96] object-contain object-center w-full overflow-hidden grow max-md:max-w-full max-md:mt-10"
+                src={SignUpImg2}
+                alt="John Doe"
+                className="aspect-[0.96] object-cover object-center w-full overflow-hidden grow max-md:max-w-full max-md:mt-10 rounded-2xl"
               />
             </div>
             <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">
-              <div className="items-stretch flex flex-col my-auto max-md:max-w-full max-md:mt-10 p-6 rounded-2xl border border-black shadow-xl shadow-[#7d7d7d]">
+              <div className="items-stretch flex flex-col my-auto max-md:max-w-full max-md:mt-10 p-6 rounded-2xl border border-black shadow-xl shadow-[#7d7d7d] ">
                 <div className="items-stretch flex w-[115px] max-w-full gap-1.5 self-start">
                   <img
                     loading="lazy"
@@ -233,8 +228,10 @@ const SignUpPage = () => {
                   compassionate world.
                 </div>
                 <div className="items-stretch flex gap-4 mt-6 self-start">
-                  <button className="text-white text-base leading-6 whitespace-nowrap justify-center items-stretch border bg-black grow rounded-full px-6 py-3 border-solid border-black max-md:px-5">
-                    Contact
+                  <button className="text-white text-base whitespace-nowrap justify-center items-center bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 mt-6 rounded-full">
+                    <Link to="/contact" type="submit" className="block text-white">
+                      Contact
+                    </Link>
                   </button>
                 </div>
               </div>

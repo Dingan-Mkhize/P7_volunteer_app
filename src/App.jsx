@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
-//import "./App.css";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import About from "./components/About";
@@ -9,6 +8,7 @@ import SignUp from "./components/SignUp";
 import Dashboard from "./components/Dashboard";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+
 
 function App() {
   return (

@@ -109,10 +109,3 @@ em, i {
   }
 }
 
-.fadeIn {
-  animation: fadeIn 0.5s ease forwards;
-}
-
-.fadeOut {
-  animation: fadeOut 0.5s ease forwards;
-}
