@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+//import Logo from "../assets/LogoImg.png";
 import ProfImg from "../assets/volunteer_11.png";
 import FooterBackground from "../assets/overlapping_circles.svg";
 import "../index.css";
@@ -219,15 +221,21 @@ const Dashboard = () => {
         </div>
 
         <div className="flex justify-center text-black text-3xl font-bold leading-10 self-center whitespace-nowrap mt-24 max-md:mt-10">
-          Still have questions?
+          Have Your Own Request?
         </div>
         <div className="flex justify-center text-black text-lg leading-7 self-center whitespace-nowrap mt-4">
-          Contact us for further assistance.
+          Reach out to your community for a helping hand.
         </div>
         <div className="flex justify-center mt-9">
-          <button className="w-32 h-12 min-w-32 min-h-12 text-black text-base leading-6 whitespace-nowrap items-center border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
-            Contact
-          </button>
+          <Link to="/requests" className="flex justify-center w-32 h-12 min-w-32 min-h-12 text-black text-base leading-6 whitespace-nowrap items-center border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
+            Requests
+          </Link>
+          {/* <Link
+            to="/login"
+            className="px-6 py-3 text-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+          >
+            Log In
+          </Link> */}
         </div>
       </div>
     </div>
