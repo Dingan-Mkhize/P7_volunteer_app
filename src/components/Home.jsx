@@ -106,21 +106,23 @@ const Home = () => {
       <div className="items-center bg-white flex w-full flex-col px-16 py-12 max-md:max-w-full max-md:px-5">
         <div className="relative pb-9 px-6 rounded-3xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
           <div className="circle-bg"></div>
-          <div className=" text-black text-center text-base font-semibold leading-6 self-center whitespace-nowrap mt-16 max-md:mt-10">
+          <div className="flex justify-center text-black text-center text-base font-semibold leading-6 self-center whitespace-nowrap mt-16 max-md:mt-10">
             Empower Your Community, One Act at a Time
           </div>
-          <div className="self-center text-black text-center text-5xl font-bold leading-[58px] max-w-screen-md mt-4 max-md:max-w-full max-md:text-4xl max-md:leading-[54px]">
-            Join Hands United for a Stronger Tomorrow
-          </div>
-          <div className="self-center text-black text-center text-lg leading-7 max-w-screen-md mt-6 max-md:max-w-full">
-            Every helping hand makes a difference in our community. By
-            volunteering, you are not just giving your time; you are uplifting
-            lives, nurturing hope, and building a stronger, more resilient
-            neighborhood. Our service connects compassionate individuals with
-            opportunities to serve, learn, and grow. Together, we can transform
-            shared spaces, provide essential support to those in need, and
-            foster a spirit of generosity. Join us in making each act of
-            kindness a step toward a better future for all.
+          <div className="flex flex-col justify-center items-center text-center max-w-screen-md mx-auto">
+            <div className="text-black text-5xl font-bold leading-[58px] mt-4 md:max-w-full md:text-4xl md:leading-[54px]">
+              Join Hands United for a Stronger Tomorrow
+            </div>
+            <div className="text-black text-lg leading-7 mt-6 md:max-w-full">
+              Every helping hand makes a difference in our community. By
+              volunteering, you are not just giving your time; you are uplifting
+              lives, nurturing hope, and building a stronger, more resilient
+              neighborhood. Our service connects compassionate individuals with
+              opportunities to serve, learn, and grow. Together, we can
+              transform shared spaces, provide essential support to those in
+              need, and foster a spirit of generosity. Join us in making each
+              act of kindness a step toward a better future for all.
+            </div>
           </div>
         </div>
 

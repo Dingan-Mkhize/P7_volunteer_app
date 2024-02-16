@@ -13,7 +13,7 @@ const SignUpPage = () => {
       >
         <div className="outline-text-white w-full text-center py-28">
           Join Our Community
-          <div className="text-white text-lg leading-7 mt-6 mb-16 max-md:max-w-full max-md:mb-10">
+          <div className="text-white text-xl leading-7 mt-6 mb-16 max-md:max-w-full max-md:mb-10">
             Create an account to start making a difference in your community.
           </div>
         </div>

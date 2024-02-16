@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import LogInImg1 from "../assets/volunteer_7.png";
 
 const LogIn = () => {
@@ -50,7 +50,7 @@ const LogIn = () => {
           backgroundBlendMode: "darken",
         }}
       >
-        <div className="outline-text-white w-full text-center py-28 rounded-lg">
+        <div className="outline-text-white w-full text-center py-28">
           Welcome Back To Hands United
         </div>
       </div>
