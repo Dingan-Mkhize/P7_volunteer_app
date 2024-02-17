@@ -1,3 +1,60 @@
+export const volunteers = [
+  {
+    id: 1,
+    name: "Michaela",
+    role: "Requester",
+    profilePic: "/FtestPic6.jpeg", // URL to profile picture or empty if there isn't one
+  },
+  {
+    id: 2,
+    name: "Grace",
+    role: "Member",
+    profilePic: "/FtestPic2.jpeg", // URL to profile picture or empty if there isn't one
+  },
+  {
+    id: 3,
+    name: "Wakil",
+    role: "Member",
+    profilePic: "/MtestPic1.png", // URL to profile picture or empty if there isn't one
+  },
+  {
+    id: 4,
+    name: "Larry",
+    role: "member",
+    profilePic: "/MtestPic2.jpeg", // URL to profile picture or empty if there isn't one
+  },
+  {
+    id: 5,
+    name: "Bob",
+    role: "Member",
+    profilePic: "/MtestPic3.jpeg", // URL to profile picture or empty if there isn't one
+  },
+  {
+    id: 6,
+    name: "Fredo",
+    role: "Member",
+    profilePic: "/MtestPic4.jpeg", // URL to profile picture or empty if there isn't one
+  },
+  {
+    id: 7,
+    name: "Gilbert",
+    role: "Member",
+    profilePic: "/MtestPic5.jpeg", // URL to profile picture or empty if there isn't one
+  },
+  {
+    id: 8,
+    name: "Sandra",
+    role: "Member",
+    profilePic: "/FtestPic3.jpeg", // URL to profile picture or empty if there isn't one
+  },
+  {
+    id: 9,
+    name: "Santino",
+    role: "Member",
+    profilePic: "/MtestPic4.jpeg", // URL to profile picture or empty if there isn't one
+  },
+];
+
 export const volunteerRequests = [
   {
     id: 1,

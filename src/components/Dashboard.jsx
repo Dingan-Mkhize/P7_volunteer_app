@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 //import Logo from "../assets/LogoImg.png";
-import ProfImg from "../assets/volunteer_11.png";
+import ProfImg from "../assets/FRacer20.jpeg";
 import FooterBackground from "../assets/overlapping_circles.svg";
 import "../index.css";
 import Message from "./Message";
@@ -71,13 +71,13 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="bg-white flex flex-col px-16 py-12 max-md:px-5 lg:flex-row">
+    <div className="bg-white flex flex-col mt-3 px-16 py-12 max-md:px-5 lg:flex-row border shadow-3xl rounded-md">
       <div className="flex-grow">
         <div className="self-stretch flex items-stretch justify-between gap-5 mt-6 mx-11 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <div className="flex flex-col items-start">
             <div className="border border-black rounded-xl shadow-xl shadow-[#7d7d7d]">
-              <p className="text-xs self-stretch text-black text-center leading-10 whitespace-nowrap">
-                <i>Welcome back, Michaela!</i>
+              <p className="text-xs self-stretch text-black text-center p-3 whitespace-nowrap">
+                <i>Welcome back, Jazzelle!</i>
               </p>
               <img
                 src={ProfImg}
@@ -85,7 +85,7 @@ const Dashboard = () => {
                 alt="Profile"
               />
               <div className="self-stretch text-black text-center font-semibold leading-10 whitespace-nowrap">
-                Michaela Johnson
+                Jazzelle Williams
               </div>
             </div>
             <div className="mt-4 border border-black rounded-xl shadow-xl shadow-[#7d7d7d] p-4 text-center">

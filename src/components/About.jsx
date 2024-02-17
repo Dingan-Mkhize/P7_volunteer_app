@@ -4,7 +4,7 @@ import teamImg1 from "../assets/teamPic1.jpeg";
 import teamImg2 from "../assets/teamPic2.jpeg";
 import teamImg3 from "../assets/teamPic3.jpeg";
 import teamImg4 from "../assets/teamPic4.jpeg";
-import testImg1 from "../assets/testPic1.jpeg";
+import testImg1 from "../assets/FtestPic1.jpeg";
 
 const About = () => {
   return (
