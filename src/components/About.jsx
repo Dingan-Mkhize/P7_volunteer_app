@@ -8,7 +8,7 @@ import testImg1 from "../assets/FtestPic1.jpeg";
 
 const About = () => {
   return (
-    <div className="flex flex-col items-stretch mt-3 p-9">
+    <div className="flex flex-col items-stretch mt-3 p-9 border shadow-3xl rounded-md">
       {/* Section with background image and title */}
       <div
         className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-2xl shadow-grey mb-6"
@@ -245,7 +245,7 @@ const About = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="flex justify-center items-center bg-white w-full flex-col px-16 py-12 max-md:max-w-full max-md:px-5">
           <div className="flex justify-center pt-3 mb-6 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
             <div className="flex w-[768px] max-w-full flex-col mt-2 mb-10">
@@ -289,12 +289,12 @@ const About = () => {
             <div className="text-black text-lg leading-7 mt-6">
               Join our community and make a difference today!
             </div>
-          
-          <button className="text-white text-base whitespace-nowrap justify-center items-center bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 mt-6 rounded-full">
-            <Link to="/signup" className="block text-white">
-              Sign Up
-            </Link>
-          </button>
+
+            <button className="text-white text-base whitespace-nowrap justify-center items-center bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 mt-6 rounded-full">
+              <Link to="/signup" className="block text-white">
+                Sign Up
+              </Link>
+            </button>
           </div>
         </div>
       </div>

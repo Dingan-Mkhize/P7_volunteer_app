@@ -42,7 +42,7 @@ const LogIn = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen mt-3 p-9">
+    <div className="flex flex-col items-center justify-center min-h-screen mt-3 p-9 border shadow-3xl rounded-md">
       <div
         className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-2xl shadow-grey mb-6"
         style={{

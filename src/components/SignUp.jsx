@@ -5,7 +5,7 @@ import Logo from "../assets/LogoImg.png";
 
 const SignUpPage = () => {
   return (
-    <div className="bg-white flex flex-col items-center justify-center min-h-screen mt-3 p-9">
+    <div className="bg-white flex flex-col items-center justify-center min-h-screen mt-3 p-9 border shadow-3xl rounded-md">
       {/* Hero section with background image and call-to-action text */}
       <div
         className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-2xl shadow-grey mb-6"
@@ -229,7 +229,11 @@ const SignUpPage = () => {
                 </div>
                 <div className="items-stretch flex gap-4 mt-6 self-start">
                   <button className="text-white text-base whitespace-nowrap justify-center items-center bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 mt-6 rounded-full">
-                    <Link to="/contact" type="submit" className="block text-white">
+                    <Link
+                      to="/contact"
+                      type="submit"
+                      className="block text-white"
+                    >
                       Contact
                     </Link>
                   </button>
