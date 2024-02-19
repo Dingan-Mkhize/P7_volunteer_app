@@ -53,6 +53,24 @@ export const volunteers = [
     role: "Member",
     profilePic: "/MtestPic4.jpeg", // URL to profile picture or empty if there isn't one
   },
+  {
+    id: 10,
+    name: "Santino",
+    role: "Member",
+    profilePic: "/MtestPic4.jpeg", // URL to profile picture or empty if there isn't one
+  },
+  {
+    id: 11,
+    name: "Santino",
+    role: "Member",
+    profilePic: "/MtestPic4.jpeg", // URL to profile picture or empty if there isn't one
+  },
+  {
+    id: 12,
+    name: "Santino",
+    role: "Member",
+    profilePic: "/MtestPic4.jpeg", // URL to profile picture or empty if there isn't one
+  },
 ];
 
 export const volunteerRequests = [
