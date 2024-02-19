@@ -1,21 +1,27 @@
 import { useState } from "react";
 import { volunteerRequests, volunteers } from "../Data";
-import FooterBackground from "../assets/overlapping_circles.svg";
+import EditRequestModal from "../components/EditRequestModal"; // Adjust the path as necessary
+import { FiEdit } from "react-icons/fi";
 
 const RequestPage = () => {
-  const [request] = useState(volunteerRequests[0]);
-  // Assuming the requester is the first volunteer for simplicity
+  const [request, setRequest] = useState(volunteerRequests[0]);
   const requester = volunteers.find((v) => v.role === "Requester");
   const [currentVolunteers, setCurrentVolunteers] = useState(
     volunteers.filter((v) => v.role !== "Requester")
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editFields, setEditFields] = useState({
+    title: request.title,
+    description: request.description,
+    location: request.location,
+  });
 
   // Function to simulate adding a volunteer
   const handleVolunteerClick = () => {
-    setCurrentVolunteers((prevVolunteers) => [
-      ...prevVolunteers,
+    setCurrentVolunteers((prev) => [
+      ...prev,
       {
-        id: prevVolunteers.length + 1,
+        id: prev.length + 1,
         name: "New Volunteer",
         role: "Volunteer",
         profilePic: "//placehold.it/100",
@@ -23,26 +29,28 @@ const RequestPage = () => {
     ]);
   };
 
+  // Function to handle saving edits from the modal
+  const handleEditSave = () => {
+    setRequest((prev) => ({
+      ...prev,
+      title: editFields.title,
+      description: editFields.description,
+      location: editFields.location,
+    }));
+    setIsModalOpen(false); // Close modal after saving
+  };
+
   // Determine job urgency based on the request's urgency rating
   const jobUrgency = () => {
     if (request.urgency >= 8) return "High Urgency";
-    if (request.urgency >= 5) return "Moderate Urgency";
-    return "Low Urgency";
+    else if (request.urgency >= 5) return "Moderate Urgency";
+    else return "Low Urgency";
   };
-
 
   return (
     <div className="flex flex-col items-center bg-white mt-3 px-5 py-12 lg:px-16 border shadow-3xl rounded-md">
       {/* Requester and job title section */}
-      <div
-        className="flex flex-col md:flex-row items-center justify-center mb-3 py-3"
-        style={{
-          backgroundImage: `url(${FooterBackground})`,
-          backgroundSize: "90%",
-          backgroundPosition: "center right",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
+      <div className="flex flex-col md:flex-row items-center justify-center mb-3 py-3">
         <div className="px-6 py-3 border border-black shadow-xl shadow-[#7d7d7d] rounded-2xl text-center">
           <p className="text-xs text-black leading-9">Requester</p>
           <img
@@ -56,7 +64,20 @@ const RequestPage = () => {
           </div>
         </div>
         <div className="lg:py-12 lg:px-6 m-6 text-center lg:text-left lg:w-3/4">
-          <div className="text-3xl font-bold text-black">{request.title}</div>
+          <div className="text-3xl font-bold text-black flex justify-between items-center w-full px-5">
+            {request.title}
+            <FiEdit
+              onClick={() => setIsModalOpen(true)}
+              style={{ cursor: "pointer" }}
+            />
+          </div>
+          <EditRequestModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onSave={handleEditSave}
+            editFields={editFields}
+            setEditFields={setEditFields}
+          />
           <div className="mt-6 text-lg leading-7 text-black">
             Volunteer and start making a difference in your community.
           </div>
