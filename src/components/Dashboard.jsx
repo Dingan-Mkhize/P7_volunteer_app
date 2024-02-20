@@ -121,7 +121,7 @@ const Dashboard = () => {
           {/* Sidebar Section */}
           <div
             className="lg:col-span-1 mb-8 lg:mb-0 flex flex-col p-4 border border-black rounded-xl shadow-xl shadow-[#7d7d7d]"
-            style={{ maxHeight: "773px", overflowY: "hidden" }}
+            style={{ maxHeight: "775px", overflowY: "hidden" }}
           >
             <h3 className="text-xl font-semibold mb-3">
               More Volunteer Requests
@@ -132,28 +132,35 @@ const Dashboard = () => {
                 {displayedRequests.map((request, index) => (
                   <li
                     key={index}
-                    className="border border-black p-1 rounded-xl mb-3"
+                    className="border border-black p-1 rounded-xl mb-3 flex flex-col justify-between"
                     style={{ height: "175px" }}
                   >
-                    <div className="flex flex-col justify-between text-sm text-gray-600 hover:text-gray-800 h-full">
-                      <div>
-                        <div
-                          className={`text-sm font-semibold mb-1 ${request.type === "task" ? "text-[#15bec1]" : "text-[#f17d2b]"}`}
-                        >
-                          {request.title}
-                        </div>
-                        <div className="text-xs mt-1 overflow-hidden">
-                          {request.description}
-                        </div>
-                      </div>
-                      <div className="flex justify-center">
-                        <a
-                          href={`/volunteer-requests/${request.id}`}
-                          className="mt-2 text-white text-xs leading-4 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
-                        >
-                          View Details
-                        </a>
-                      </div>
+                    {/* Title Section */}
+                    <div
+                      className={`text-sm font-semibold mb-1 overflow-hidden whitespace-nowrap ${request.type === "task" ? "text-[#15bec1]" : "text-[#f17d2b]"}`}
+                      style={{ textOverflow: "ellipsis" }}
+                    >
+                      {request.title}
+                    </div>
+
+                    {/* Description Section */}
+                    <div
+                      className="flex-grow text-xs mt-1 overflow-hidden px-1"
+                      style={{ maxHeight: "6rem" }}
+                    >
+                      <p className="overflow-ellipsis whitespace-normal line-clamp-6">
+                        {request.description}
+                      </p>
+                    </div>
+
+                    {/* View Details Button */}
+                    <div className="flex justify-center mt-2">
+                      <a
+                        href={`/volunteer-requests/${request.id}`}
+                        className="text-white text-xs leading-4 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+                      >
+                        View Details
+                      </a>
                     </div>
                   </li>
                 ))}
@@ -161,7 +168,7 @@ const Dashboard = () => {
             </div>
 
             {/* Pagination buttons */}
-            <div className="mt-auto ml-3 mr-3 flex justify-between">
+            <div className="mt-auto flex justify-between">
               <button
                 onClick={() => changePage("next")}
                 className="text-sm bg-black text-white px-3 py-2 hover:bg-gray-600 shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
@@ -227,7 +234,10 @@ const Dashboard = () => {
           Reach out to your community for a helping hand.
         </div>
         <div className="flex justify-center mt-9">
-          <Link to="/requests" className="flex justify-center w-32 h-12 min-w-32 min-h-12 text-black text-base leading-6 whitespace-nowrap items-center border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
+          <Link
+            to="/requests"
+            className="flex justify-center w-32 h-12 min-w-32 min-h-12 text-black text-base leading-6 whitespace-nowrap items-center border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full"
+          >
             Requests
           </Link>
           {/* <Link
