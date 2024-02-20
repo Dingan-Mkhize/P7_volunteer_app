@@ -11,7 +11,7 @@ const Contact = () => {
   return (
     <div className="items-stretch bg-white flex flex-col mt-3 p-9 border shadow-3xl rounded-md">
       <div
-        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-2xl shadow-grey mb-6"
+        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-lg shadow-grey mb-6"
         style={{ backgroundImage: `url(${ContactImg1})` }}
       >
         <div className="outline-text-white w-full text-center py-28">
@@ -20,7 +20,7 @@ const Contact = () => {
       </div>
 
       <div className="items-center bg-white flex w-full flex-col justify-center px-16 py-9 max-md:max-w-full max-md:px-5 mt-6">
-        <div className="flex w-[768px] max-w-full flex-col max-md:mt-10 rounded-2xl border border-black shadow-xl shadow-[#7d7d7d]">
+        <div className="flex w-[768px] max-w-full flex-col max-md:mt-10 rounded-2xl border border-black shadow-lg shadow-[#7d7d7d]">
           <div className="self-stretch text-black text-center text-5xl font-bold leading-[57.6px] max-md:max-w-full max-md:text-4xl mt-6">
             Contact us
           </div>{" "}
@@ -76,7 +76,7 @@ const Contact = () => {
           <div className="flex justify-center p-9">
             <button
               type="submit"
-              className="text-white text-base leading-6 whitespace-nowrap border bg-black px-6 py-3 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+              className="text-white text-base leading-6 whitespace-nowrap border bg-black px-6 py-3 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
             >
               Send Message
             </button>

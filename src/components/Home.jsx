@@ -5,7 +5,6 @@ import HomeImg2 from "../assets/volunteer_1.png";
 import HomeImg3 from "../assets/volunteer_4.png";
 import HomeImg4 from "../assets/volunteer_5.png";
 
-
 const Home = () => {
   // Placeholder state for unfulfilled help requests
   const [unfulfilledRequests, setUnfulfilledRequests] = useState(50);
@@ -24,12 +23,12 @@ const Home = () => {
     <div className="flex flex-col items-stretch">
       <div className="items-center bg-white flex w-full flex-col px-12 py-12 max-md:max-w-full max-md:px-5">
         {/* hero image section */}
-        <div className="relative overflow-hidden h-screen md:h-3/4 lg:h-1/2 rounded-full shadow-2xl shodow-white">
+        <div className="relative overflow-hidden h-screen md:h-3/4 lg:h-1/2 rounded-full shadow-lg shodow-white">
           <img className="w-full h-full object-cover" src={HeroImg} alt="/" />
         </div>
       </div>
 
-      <div className="rounded-xl shadow-xl shadow-white mx-auto w-full max-w-3xl overflow-hidden p-6 mt-3 mb-3">
+      <div className="rounded-xl shadow-lg shadow-white mx-auto w-full max-w-3xl overflow-hidden p-6 mt-3 mb-3">
         <div className="self-center text-black text-center text-6xl font-bold">
           Hands United<p className="text-sm mt-3">———————</p>
           Connecting Communities, One Request at a Time
@@ -39,10 +38,10 @@ const Home = () => {
           community and make a difference today.
         </div>
         <div className="flex justify-center items-center gap-4 mb-9 mt-9">
-          <button className="text-white bg-black border-black text-base leading-6 whitespace-nowrap justify-center items-center px-4 py-2 border shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full w-28">
+          <button className="text-white bg-black border-black text-base leading-6 whitespace-nowrap justify-center items-center px-4 py-2 border shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full w-28">
             Sign Up
           </button>
-          <button className="text-black bg-white border-black text-base leading-6 whitespace-nowrap justify-center items-center px-4 py-2 border shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full w-28">
+          <button className="text-black bg-white border-black text-base leading-6 whitespace-nowrap justify-center items-center px-4 py-2 border shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full w-28">
             Learn More
           </button>
         </div>
@@ -67,7 +66,7 @@ const Home = () => {
                       <div className="items-stretch flex flex-col max-md:mt-8">
                         {/* Dynamic counter for unfulfilled help requests */}
 
-                        <div className="rounded-xl shadow-xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden p-3">
+                        <div className="rounded-xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden p-3">
                           <div className="text-black text-5xl font-bold leading-[57.6px] whitespace-nowrap max-md:text-4xl">
                             {unfulfilledRequests}%
                           </div>
@@ -79,7 +78,7 @@ const Home = () => {
                     </div>
                     <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">
                       <div className="items-stretch flex grow flex-col max-md:mt-8">
-                        <div className="rounded-xl shadow-xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden p-3">
+                        <div className="rounded-xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden p-3">
                           <div className="text-black text-5xl font-bold leading-[57.6px] whitespace-nowrap max-md:text-4xl">
                             50%
                           </div>
@@ -95,7 +94,7 @@ const Home = () => {
             </div>
             <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">
               <img
-                className="rounded-xl shadow-xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-12"
+                className="rounded-xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-12"
                 src={HomeImg1}
                 alt="/"
               />
@@ -104,7 +103,7 @@ const Home = () => {
         </div>
       </div>
       <div className="items-center bg-white flex w-full flex-col px-16 py-12 max-md:max-w-full max-md:px-5">
-        <div className="relative pb-9 px-6 rounded-3xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
+        <div className="relative pb-9 px-6 rounded-3xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
           <div className="circle-bg"></div>
           <div className="flex justify-center text-black text-center text-base font-semibold leading-6 self-center whitespace-nowrap mt-16 max-md:mt-10">
             Empower Your Community, One Act at a Time
@@ -133,7 +132,7 @@ const Home = () => {
                 <img
                   src={HomeImg3}
                   alt="/"
-                  className="rounded-xl shadow-xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden"
+                  className="rounded-xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden"
                 />
                 <div className="text-black text-center text-3xl font-bold leading-10 mt-8">
                   Medium length section heading goes here
@@ -150,7 +149,7 @@ const Home = () => {
                 <img
                   src={HomeImg2}
                   alt="/"
-                  className="rounded-xl shadow-xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden"
+                  className="rounded-xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden"
                 />
                 <div className="text-black text-center text-3xl font-bold leading-10 mt-8">
                   Medium length section heading goes here
@@ -167,7 +166,7 @@ const Home = () => {
                 <img
                   src={HomeImg4}
                   alt="/"
-                  className="rounded-xl shadow-xl shadow-[#7d7d7d]  object-center w-full border border-black overflow-hidden"
+                  className="rounded-xl shadow-lg shadow-[#7d7d7d]  object-center w-full border border-black overflow-hidden"
                 />
                 <div className="text-black text-center text-3xl font-bold leading-10 mt-8">
                   Medium length section heading goes here
@@ -191,7 +190,7 @@ const Home = () => {
           our platform.
         </div>
 
-        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
+        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
           <div className="text-black text-lg font-bold leading-7 grow my-auto max-md:max-w-full">
             How do I sign up?
           </div>
@@ -201,7 +200,7 @@ const Home = () => {
             className="aspect-square object-contain object-center w-8 overflow-hidden self-stretch shrink-0 max-w-full"
           />
         </div>
-        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
+        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
           <div className="text-black text-lg font-bold leading-7 grow my-auto max-md:max-w-full">
             How does the interactive map work?
           </div>
@@ -211,7 +210,7 @@ const Home = () => {
             className="aspect-square object-contain object-center w-8 overflow-hidden self-stretch shrink-0 max-w-full"
           />
         </div>
-        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
+        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
           <div className="text-black text-lg font-bold leading-7 grow my-auto max-md:max-w-full">
             What happens after I volunteer?
           </div>
@@ -221,7 +220,7 @@ const Home = () => {
             className="aspect-square object-contain object-center w-8 overflow-hidden self-stretch shrink-0 max-w-full"
           />
         </div>
-        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
+        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
           <div className="text-black text-lg font-bold leading-7 grow my-auto max-md:max-w-full">
             How do I submit a help request?
           </div>
@@ -231,7 +230,7 @@ const Home = () => {
             className="aspect-square object-contain object-center w-8 overflow-hidden self-stretch shrink-0 max-w-full"
           />
         </div>
-        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
+        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
           <div className="text-black text-lg font-bold leading-7 grow my-auto max-md:max-w-full">
             What is the real-time counter on the homepage?
           </div>
@@ -247,7 +246,7 @@ const Home = () => {
         <div className="text-black text-center text-lg leading-7 mb-4 mt-4 max-md:max-w-full">
           Contact us for further assistance.
         </div>
-        <button className="text-black text-base leading-6 whitespace-nowrap justify-center items-stretch px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full">
+        <button className="text-black text-base leading-6 whitespace-nowrap justify-center items-stretch px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 max-md:px-5 rounded-full">
           Contact
         </button>
       </div>

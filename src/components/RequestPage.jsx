@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { volunteerRequests, volunteers } from "../Data";
-import EditRequestModal from "../components/EditRequestModal"; // Adjust the path as necessary
+import EditRequestModal from "../components/EditRequestModal"; 
+import MessageVolunteersModal from "../components/MessageVolunteersModal";
 import { FiEdit } from "react-icons/fi";
 
 const RequestPage = () => {
-  const [request, setRequest] = useState(volunteerRequests[0]);
+  // Extend the request state to include a 'status' field for simplicity
+  const [request, setRequest] = useState({
+    ...volunteerRequests[0],
+    status: "unfulfilled", // Initial status
+  });
   const requester = volunteers.find((v) => v.role === "Requester");
   const [currentVolunteers, setCurrentVolunteers] = useState(
     volunteers.filter((v) => v.role !== "Requester")
@@ -15,6 +20,8 @@ const RequestPage = () => {
     description: request.description,
     location: request.location,
   });
+
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 
   // Function to simulate adding a volunteer
   const handleVolunteerClick = () => {
@@ -40,6 +47,15 @@ const RequestPage = () => {
     setIsModalOpen(false); // Close modal after saving
   };
 
+  // Function to handle republishing the request
+  const handleRepublish = () => {
+    setRequest((prevRequest) => ({
+      ...prevRequest,
+      status: "unfulfilled", // Reset status to indicate republishing
+    }));
+    // Additional logic for republishing could be added here
+  };
+
   // Determine job urgency based on the request's urgency rating
   const jobUrgency = () => {
     if (request.urgency >= 8) return "High Urgency";
@@ -47,11 +63,14 @@ const RequestPage = () => {
     else return "Low Urgency";
   };
 
+  // Determine if the current user is the requester for conditional rendering
+  const isRequester = true;
+
   return (
     <div className="flex flex-col items-center bg-white mt-3 px-5 py-12 lg:px-16 border shadow-3xl rounded-md">
       {/* Requester and job title section */}
       <div className="flex flex-col md:flex-row items-center justify-center mb-3 py-3">
-        <div className="px-6 py-3 border border-black shadow-xl shadow-[#7d7d7d] rounded-2xl text-center">
+        <div className="px-6 py-3 border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl text-center">
           <p className="text-xs text-black leading-9">Requester</p>
           <img
             loading="lazy"
@@ -69,6 +88,8 @@ const RequestPage = () => {
             <FiEdit
               onClick={() => setIsModalOpen(true)}
               style={{ cursor: "pointer" }}
+              size={20}
+              color="#3B82F6"
             />
           </div>
           <EditRequestModal
@@ -86,15 +107,24 @@ const RequestPage = () => {
 
       {/* Focused Map and Job Details */}
       <div className="mt-6 flex flex-col md:flex-row justify-center items-center">
-        <div className="flex flex-col md:flex-row justify-center gap-5 p-6 border border-black shadow-xl shadow-[#7d7d7d] rounded-2xl">
+        <div className="flex flex-col md:flex-row justify-center gap-5 p-6 border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl">
           <div className="border border-dashed border-gray-400 bg-gray-200 w-full md:w-[300px] h-[300px] flex justify-center items-center rounded-3xl shadow-md shadow-[#7d7d7d] md:mb-0">
             <h2 className="text-lg font-semibold text-gray-700">
               Interactive Map Placeholder
             </h2>
           </div>
           <div className="flex flex-col w-full md:w-6/12 mt-6 md:mt-0 md:ml-5">
-            <div className="flex flex-col items-start font-bold p-3">
-              Volunteer Request Details:
+            <div className="flex items-center font-bold p-3">
+              <span>Volunteer Request Details:</span>
+              <FiEdit
+                onClick={() => {
+                  setIsModalOpen(true);
+                  setEditFields({ ...editFields, currentField: "description" });
+                }}
+                className="cursor-pointer ml-2"
+                size={20}
+                color="#3B82F6" // Adjust size as needed
+              />
             </div>
             <div className="mt-6 leading-9 text-black shadow-md border rounded-2xl p-3">
               {request.description}
@@ -111,14 +141,24 @@ const RequestPage = () => {
               Job Urgency: {jobUrgency()}
             </div>
           </div>
-          <button
-            onClick={handleVolunteerClick}
-            className="px-6 py-2 text-white bg-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
-          >
-            Volunteer to Help
-          </button>
+          {isRequester ? (
+            <button
+              onClick={handleRepublish}
+              className="px-6 py-2 text-white bg-blue-500 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+            >
+              Re-publish
+            </button>
+          ) : (
+            <button
+              onClick={handleVolunteerClick}
+              className="px-6 py-2 text-white bg-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+            >
+              Volunteer to Help
+            </button>
+          )}
         </div>
       </div>
+
       {/* Displaying the number of volunteers and their profiles */}
       <div className="m-3 p-12">
         <div className="text-center mb-4 hidden sm:block">
@@ -126,7 +166,19 @@ const RequestPage = () => {
             Volunteers ({currentVolunteers.length})
           </div>
         </div>
+        <div className="flex justify-center">
+          <button
+            className="mt-4 mb-4 px-6 py-2 text-white bg-blue-500 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+            onClick={() => setIsMessageModalOpen(true)}
+          >
+            Message Volunteers
+          </button>
+        </div>
 
+        <MessageVolunteersModal
+          isOpen={isMessageModalOpen}
+          onClose={() => setIsMessageModalOpen(false)}
+        />
         {/* For larger screens: Display individual volunteer cards and an additional "+ more" card if necessary */}
         <div className="hidden sm:flex justify-center gap-5 flex-wrap">
           {currentVolunteers.slice(0, 5).map((volunteer) => (
@@ -152,7 +204,7 @@ const RequestPage = () => {
           {currentVolunteers.length > 5 && (
             <div
               className="flex flex-col items-center justify-center p-3 rounded-2xl shadow-lg shadow-[#7d7d7d] border border-black"
-              style={{ width: "130px", minHeight: "170px" }} // Ensuring "+ More" card has the same fixed width and padding as individual cards
+              style={{ width: "130px", minHeight: "170px" }}
             >
               <span className="text-lg font-semibold">
                 +{currentVolunteers.length - 5} more

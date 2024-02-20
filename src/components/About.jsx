@@ -11,7 +11,7 @@ const About = () => {
     <div className="flex flex-col items-stretch mt-3 p-9 border shadow-3xl rounded-md">
       {/* Section with background image and title */}
       <div
-        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-2xl shadow-grey mb-6"
+        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-lg shadow-grey mb-6"
         style={{ backgroundImage: `url(${AboutImg1})` }}
       >
         <div className="outline-text-white w-full text-center py-28">
@@ -20,7 +20,7 @@ const About = () => {
       </div>
 
       {/* Section with a description of the platform */}
-      <div className="flex justify-center px-6 rounded-3xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6">
+      <div className="flex justify-center px-6 rounded-3xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6">
         <div className="relative pb-9 px-9 pt-9">
           <div className="circle-bg"></div>
 
@@ -50,7 +50,7 @@ const About = () => {
           </div>
           <div className="self-stretch mt-20 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-              <div className="pb-9 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
+              <div className="pb-9 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
                     src={teamImg1}
@@ -86,7 +86,7 @@ const About = () => {
                   </div>
                 </div>
               </div>
-              <div className="pb-9 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
+              <div className="pb-9 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
                     src={teamImg3}
@@ -121,7 +121,7 @@ const About = () => {
                   </div>
                 </div>
               </div>
-              <div className="pb-9 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
+              <div className="pb-9 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
                     src={teamImg4}
@@ -156,7 +156,7 @@ const About = () => {
                   </div>
                 </div>
               </div>
-              <div className="pb-9 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
+              <div className="pb-9 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
                     src={teamImg2}
@@ -247,7 +247,7 @@ const About = () => {
         </div>
 
         <div className="flex justify-center items-center bg-white w-full flex-col px-16 py-12 max-md:max-w-full max-md:px-5">
-          <div className="flex justify-center pt-3 mb-6 px-6 rounded-2xl shadow-2xl shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
+          <div className="flex justify-center pt-3 mb-6 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
             <div className="flex w-[768px] max-w-full flex-col mt-2 mb-10">
               <div className="text-black text-center text-2xl font-bold leading-8 self-center max-w-[253px]">
                 Community Testimonial
@@ -264,7 +264,7 @@ const About = () => {
               <div className="items-center flex grow flex-col max-md:mt-8">
                 <img
                   src={testImg1}
-                  className="w-32 h-32 object-cover rounded-full mt-9 shadow-2xl shadow-[#7d7d7d] object-center border border-black"
+                  className="w-32 h-32 object-cover rounded-full mt-9 shadow-lg shadow-[#7d7d7d] object-center border border-black"
                   alt="Profile"
                 />
               </div>
@@ -282,7 +282,7 @@ const About = () => {
       {/* Call to action section */}
       <div className="bg-white flex flex-col justify-center items-center px-16 py-12 max-w-full max-md:px-5">
         <div className="flex flex-col items-center text-center gap-5 max-w-full">
-          <div className="shadow-2xl shadow-[#7d7d7d] border border-black p-6 rounded-xl">
+          <div className="shadow-lg shadow-[#7d7d7d] border border-black p-6 rounded-xl">
             <div className="text-black text-4xl font-bold leading-10">
               Be Part Of These Inspiring Success Stories
             </div>
@@ -290,7 +290,7 @@ const About = () => {
               Join our community and make a difference today!
             </div>
 
-            <button className="text-white text-base whitespace-nowrap justify-center items-center bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 mt-6 rounded-full">
+            <button className="text-white text-base whitespace-nowrap justify-center items-center bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 mt-6 rounded-full">
               <Link to="/signup" className="block text-white">
                 Sign Up
               </Link>

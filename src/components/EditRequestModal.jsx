@@ -59,13 +59,13 @@ const EditRequestModal = ({
           <div className="items-center px-4 py-3">
             <button
               onClick={onSave}
-              className="px-4 py-2 mr-3 text-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+              className="px-4 py-2 mr-3 text-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
             >
               Save
             </button>
             <button
               onClick={onClose}
-              className="mt-3 px-4 py-2 text-white text-base bg-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+              className="mt-3 px-4 py-2 text-white text-base bg-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
             >
               Cancel
             </button>

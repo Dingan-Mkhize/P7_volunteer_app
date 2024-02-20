@@ -75,7 +75,7 @@ const Dashboard = () => {
       <div className="flex-grow">
         <div className="self-stretch flex items-stretch justify-between gap-5 mt-6 mx-11 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <div className="flex flex-col items-start">
-            <div className="border border-black rounded-xl shadow-xl shadow-[#7d7d7d]">
+            <div className="border border-black rounded-xl shadow-lg shadow-[#7d7d7d]">
               <p className="text-xs self-stretch text-black text-center p-3 whitespace-nowrap">
                 <i>Welcome back, Jazzelle!</i>
               </p>
@@ -88,7 +88,7 @@ const Dashboard = () => {
                 Jazzelle Williams
               </div>
             </div>
-            <div className="mt-4 border border-black rounded-xl shadow-xl shadow-[#7d7d7d] p-4 text-center">
+            <div className="mt-4 border border-black rounded-xl shadow-lg shadow-[#7d7d7d] p-4 text-center">
               <h3 className="text-lg font-semibold">
                 Unfulfilled Help Requests
               </h3>
@@ -96,7 +96,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div
-            className="relative pb-9 pt-6 p-12 border border-black rounded-xl shadow-xl shadow-[#7d7d7d]"
+            className="relative pb-9 pt-6 p-12 border border-black rounded-xl shadow-lg shadow-[#7d7d7d]"
             style={{
               backgroundImage: `url(${FooterBackground})`,
               backgroundSize: "190%",
@@ -120,7 +120,7 @@ const Dashboard = () => {
         <div className="grid lg:grid-cols-5 gap-4 p-12 mt-6">
           {/* Sidebar Section */}
           <div
-            className="lg:col-span-1 mb-8 lg:mb-0 flex flex-col p-4 border border-black rounded-xl shadow-xl shadow-[#7d7d7d]"
+            className="lg:col-span-1 mb-8 lg:mb-0 flex flex-col p-4 border border-black rounded-xl shadow-lg shadow-[#7d7d7d]"
             style={{ maxHeight: "775px", overflowY: "hidden" }}
           >
             <h3 className="text-xl font-semibold mb-3">
@@ -157,7 +157,7 @@ const Dashboard = () => {
                     <div className="flex justify-center mt-2">
                       <a
                         href={`/volunteer-requests/${request.id}`}
-                        className="text-white text-xs leading-4 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+                        className="text-white text-xs leading-4 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
                       >
                         View Details
                       </a>
@@ -171,13 +171,13 @@ const Dashboard = () => {
             <div className="mt-auto flex justify-between">
               <button
                 onClick={() => changePage("next")}
-                className="text-sm bg-black text-white px-3 py-2 hover:bg-gray-600 shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+                className="text-sm bg-black text-white px-3 py-2 hover:bg-gray-600 shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
               >
                 &#9650;
               </button>
               <button
                 onClick={() => changePage("prev")}
-                className="text-sm bg-black text-white px-3 py-2 hover:bg-gray-600 shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+                className="text-sm bg-black text-white px-3 py-2 hover:bg-gray-600 shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
               >
                 &#9660;
               </button>
@@ -187,7 +187,7 @@ const Dashboard = () => {
           {/* Container for Map and Volunteer Cards */}
           <div className="lg:col-span-4">
             {/* Map */}
-            <div className="border border-dashed border-gray-400 bg-gray-200 h-[500px] flex justify-center items-center rounded-3xl lg:mb-12 shadow-xl shadow-[#7d7d7d]">
+            <div className="border border-dashed border-gray-400 bg-gray-200 h-[500px] flex justify-center items-center rounded-3xl lg:mb-12 shadow-lg shadow-[#7d7d7d]">
               <h2 className="text-lg font-semibold text-gray-700">
                 Interactive Map Placeholder
               </h2>
@@ -198,7 +198,7 @@ const Dashboard = () => {
               {urgentRequests.map((request) => (
                 <div
                   key={request.id}
-                  className="flex flex-col p-3 border border-black rounded-xl shadow-xl shadow-[#7d7d7d] overflow-hidden"
+                  className="flex flex-col p-3 border border-black rounded-xl shadow-lg shadow-[#7d7d7d] overflow-hidden"
                 >
                   <div className="p-2 flex flex-col justify-between flex-grow">
                     <h3
@@ -212,7 +212,7 @@ const Dashboard = () => {
                     <p className="text-xs text-gray-600">
                       Location: {request.location}
                     </p>
-                    <button className="mt-2 text-white text-xs leading-4 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full">
+                    <button className="mt-2 text-white text-xs leading-4 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
                       Volunteer Now
                     </button>
                   </div>
@@ -223,7 +223,7 @@ const Dashboard = () => {
         </div>
 
         {/* Message Component */}
-        <div className="lg:col-span-4 ml-12 mr-12 mt-6 p-3 rounded-3xl shadow-2xl shadow-[#7d7d7d] border border-black overflow-hidden">
+        <div className="lg:col-span-4 ml-12 mr-12 mt-6 p-3 rounded-3xl shadow-lg shadow-[#7d7d7d] border border-black overflow-hidden">
           <Message />
         </div>
 
@@ -236,13 +236,13 @@ const Dashboard = () => {
         <div className="flex justify-center mt-9">
           <Link
             to="/requests"
-            className="flex justify-center w-32 h-12 min-w-32 min-h-12 text-black text-base leading-6 whitespace-nowrap items-center border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 max-md:px-5 rounded-full"
+            className="flex justify-center w-32 h-12 min-w-32 min-h-12 text-black text-base leading-6 whitespace-nowrap items-center border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 max-md:px-5 rounded-full"
           >
             Requests
           </Link>
           {/* <Link
             to="/login"
-            className="px-6 py-3 text-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-2xl transition duration-300 rounded-full"
+            className="px-6 py-3 text-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
           >
             Log In
           </Link> */}
