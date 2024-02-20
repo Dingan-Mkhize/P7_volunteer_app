@@ -126,7 +126,7 @@ const RequestPage = () => {
                 color="#3B82F6" // Adjust size as needed
               />
             </div>
-            <div className="mt-6 leading-9 text-black shadow-md border rounded-2xl p-3">
+            <div className="mt-6 leading-9 text-black shadow-md shadow-[#7d7d7d] border border-black rounded-2xl p-3">
               {request.description}
             </div>
           </div>

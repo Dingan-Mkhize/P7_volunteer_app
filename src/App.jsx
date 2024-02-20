@@ -8,6 +8,7 @@ import SignUp from "./components/SignUp";
 import Dashboard from "./components/Dashboard";
 import Contact from "./components/Contact";
 import RequestPage from "./components/RequestPage";
+import CreateRequest from "./components/CreateRequest";
 import Footer from "./components/Footer";
 
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/requests" element={<RequestPage />} />
+          <Route path="/create" element={<CreateRequest />} />
         </Routes>
         <Footer />
       </div>

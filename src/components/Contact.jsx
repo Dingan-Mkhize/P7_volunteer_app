@@ -11,7 +11,7 @@ const Contact = () => {
   return (
     <div className="items-stretch bg-white flex flex-col mt-3 p-9 border shadow-3xl rounded-md">
       <div
-        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-lg shadow-grey mb-6"
+        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-md shadow-[#7d7d7d] mb-6"
         style={{ backgroundImage: `url(${ContactImg1})` }}
       >
         <div className="outline-text-white w-full text-center py-28">
@@ -38,7 +38,7 @@ const Contact = () => {
             name="name"
             type="text"
             required
-            className="self-center text-base leading-6 border bg-white w-[560px] max-w-full justify-center mt-2 p-3 border-solid border-black max-md:max-w-full rounded-full"
+            className="self-center text-base leading-6 border bg-white w-[560px] max-w-full justify-center mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black max-md:max-w-full rounded-full"
             placeholder="Your Name"
           />
           <label
@@ -52,7 +52,7 @@ const Contact = () => {
             name="email"
             type="email"
             required
-            className="self-center text-base leading-6 border bg-white w-[560px] max-w-full justify-center mt-2 p-3 border-solid border-black max-md:max-w-full rounded-full"
+            className="self-center text-base leading-6 border bg-white w-[560px] max-w-full justify-center mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black max-md:max-w-full rounded-full"
             placeholder="Your Email"
           />
           <label
@@ -65,7 +65,7 @@ const Contact = () => {
             id="message"
             name="message"
             required
-            className="self-center text-base leading-6 border bg-white w-[560px] max-w-full mt-2 p-3 border-solid border-black max-md:max-w-full max-md:pb-10 rounded-3xl"
+            className="self-center text-base leading-6 border bg-white w-[560px] max-w-full mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black max-md:max-w-full max-md:pb-10 rounded-3xl"
             placeholder="Your Message"
             rows="6"
           ></textarea>

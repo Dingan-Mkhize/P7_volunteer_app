@@ -44,7 +44,7 @@ const LogIn = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen mt-3 p-9 border shadow-3xl rounded-md">
       <div
-        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-lg shadow-grey mb-6"
+        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-md shadow-[#7d7d7d] mb-6"
         style={{
           backgroundImage: `url(${LogInImg1})`,
           backgroundBlendMode: "darken",
@@ -65,7 +65,7 @@ const LogIn = () => {
             type="text"
             value={formData.firstName}
             onChange={handleChange}
-            className="text-base leading-6 border p-3 rounded-3xl border-solid border-black bg-white"
+            className="text-base leading-6 border p-3 rounded-3xl shadow-md shadow-[#7d7d7d] border-solid border-black bg-white"
             placeholder="Your first name"
             required
           />
@@ -74,7 +74,7 @@ const LogIn = () => {
             type="text"
             value={formData.lastName}
             onChange={handleChange}
-            className="text-base leading-6 border p-3 rounded-3xl border-solid border-black bg-white"
+            className="text-base leading-6 border p-3 rounded-3xl shadow-md shadow-[#7d7d7d] border-solid border-black bg-white"
             placeholder="Your last name"
             required
           />
@@ -83,7 +83,7 @@ const LogIn = () => {
             type="email"
             value={formData.email}
             onChange={handleChange}
-            className="text-base leading-6 border p-3 rounded-3xl border-solid border-black bg-white"
+            className="text-base leading-6 border p-3 rounded-3xl shadow-md shadow-[#7d7d7d] border-solid border-black bg-white"
             placeholder="Your email address"
             required
           />
@@ -92,14 +92,14 @@ const LogIn = () => {
             type="password"
             value={formData.password}
             onChange={handleChange}
-            className="text-base leading-6 border p-3 rounded-3xl border-solid border-black bg-white"
+            className="text-base leading-6 border p-3 rounded-3xl shadow-md shadow-[#7d7d7d] border-solid border-black bg-white"
             placeholder="Your password"
             required
           />
           <div className="flex justify-center">
             <button
               type="submit"
-              className="text-white bg-black px-6 py-3 rounded-full shadow-md hover:shadow-lg hover:translate-y-[-2px] transition duration-300"
+              className="text-white bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
             >
               Log In
             </button>

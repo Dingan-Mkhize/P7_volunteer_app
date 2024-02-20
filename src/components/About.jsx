@@ -11,7 +11,7 @@ const About = () => {
     <div className="flex flex-col items-stretch mt-3 p-9 border shadow-3xl rounded-md">
       {/* Section with background image and title */}
       <div
-        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-lg shadow-grey mb-6"
+        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-md shadow-[#7d7d7d] mb-6"
         style={{ backgroundImage: `url(${AboutImg1})` }}
       >
         <div className="outline-text-white w-full text-center py-28">

@@ -8,7 +8,7 @@ const SignUpPage = () => {
     <div className="bg-white flex flex-col items-center justify-center min-h-screen mt-3 p-9 border shadow-3xl rounded-md">
       {/* Hero section with background image and call-to-action text */}
       <div
-        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-lg shadow-grey mb-6"
+        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-md shadow-[#7d7d7d] mb-6"
         style={{ backgroundImage: `url(${SignUpImg1})` }}
       >
         <div className="outline-text-white w-full text-center py-28">
@@ -57,7 +57,7 @@ const SignUpPage = () => {
                     <div className="text-black text-base leading-6 whitespace-nowrap">
                       First name
                     </div>
-                    <div className="text-neutral-600 text-base leading-6 whitespace-nowrap items-stretch border bg-white justify-center mt-2 p-3 border-solid border-black">
+                    <div className="text-neutral-600 text-base leading-6 whitespace-nowrap items-stretch border bg-white justify-center mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-3xl">
                       Placeholder
                     </div>
                   </div>
@@ -65,7 +65,7 @@ const SignUpPage = () => {
                     <div className="text-black text-base leading-6 whitespace-nowrap">
                       Last name
                     </div>
-                    <div className="text-neutral-600 text-base leading-6 whitespace-nowrap items-stretch border bg-white justify-center mt-2 p-3 border-solid border-black">
+                    <div className="text-neutral-600 text-base leading-6 whitespace-nowrap items-stretch border bg-white justify-center mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-3xl">
                       Placeholder
                     </div>
                   </div>
@@ -75,15 +75,7 @@ const SignUpPage = () => {
                     <div className="text-black text-base leading-6 whitespace-nowrap">
                       Email
                     </div>
-                    <div className="text-neutral-600 text-base leading-6 whitespace-nowrap items-stretch border bg-white justify-center mt-2 p-3 border-solid border-black">
-                      Placeholder
-                    </div>
-                  </div>
-                  <div className="items-stretch flex grow basis-[0%] flex-col">
-                    <div className="text-black text-base leading-6 whitespace-nowrap">
-                      Phone number
-                    </div>
-                    <div className="text-neutral-600 text-base leading-6 whitespace-nowrap items-stretch border bg-white justify-center mt-2 p-3 border-solid border-black">
+                    <div className="text-neutral-600 text-base leading-6 whitespace-nowrap items-stretch border bg-white justify-center mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-3xl">
                       Placeholder
                     </div>
                   </div>
@@ -99,11 +91,11 @@ const SignUpPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="self-stretch text-black text-base leading-6 mt-10 max-md:max-w-full">
-                  Message
+                <div className="self-stretch text-black text-base leading-6 mt-6 max-md:max-w-full">
+                  Government-approved ID
                 </div>
-                <div className="text-neutral-600 text-base leading-6 items-stretch self-stretch border bg-white mt-2 pt-3 pb-28 px-3 border-solid border-black max-md:max-w-full max-md:pb-10">
-                  Type your message...
+                <div className="text-neutral-600 text-base leading-6 items-stretch self-stretch bg-white mt-2 pt-3 pb-28 px-3 max-md:max-w-full max-md:pb-10 border border-dashed border-gray-400 shadow-md shadow-[#7d7d7d] rounded-xl">
+                  Upload ID
                 </div>
                 <button className="text-white text-base whitespace-nowrap justify-center items-center bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 mt-6 rounded-full">
                   <Link to="" type="submit" className="block text-white">

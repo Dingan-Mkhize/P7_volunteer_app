@@ -90,12 +90,12 @@ const NavBar = () => {
         </div>
 
         {/* Hamburger Menu Icon: Visible on small screens */}
-        <div className="flex justify-end md:hidden">
+        <div className="flex justify-end md:hidden ">
           <button onClick={handleNav}>
             {nav ? (
-              <FaTimes className="w-6 h-6 text-black" />
+              <FaTimes className="w-6 h-6 text-black shadow-md shadow-[#7d7d7d] border border-black hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-sm" />
             ) : (
-              <FaBars className="w-6 h-6 text-black" />
+              <FaBars className="w-6 h-6 text-black shadow-sm shadow-[#7d7d7d] border hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-sm" />
             )}
           </button>
         </div>
