@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import ProfImg from "../assets/FRacer20.jpeg";
 import FooterBackground from "../assets/overlapping_circles.svg";
 import "../index.css";
-import Message from "./Message";
+//import Message from "./Message";
 import { volunteerRequests } from "../Data";
 
 const Dashboard = () => {
@@ -223,9 +223,9 @@ const Dashboard = () => {
         </div>
 
         {/* Message Component */}
-        <div className="lg:col-span-4 ml-12 mr-12 mt-6 p-3 rounded-3xl shadow-lg shadow-[#7d7d7d] border border-black overflow-hidden">
+        {/* <div className="lg:col-span-4 ml-12 mr-12 mt-6 p-3 rounded-3xl shadow-lg shadow-[#7d7d7d] border border-black overflow-hidden">
           <Message />
-        </div>
+        </div> */}
 
         <div className="flex justify-center text-black text-3xl font-bold leading-10 self-center whitespace-nowrap mt-24 max-md:mt-10">
           Have Your Own Request?

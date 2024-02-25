@@ -69,6 +69,9 @@ const NavBar = () => {
           <Link to="/dashboard" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
             Dashboard
           </Link>
+          <Link to="/message" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
+            Messages
+          </Link>
           <Link to="/contact" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
             Contact
           </Link>

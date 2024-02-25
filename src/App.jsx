@@ -6,7 +6,9 @@ import About from "./components/About";
 import LogIn from "./components/LogIn";
 import SignUp from "./components/SignUp";
 import Dashboard from "./components/Dashboard";
+import Message from "./components/Message";
 import Contact from "./components/Contact";
+import MyJobs from "./components/MyJobs";
 import RequestPage from "./components/RequestPage";
 import CreateRequest from "./components/CreateRequest";
 import Footer from "./components/Footer";
@@ -21,11 +23,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/message" element={<Message />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/requests" element={<RequestPage />} />
           <Route path="/create" element={<CreateRequest />} />
+          <Route path="/myjobs" element={<MyJobs />} />
         </Routes>
         <Footer />
       </div>
