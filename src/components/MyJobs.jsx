@@ -1,23 +1,23 @@
-import { useState } from "react";
+//import { useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { volunteerRequests } from "../Data";
 
 const MyJobsComponent = () => {
-  const [activeJobs, setActiveJobs] = useState(
-    volunteerRequests.filter((job) => job.status === "unfulfilled")
+  const currentUserId = 1; // Assuming the current user's ID for demonstration
+
+  // Filter jobs where the current user is the requester
+  const myRequests = volunteerRequests.filter(
+    (job) => job.requesterId === currentUserId
   );
-  const [completedJobs, setCompletedJobs] = useState([]);
 
-  const markJobAsCompleted = (jobId) => {
-    const updatedActiveJobs = activeJobs.filter((job) => job.id !== jobId);
-    const completedJob = activeJobs.find((job) => job.id === jobId);
+  // Filter jobs the current user has volunteered for
+  const volunteeredJobs = volunteerRequests.filter((job) =>
+    job.volunteers.includes(currentUserId)
+  );
 
-    setActiveJobs(updatedActiveJobs);
-    setCompletedJobs([
-      ...completedJobs,
-      { ...completedJob, status: "completed" },
-    ]);
+  // Function to mark a job as completed
+  const markJobAsCompleted = (jobId, isMyRequest) => {
   };
 
   return (
@@ -35,30 +35,29 @@ const MyJobsComponent = () => {
         <TabPanel>
           <h2 className="text-lg font-semibold my-2">Requests Made</h2>
           <div className="space-y-4">
-            {activeJobs.map((job) => (
+            {myRequests.map((job) => (
               <div
                 key={job.id}
-                className="flex flex-col md:flex-row items-center p-4 bg-white rounded-lg shadow space-x-4"
+                className="flex flex-col md:flex-row justify-between items-center bg-white p-4 rounded-lg shadow space-x-4"
               >
-                <h3 className="flex-1 text-md font-bold">{job.title}</h3>
-                <div className="flex-1 flex flex-col md:flex-row justify-between">
-                  <div className="mb-2 md:mb-0">
+                <h3 className="text-md font-bold flex-1">{job.title}</h3>
+                <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
                     <p className="font-semibold">Date:</p>
                     <p>{job.date}</p>
                   </div>
-                  <div className="mb-2 md:mb-0">
+                  <div>
                     <p className="font-semibold">Time:</p>
                     <p>{job.time}</p>
                   </div>
-                  <div className="mb-2 md:mb-0">
+                  <div>
                     <p className="font-semibold">Location:</p>
                     <p>{job.location}</p>
                   </div>
                 </div>
                 <button
-                  onClick={() => markJobAsCompleted(job.id)}
-                  className={`mt-2 md:mt-0 px-4 py-2 text-sm text-white rounded-lg ${job.status === "unfulfilled" ? "bg-blue-500 hover:bg-blue-700" : "bg-gray-400 cursor-not-allowed"}`}
-                  disabled={job.status !== "unfulfilled"}
+                  onClick={() => markJobAsCompleted(job.id, true)}
+                  className="mt-2 md:mt-0 px-4 py-2 text-sm text-white rounded-lg bg-blue-500 hover:bg-blue-700"
                 >
                   Mark as Complete
                 </button>
@@ -70,29 +69,32 @@ const MyJobsComponent = () => {
         <TabPanel>
           <h2 className="text-lg font-semibold my-2">Jobs Volunteered For</h2>
           <div className="space-y-4">
-            {completedJobs.map((job) => (
+            {volunteeredJobs.map((job) => (
               <div
                 key={job.id}
-                className="flex flex-col md:flex-row items-center p-4 bg-white rounded-lg shadow space-x-4"
+                className="flex flex-col md:flex-row justify-between items-center bg-white p-4 rounded-lg shadow space-x-4"
               >
-                <h3 className="flex-1 text-md font-bold">{job.title}</h3>
-                <div className="flex-1 flex flex-col md:flex-row justify-between">
-                  <div className="mb-2 md:mb-0">
+                <h3 className="text-md font-bold flex-1">{job.title}</h3>
+                <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
                     <p className="font-semibold">Date:</p>
                     <p>{job.date}</p>
                   </div>
-                  <div className="mb-2 md:mb-0">
+                  <div>
                     <p className="font-semibold">Time:</p>
                     <p>{job.time}</p>
                   </div>
-                  <div className="mb-2 md:mb-0">
+                  <div>
                     <p className="font-semibold">Location:</p>
                     <p>{job.location}</p>
                   </div>
                 </div>
-                <p className="mt-2 md:mt-0 px-4 py-2 text-sm bg-green-500 text-white rounded-lg">
-                  Completed
-                </p>
+                <button
+                  onClick={() => markJobAsCompleted(job.id, false)}
+                  className="mt-2 md:mt-0 px-4 py-2 text-sm text-white rounded-lg bg-blue-500 hover:bg-blue-700"
+                >
+                  Mark as Complete
+                </button>
               </div>
             ))}
           </div>
