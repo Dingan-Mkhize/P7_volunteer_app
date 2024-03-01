@@ -63,9 +63,9 @@ const NavBar = () => {
         <div
           className={`flex justify-center gap-4 md:gap-9  ${nav ? "hidden" : "hidden md:flex"}`}
         >
-          <Link to="/about" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
+          {/* <Link to="/about" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
             About Us
-          </Link>
+          </Link> */}
           <Link to="/dashboard" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
             Dashboard
           </Link>
@@ -75,9 +75,9 @@ const NavBar = () => {
           <Link to="/myjobs" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
             My Jobs
           </Link>
-          <Link to="/contact" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
+          {/* <Link to="/contact" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
             Contact
-          </Link>
+          </Link> */}
         </div>
 
         <div className="justify-self-end hidden md:flex gap-2">

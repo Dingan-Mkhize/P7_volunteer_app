@@ -1,9 +1,55 @@
+import { useState } from "react";
+import { useMutation } from "react-query";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import SignUpImg1 from "../assets/volunteer_3.png";
 import SignUpImg2 from "../assets/volunteer_13.webp";
 import Logo from "../assets/LogoImg.png";
 
 const SignUpPage = () => {
+  // State management for form fields
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState(""); 
+  const [passwordConfirmation, setPasswordConfirmation] = useState(""); 
+  const [governmentId, setGovernmentId] = useState(null);
+
+  // React Query mutation setup
+  const mutation = useMutation((formData) => {
+    return axios.post("/signup", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("first_name", firstName);
+    formData.append("last_name", lastName);
+    formData.append("email", email);
+    formData.append("password", password); // Append password
+    formData.append("password_confirmation", passwordConfirmation); // Append password confirmation
+    if (governmentId) {
+      formData.append("government_id", governmentId);
+    }
+
+    mutation.mutate(formData, {
+      onSuccess: (data) => {
+        console.log("Signup successful", data);
+        // Redirect or show success message
+      },
+      onError: (error) => {
+        console.error("Signup failed", error);
+        // Handle error, show error message
+      },
+    });
+  };
+
+  const handleFileChange = (event) => {
+    setGovernmentId(event.target.files[0]);
+  };
+
   return (
     <div className="bg-white flex flex-col items-center justify-center min-h-screen mt-3 p-9 border shadow-3xl rounded-md">
       {/* Hero section with background image and call-to-action text */}
@@ -50,59 +96,122 @@ const SignUpPage = () => {
             </div>
 
             {/* Form section for user details */}
-            <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0 p-6 rounded-2xl border border-black shadow-lg shadow-[#7d7d7d]">
-              <div className="items-start flex grow flex-col max-md:max-w-full max-md:mt-10">
-                <div className="items-stretch self-stretch flex justify-between gap-5 max-md:max-w-full max-md:flex-wrap">
-                  <div className="items-stretch flex grow basis-[0%] flex-col">
-                    <div className="text-black text-base leading-6 whitespace-nowrap">
-                      First name
-                    </div>
-                    <div className="text-neutral-600 text-base leading-6 whitespace-nowrap items-stretch border bg-white justify-center mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-3xl">
-                      Placeholder
-                    </div>
-                  </div>
-                  <div className="items-stretch flex grow basis-[0%] flex-col">
-                    <div className="text-black text-base leading-6 whitespace-nowrap">
-                      Last name
-                    </div>
-                    <div className="text-neutral-600 text-base leading-6 whitespace-nowrap items-stretch border bg-white justify-center mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-3xl">
-                      Placeholder
-                    </div>
-                  </div>
-                </div>
-                <div className="items-stretch self-stretch flex justify-between gap-5 mt-6 max-md:max-w-full max-md:flex-wrap">
-                  <div className="items-stretch flex grow basis-[0%] flex-col">
-                    <div className="text-black text-base leading-6 whitespace-nowrap">
-                      Email
-                    </div>
-                    <div className="text-neutral-600 text-base leading-6 whitespace-nowrap items-stretch border bg-white justify-center mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-3xl">
-                      Placeholder
-                    </div>
-                  </div>
+            <div className="flex flex-col items-stretch md:w-6/12 ml-5 p-6 rounded-2xl border border-black shadow-lg shadow-[#7d7d7d]">
+              <form
+                onSubmit={handleSubmit}
+                encType="multipart/form-data"
+                className="w-full"
+              >
+                {/* First Name */}
+                <div className="mb-4">
+                  <label
+                    htmlFor="first-name"
+                    className="block text-black text-base leading-6"
+                  >
+                    First name
+                  </label>
+                  <input
+                    id="first-name"
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="block w-full text-neutral-600 text-base leading-6 border bg-white mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-3xl box-border"
+                  />
                 </div>
 
-                <div className="self-stretch mt-4 max-md:max-w-full">
-                  <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-                    <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0">
-                      <div className="items-stretch flex grow flex-col max-md:mt-6"></div>
-                    </div>
-                    <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">
-                      <div className="items-stretch flex grow flex-col max-md:mt-6"></div>
-                    </div>
-                  </div>
+                {/* Last Name */}
+                <div className="mb-4">
+                  <label
+                    htmlFor="last-name"
+                    className="block text-black text-base leading-6"
+                  >
+                    Last name
+                  </label>
+                  <input
+                    id="last-name"
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className="block w-full text-neutral-600 text-base leading-6 border bg-white mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-3xl box-border"
+                  />
                 </div>
-                <div className="self-stretch text-black text-base leading-6 mt-6 max-md:max-w-full">
-                  Government-approved ID
+
+                {/* Email */}
+                <div className="mb-4">
+                  <label
+                    htmlFor="email"
+                    className="block text-black text-base leading-6"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="block w-full text-neutral-600 text-base leading-6 border bg-white mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-3xl box-border"
+                  />
                 </div>
-                <div className="text-neutral-600 text-base leading-6 items-stretch self-stretch bg-white mt-2 pt-3 pb-28 px-3 max-md:max-w-full max-md:pb-10 border border-dashed border-gray-400 shadow-md shadow-[#7d7d7d] rounded-xl">
-                  Upload ID
+
+                {/* Password */}
+                <div className="mb-4">
+                  <label
+                    htmlFor="password"
+                    className="block text-black text-base leading-6"
+                  >
+                    Password
+                  </label>
+                  <input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="block w-full text-neutral-600 text-base leading-6 border bg-white mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-3xl box-border"
+                  />
                 </div>
-                <button className="text-white text-base whitespace-nowrap justify-center items-center bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 mt-6 rounded-full">
-                  <Link to="" type="submit" className="block text-white">
-                    Submit
-                  </Link>
+
+                {/* Password Confirmation */}
+                <div className="mb-4">
+                  <label
+                    htmlFor="password-confirmation"
+                    className="block text-black text-base leading-6"
+                  >
+                    Confirm Password
+                  </label>
+                  <input
+                    id="password-confirmation"
+                    type="password"
+                    value={passwordConfirmation}
+                    onChange={(e) => setPasswordConfirmation(e.target.value)}
+                    className="block w-full text-neutral-600 text-base leading-6 border bg-white mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-3xl box-border"
+                  />
+                </div>
+
+                {/* Government-approved ID */}
+                <div className="mb-6">
+                  <label
+                    htmlFor="government-id"
+                    className="block text-black text-base leading-6"
+                  >
+                    Government-approved ID
+                  </label>
+                  <input
+                    id="government-id"
+                    type="file"
+                    accept=".jpg, .png, .pdf"
+                    onChange={handleFileChange}
+                    className="block w-full text-neutral-600 text-base leading-6 border bg-white mt-2 p-3 shadow-md shadow-[#7d7d7d] border-dashed border-gray-400 rounded-xl box-border"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="text-white text-base whitespace-nowrap justify-center items-center bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 mt-6 rounded-full"
+                >
+                  Submit
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>

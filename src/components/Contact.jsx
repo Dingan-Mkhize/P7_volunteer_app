@@ -1,4 +1,5 @@
 import ContactImg1 from "../assets/volunteer_9.png";
+import Logo from "../assets/LogoImg.png";
 
 const Contact = () => {
   // Function to handle form submission
@@ -21,7 +22,15 @@ const Contact = () => {
 
       <div className="items-center bg-white flex w-full flex-col justify-center px-16 py-9 max-md:max-w-full max-md:px-5 mt-6">
         <div className="flex w-[768px] max-w-full flex-col max-md:mt-10 rounded-2xl border border-black shadow-lg shadow-[#7d7d7d]">
-          <div className="self-stretch text-black text-center text-5xl font-bold leading-[57.6px] max-md:max-w-full max-md:text-4xl mt-6">
+          <div className="flex justify-center py-6 px-16">
+            <img
+              loading="lazy"
+              src={Logo}
+              alt="Hands United Logo"
+              className="object-contain object-center w-[230px] h-[230px] overflow-hidden border border-black rounded-full shadow-lg shadow-[#7d7d7d] mb-4"
+            />
+          </div>
+          <div className="self-stretch text-black text-center text-5xl font-bold leading-[57.6px] max-md:max-w-full max-md:text-4xl mt-3">
             Contact us
           </div>{" "}
           <div className="self-stretch text-black text-center text-lg leading-7 mt-6 max-md:max-w-full">
@@ -29,7 +38,7 @@ const Contact = () => {
           </div>
           <label
             htmlFor="name"
-            className="self-center text-black text-base leading-6 mt-20 max-md:max-w-full max-md:mt-10"
+            className="self-center text-black text-base leading-6 mt-9 max-md:max-w-full max-md:mt-10"
           >
             Name
           </label>
