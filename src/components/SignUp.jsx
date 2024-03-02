@@ -11,37 +11,42 @@ const SignUpPage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(""); 
-  const [passwordConfirmation, setPasswordConfirmation] = useState(""); 
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [governmentId, setGovernmentId] = useState(null);
 
   // React Query mutation setup
   const mutation = useMutation((formData) => {
-    return axios.post("/signup", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+    return axios.post("http://localhost:4000/signup", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
   });
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     const formData = new FormData();
-    formData.append("first_name", firstName);
-    formData.append("last_name", lastName);
-    formData.append("email", email);
-    formData.append("password", password); // Append password
-    formData.append("password_confirmation", passwordConfirmation); // Append password confirmation
+    formData.append("user[first_name]", firstName);
+    formData.append("user[last_name]", lastName);
+    formData.append("user[email]", email);
+    formData.append("user[password]", password);
+    formData.append("user[password_confirmation]", passwordConfirmation);
+
     if (governmentId) {
-      formData.append("government_id", governmentId);
+      formData.append("user[government_id]", governmentId, governmentId.name);
     }
 
+    // Perform the mutation
     mutation.mutate(formData, {
       onSuccess: (data) => {
         console.log("Signup successful", data);
-        // Redirect or show success message
+        // Redirect or show a success message
       },
       onError: (error) => {
         console.error("Signup failed", error);
-        // Handle error, show error message
+        // Handle and display error message
       },
     });
   };
