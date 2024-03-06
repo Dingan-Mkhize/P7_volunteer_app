@@ -98,7 +98,7 @@ const Dashboard = () => {
           <div className="flex flex-col items-start">
             <div className="border border-black rounded-xl shadow-lg shadow-[#7d7d7d]">
               <p className="text-xs self-stretch text-black text-center p-3 whitespace-nowrap">
-                <i>Welcome back, {currentUser.name}!</i>{" "}
+                <i>Welcome back, {currentUser.first_name}!</i>{" "}
                 {/* this needs to be mapped from data.js */}
               </p>
               <img
@@ -107,7 +107,7 @@ const Dashboard = () => {
                 alt="Profile"
               />
               <div className="self-stretch text-black text-center font-semibold leading-10 whitespace-nowrap">
-                {currentUser.name}
+                {currentUser.first_name} {currentUser.last_name}
               </div>{" "}
               {/* this needs to be mapped from data.js */}
             </div>
