@@ -1,13 +1,16 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import axios from "axios";
+import { useUser } from "../contexts/UserContext";
 import { Link } from "react-router-dom";
 import SignUpImg1 from "../assets/volunteer_3.png";
 import SignUpImg2 from "../assets/volunteer_13.webp";
 import Logo from "../assets/LogoImg.png";
 
 const SignUpPage = () => {
-  // State management for form fields
+  const navigate = useNavigate();
+  const { login } = useUser();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -15,18 +18,17 @@ const SignUpPage = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [governmentId, setGovernmentId] = useState(null);
 
-  // React Query mutation setup
-  const mutation = useMutation((formData) => {
-    return axios.post("http://localhost:4000/signup", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+  const signupMutation = useMutation((newUserData) => {
+    return axios.post("http://localhost:4000/signup", newUserData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
   });
 
+  // Handle the form submission
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    // Prepare the form data
     const formData = new FormData();
     formData.append("user[first_name]", firstName);
     formData.append("user[last_name]", lastName);
@@ -38,19 +40,47 @@ const SignUpPage = () => {
       formData.append("user[government_id]", governmentId, governmentId.name);
     }
 
-    // Perform the mutation
-    mutation.mutate(formData, {
-      onSuccess: (data) => {
-        console.log("Signup successful", data);
-        // Redirect or show a success message
+    // Use the mutation to sign up the user
+    signupMutation.mutate(formData, {
+      onSuccess: (response) => {
+        console.log("Signup response:", response);
+
+        // Access the 'Authorization' header from the response
+        const authorizationHeader = response.headers.authorization;
+        console.log("Authorization header:", authorizationHeader);
+
+        // Extract the token from the Authorization header
+        // We assume the token is the second part of the header value (after "Bearer ")
+        const token = authorizationHeader
+          ? authorizationHeader.split(" ")[1]
+          : null;
+
+        // Extract the user data from the nested `data` object of the response
+        // The actual structure of response.data should be verified with your API's response format
+        const user = response.data.data; // The user object is assumed to be nested under 'data'
+
+        console.log("JWT from signup:", token);
+        console.log("User from signup:", user);
+
+        // Check for the existence of token and user
+        if (token && user) {
+          // Pass the extracted token and user object to the login function
+          login(token, user); // Make sure the login function accepts these parameters correctly
+          navigate("/dashboard"); // Redirect the user to the dashboard after a successful login
+        } else {
+          // Log an error if either the token or user data is missing
+          console.error("JWT or user data is missing from the signup response");
+        }
       },
       onError: (error) => {
-        console.error("Signup failed", error);
-        // Handle and display error message
+        // Log the error if the mutation encounters a problem
+        console.error("Signup error:", error.response || error);
       },
     });
   };
 
+
+  // Handle file input change for the government ID
   const handleFileChange = (event) => {
     setGovernmentId(event.target.files[0]);
   };

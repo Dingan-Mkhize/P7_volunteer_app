@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../contexts/UserContext";
+import { useMutation } from "react-query";
+import axios from "axios";
 import LogInImg1 from "../assets/volunteer_7.png";
-import { volunteers } from '../Data';
 import Logo from "../assets/LogoImg.png";
 
 const LogIn = () => {
@@ -10,8 +10,37 @@ const LogIn = () => {
     email: "",
     password: "",
   });
-  const { mockLogin } = useUser(); // Assuming `setUser` sets the current authenticated user in context
   const navigate = useNavigate();
+
+  // Setup mutation for login
+  const loginMutation = useMutation(
+    (loginData) =>
+      axios.post("http://localhost:4000/login", loginData, {
+        withCredentials: true,
+      }),
+    {
+      onSuccess: (response) => {
+        console.log("Full server response:", response);
+
+        // Correctly access the token from the response
+        const { token } = response.data; // Change this line to match the correct token key
+        console.log("JWT token:", token); // Log the token to verify its presence
+
+        // Proceed to store the token locally and navigate
+        if (token) {
+          localStorage.setItem("jwt", token);
+          console.log("JWT token stored locally:", localStorage.getItem("jwt"));
+          navigate("/dashboard"); // Navigate to dashboard upon success
+        } else {
+          console.error("Token not found in response:", response);
+        }
+      },
+      onError: (error) => {
+        console.error("Login error:", error.response || error);
+        alert("Invalid login credentials. Please try again.");
+      },
+    }
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,21 +50,15 @@ const LogIn = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Assuming `volunteers` is an array of user objects with `email` and `password` fields
-    const user = volunteers.find(
-      (volunteer) =>
-        volunteer.email === formData.email &&
-        volunteer.password === formData.password
-    );
-
-    if (user) {
-      mockLogin(user.id); // Use `mockLogin` with the user's ID
-      navigate("/dashboard"); // Navigate to the dashboard or appropriate route
-    } else {
-      alert("Invalid login credentials. Please try again."); // Provide user feedback
-    }
+    // Trigger the mutation
+    loginMutation.mutate({
+      user: {
+        email: formData.email,
+        password: formData.password,
+      },
+    });
   };
 
   return (

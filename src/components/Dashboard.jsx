@@ -1,22 +1,48 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useUser } from "../contexts/UserContext";
+import { useQuery } from "react-query";
+import axios from "axios";
 import ProfImg from "../assets/FRacer20.jpeg";
 import FooterBackground from "../assets/overlapping_circles.svg";
 import "../index.css";
 import { volunteerRequests } from "../Data";
 
+const fetchCurrentUser = async () => {
+  // Retrieve the token from localStorage
+  const token = localStorage.getItem("jwt");
+
+  const response = await axios.get("http://localhost:4000/current_user", {
+    headers: {
+      // Include the token in the Authorization header
+      Authorization: `Bearer ${token}`,
+    },
+    withCredentials: true, // Important for sessions to work
+  });
+
+  if (response.statusText !== "OK") {
+    throw new Error("Failed to fetch user data");
+  }
+  return response.data;
+};
+
+
 const Dashboard = () => {
-  const { user } = useUser(); // Assuming user has { id, name, role } structure
+  // Removed useUser hook since we'll fetch user data using React Query
   const [unfulfilledRequests, setUnfulfilledRequests] = useState(0);
   const [sidebarRequests, setSidebarRequests] = useState([]);
   const [urgentRequests, setUrgentRequests] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [animationClass, setAnimationClass] = useState("fadeIn");
-  const requestsPerPage = 3; // Customize this value as needed
+  const requestsPerPage = 3;
+
+  // React Query hook to fetch current user data
+  const {
+    data: currentUser,
+    isLoading,
+    error,
+  } = useQuery("currentUser", fetchCurrentUser);
 
   useEffect(() => {
-    // Simulated fetch for unfulfilled request count
     const fetchUnfulfilledRequestCount = () => {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -31,13 +57,11 @@ const Dashboard = () => {
     };
 
     updateUnfulfilledRequests();
-
     const intervalId = setInterval(updateUnfulfilledRequests, 5000);
     return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
-    // Sort requests by urgency and split into two arrays for display
     const sortedRequests = volunteerRequests.sort(
       (a, b) => b.urgency - a.urgency
     );
@@ -63,6 +87,10 @@ const Dashboard = () => {
     }, 500);
   };
 
+  if (isLoading) return <div>Loading user data...</div>;
+  if (error) return <div>Error fetching user data</div>;
+  if (!currentUser) return <div>No user data found</div>;
+
   return (
     <div className="bg-white flex flex-col mt-3 px-16 py-12 max-md:px-5 lg:flex-row border shadow-3xl rounded-md">
       <div className="flex-grow">
@@ -70,7 +98,7 @@ const Dashboard = () => {
           <div className="flex flex-col items-start">
             <div className="border border-black rounded-xl shadow-lg shadow-[#7d7d7d]">
               <p className="text-xs self-stretch text-black text-center p-3 whitespace-nowrap">
-                <i>Welcome back, {user.name}!</i>{" "}
+                <i>Welcome back, {currentUser.name}!</i>{" "}
                 {/* this needs to be mapped from data.js */}
               </p>
               <img
@@ -79,7 +107,7 @@ const Dashboard = () => {
                 alt="Profile"
               />
               <div className="self-stretch text-black text-center font-semibold leading-10 whitespace-nowrap">
-                {user.name}
+                {currentUser.name}
               </div>{" "}
               {/* this needs to be mapped from data.js */}
             </div>
