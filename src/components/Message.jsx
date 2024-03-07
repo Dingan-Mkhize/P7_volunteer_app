@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import Logo from "../assets/LogoImg.png";
 import { Component, createRef } from "react";
-import { chatItms, chatUsers } from "../Data"; 
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 
@@ -64,42 +63,53 @@ class Message extends Component {
   constructor(props) {
     super(props);
     this.messagesEndRef = createRef();
-    this.chatContentRef = createRef(); // Create a ref for the chat content div
-    this.perfectScrollbar = null; // Placeholder for the PerfectScrollbar instance
+    this.chatContentRef = createRef();
+    this.perfectScrollbar = null;
     this.state = {
-      chat: chatItms,
-      chatUsers: chatUsers,
+      chat: [],
+      chatUsers: [],
       activeChatId: null,
       msg: "",
     };
   }
 
   componentDidMount() {
-    // Initialize Perfect Scrollbar
+    this.fetchChatUsers();
+    this.fetchMessages();
     if (this.chatContentRef.current) {
       this.perfectScrollbar = new PerfectScrollbar(this.chatContentRef.current);
     }
   }
 
   componentWillUnmount() {
-    // Destroy Perfect Scrollbar instance to prevent memory leaks
     if (this.perfectScrollbar) {
       this.perfectScrollbar.destroy();
     }
   }
 
-  sendMessage = () => {
-    const newMessage = {
-      key: Date.now(),
-      type: "me",
-      msg: this.state.msg,
-      image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-    };
-    this.setState(
-      { chat: [...this.state.chat, newMessage], msg: "" },
-      this.scrollToBottom
-    );
+  fetchChatUsers = async () => {
+    const response = await fetch('/api/chat/users');
+    const users = await response.json();
+    this.setState({ chatUsers: users });
+  };
+
+  fetchMessages = async () => {
+    const response = await fetch('/api/chat/messages');
+    const messages = await response.json();
+    this.setState({ chat: messages });
+  };
+
+  sendMessage = async () => {
+    const { msg } = this.state;
+    await fetch('/api/chat/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ msg }),
+    });
+    this.setState({ msg: "" });
+    this.fetchMessages();
   };
 
   onStateChange = (e) => {
@@ -120,7 +130,7 @@ class Message extends Component {
         isOnline={user.isOnline}
         active={this.state.activeChatId === user.id}
         onClick={this.selectChat}
-        animationDelay={(index % 5) + 1} // Example to stagger the animation, adjust as needed
+        animationDelay={(index % 5) + 1}
       />
     ));
   };

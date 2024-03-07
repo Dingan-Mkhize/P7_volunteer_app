@@ -1,31 +1,57 @@
-//import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Logo from "../assets/LogoImg.png";
-import { volunteerRequests, volunteers } from "../Data";
 import { Link } from "react-router-dom";
 
-
 const MyJobsComponent = () => {
-  const currentUserId = 1; // Assuming the current user's ID for demonstration
+  const [myRequests, setMyRequests] = useState([]);
+  const [volunteeredJobs, setVolunteeredJobs] = useState([]);
+  const userId = localStorage.getItem("userId"); // Retrieve the user ID from localStorage
 
-  // Filter jobs where the current user is the requester
-  const myRequests = volunteerRequests.filter(
-    (job) => job.requesterId === currentUserId
-  );
+  useEffect(() => {
+    const fetchMyRequests = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/users/${userId}/my-requests`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
+          }
+        );
+        setMyRequests(response.data);
+      } catch (error) {
+        console.error("Error fetching my requests", error);
+      }
+    };
 
-  // Filter jobs the current user has volunteered for
-  const volunteeredJobs = volunteerRequests.filter((job) =>
-    job.volunteers.includes(currentUserId)
-  );
+    const fetchVolunteeredJobs = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/users/${userId}/volunteered-jobs`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
+          }
+        );
+        setVolunteeredJobs(response.data);
+      } catch (error) {
+        console.error("Error fetching volunteered jobs", error);
+      }
+    };
 
-  // Helper function to get requester details
-  const getRequester = (requesterId) => {
-    return volunteers.find((volunteer) => volunteer.id === requesterId);
+    if (userId) {
+      fetchMyRequests();
+      fetchVolunteeredJobs();
+    }
+  }, [userId]);
+
+  // Placeholder functions for demonstration
+  const markJobAsCompleted = async (jobId, isMyRequest) => {
+    console.log(
+      `Marking job ${jobId} as completed. Is my request: ${isMyRequest}`
+    );
+    // Implement job completion logic here based on your application's functionality
   };
-
-  // Function to mark a job as completed
-  const markJobAsCompleted = (jobId, isMyRequest) => {};
 
   return (
     <div className="bg-white mt-3 px-16 py-12 max-md:px-5 border shadow-3xl rounded-md">

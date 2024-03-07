@@ -98,9 +98,8 @@ const Dashboard = () => {
           <div className="flex flex-col items-start">
             <div className="border border-black rounded-xl shadow-lg shadow-[#7d7d7d]">
               <p className="text-xs self-stretch text-black text-center p-3 whitespace-nowrap">
-                <i>Welcome back, {currentUser.first_name}!</i>{" "}
-                {/* this needs to be mapped from data.js */}
-              </p>
+                <i>Welcome back, {currentUser.first_name}!</i>
+                </p>
               <img
                 src={ProfImg}
                 className="aspect-[1.01] object-contain object-center w-full overflow-hidden"
@@ -108,8 +107,7 @@ const Dashboard = () => {
               />
               <div className="self-stretch text-black text-center font-semibold leading-10 whitespace-nowrap">
                 {currentUser.first_name} {currentUser.last_name}
-              </div>{" "}
-              {/* this needs to be mapped from data.js */}
+              </div>
             </div>
             <div className="mt-4 border border-black rounded-xl shadow-lg shadow-[#7d7d7d] p-4 text-center">
               <h3 className="text-lg font-semibold">

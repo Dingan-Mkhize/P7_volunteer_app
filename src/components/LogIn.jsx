@@ -10,9 +10,9 @@ const LogIn = () => {
     email: "",
     password: "",
   });
+  
   const navigate = useNavigate();
-
-  // Setup mutation for login
+  
   const loginMutation = useMutation(
     (loginData) =>
       axios.post("http://localhost:4000/login", loginData, {
@@ -22,17 +22,28 @@ const LogIn = () => {
       onSuccess: (response) => {
         console.log("Full server response:", response);
 
-        // Correctly access the token from the response
-        const { token } = response.data; // Change this line to match the correct token key
-        console.log("JWT token:", token); // Log the token to verify its presence
+        // Access the token from the response
+        const { token } = response.data;
+        console.log("JWT token:", token);
 
-        // Proceed to store the token locally and navigate
+        // Access and store the user ID from the response
+        const userId = response.data.data.id;
+        console.log("User ID:", userId);
+
         if (token) {
           localStorage.setItem("jwt", token);
           console.log("JWT token stored locally:", localStorage.getItem("jwt"));
+
+          // Store user ID locally
+          localStorage.setItem("userId", userId);
+          console.log(
+            "User ID stored locally:",
+            localStorage.getItem("userId")
+          );
+
           navigate("/dashboard"); // Navigate to dashboard upon success
         } else {
-          console.error("Token not found in response:", response);
+          console.error("Token or user ID not found in response:", response);
         }
       },
       onError: (error) => {
@@ -41,6 +52,7 @@ const LogIn = () => {
       },
     }
   );
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
