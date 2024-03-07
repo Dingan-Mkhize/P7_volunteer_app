@@ -19,6 +19,7 @@ const MyJobsComponent = () => {
             headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
           }
         );
+        console.log(response.data);
         setMyRequests(response.data);
       } catch (error) {
         console.error("Error fetching my requests", error);
@@ -45,20 +46,18 @@ const MyJobsComponent = () => {
     }
   }, [userId]);
 
-  // Placeholder functions for demonstration
   const markJobAsCompleted = async (jobId, isMyRequest) => {
+    // Implementation of marking a job as completed
     console.log(
       `Marking job ${jobId} as completed. Is my request: ${isMyRequest}`
     );
-    // Implement job completion logic here based on your application's functionality
+    // Here, you'd typically send a request to your API to mark the job as completed
   };
 
   return (
     <div className="bg-white mt-3 px-16 py-12 max-md:px-5 border shadow-3xl rounded-md">
-      {/* Logo Section */}
       <div className="text-center text-black bg-white mb-6 pt-6 border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl">
         <img
-          loading="lazy"
           src={Logo}
           alt="Hands United Logo"
           className="mx-auto object-contain object-center w-[130px] h-[130px] overflow-hidden border border-black rounded-full shadow-lg shadow-[#7d7d7d]"
@@ -71,7 +70,6 @@ const MyJobsComponent = () => {
         </div>
       </div>
 
-      {/* My Jobs Section */}
       <div className="mx-auto mb-9 p-12 max-w-full px-5 border border-black shadow-lg shadow-[#7d7d7d] rounded-xl">
         <Tabs>
           <TabList className="flex p-1 space-x-1 bg-gray-300 rounded-t-lg">
@@ -83,112 +81,77 @@ const MyJobsComponent = () => {
             </Tab>
           </TabList>
 
-          {/* User Requests Section */}
           <TabPanel>
             <h2 className="flex justify-center text-lg font-semibold mb-9 mt-6">
               Requests Made
             </h2>
             <div className="space-y-4">
-              {myRequests.map((job) => {
-                const requester = volunteers.find(
-                  (v) => v.id === job.requesterId
-                );
-                return (
-                  <div
-                    key={job.id}
-                    className="flex flex-col md:flex-row justify-between items-center bg-white p-4 border shadow-md space-x-4 rounded-lg"
-                  >
-                    {requester && (
-                      <img
-                        src={requester.profilePic}
-                        alt={`${requester.name}'s profile`}
-                        className="object-cover w-12 h-12 border border-black shadow-lg shadow-[#7d7d7d] rounded-full"
-                      />
-                    )}
-                    <h3 className="text-md font-bold flex-1">{job.title}</h3>
-                    <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <p className="font-semibold">Date:</p>
-                        <p>{job.date}</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold">Time:</p>
-                        <p>{job.time}</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold">Location:</p>
-                        <p>{job.location}</p>
-                      </div>
+              {myRequests.map((request) => (
+                <div
+                  key={request.id}
+                  className="flex flex-col md:flex-row justify-between items-center bg-white p-4 border shadow-md space-x-4 rounded-lg"
+                >
+                  <h3 className="text-md font-bold flex-1">{request.title}</h3>
+                  <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <p className="font-semibold">Date:</p>
+                      <p>{request.date}</p>
                     </div>
-                    <button
-                      onClick={() => markJobAsCompleted(job.id, true)}
-                      className="mt-2 md:mt-0 px-4 py-2 text-sm text-white border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 bg-black hover:bg-gray-700 rounded-full"
-                    >
-                      Mark as Complete
-                    </button>
+                    <div>
+                      <p className="font-semibold">Time:</p>
+                      <p>{request.time}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Location:</p>
+                      <p>{request.location}</p>
+                    </div>
                   </div>
-                );
-              })}
+                  <button
+                    onClick={() => markJobAsCompleted(request.id, true)}
+                    className="mt-2 md:mt-0 px-4 py-2 text-sm text-white border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 bg-black hover:bg-gray-700 rounded-full"
+                  >
+                    Mark as Complete
+                  </button>
+                </div>
+              ))}
             </div>
           </TabPanel>
 
-          {/* User Volunteered Jobs Section */}
           <TabPanel>
             <h2 className="flex justify-center text-lg font-semibold mb-9 mt-6">
               Jobs Volunteered For
             </h2>
             <div className="space-y-3">
-              {volunteeredJobs.map((job) => {
-                console.log(volunteeredJobs.length);
-                // Get the requester details for each job
-                const requester = getRequester(job.requesterId);
-                return (
-                  <div
-                    key={job.id}
-                    className="flex flex-col md:flex-row justify-between items-center bg-white p-3 border rounded-xl shadow-md space-x-4"
-                  >
-                    <div className="flex flex-col  items-center">
-                      {requester && (
-                        <>
-                          <img
-                            src={requester.profilePic}
-                            alt={`${requester.name}'s profile`}
-                            className="object-cover w-12 h-12 border border-black shadow-lg shadow-[#7d7d7d] rounded-full"
-                          />
-                          <span className="mt-3 text-md font-semibold">
-                            {requester.name}
-                          </span>
-                        </>
-                      )}
+              {volunteeredJobs.map((job) => (
+                <div
+                  key={job.id}
+                  className="flex flex-col md:flex-row justify-between items-center bg-white p-3 border rounded-xl shadow-md space-x-4"
+                >
+                  <h3 className="text-md font-bold flex-1">
+                    <Link to={`/requests/${job.id}`}>{job.title}</Link>
+                  </h3>
+                  <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <p className="font-semibold">Date:</p>
+                      <p>{job.date}</p>
                     </div>
-                    <h3 className="text-md font-bold flex-1">
-                      <Link to={`/requests/${job.id}`} key={job.id}>
-                        {job.title}
-                      </Link>
-                    </h3>
-                    <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <p className="font-semibold">Date:</p>
-                        <p>{job.date}</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold">Time:</p>
-                        <p>{job.time}</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold">Location:</p>
-                        <p>{job.location}</p>
-                      </div>
+                    <div>
+                      <p className="font-semibold">Time:</p>
+                      <p>{job.time}</p>
                     </div>
-                    <button
-                      onClick={() => markJobAsCompleted(job.id, false)}
-                      className="mt-2 md:mt-0 px-4 py-2 text-sm text-white border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 bg-black hover:bg-gray-700 rounded-full"
-                    >
-                      Mark as Complete
-                    </button>
+                    <div>
+                      <p className="font-semibold">Location:</p>
+                      <p>{job.location}</p>
+                    </div>
                   </div>
-                );
-              })}
+                  <button
+                    onClick={() => markJobAsCompleted(job.id, false)}
+                    className="mt-2 md:mt-0 px-4 py-2 text-sm text-white border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 bg-black hover:bg-gray-700 rounded-full"
+                  >
+                    Mark as Complete
+                  </button>
+                </div>
+              ))}
             </div>
           </TabPanel>
         </Tabs>
@@ -196,5 +159,6 @@ const MyJobsComponent = () => {
     </div>
   );
 };
+
 
 export default MyJobsComponent;
