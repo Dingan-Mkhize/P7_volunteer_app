@@ -1,31 +1,58 @@
 import { useState } from "react";
+import { useUser } from "../contexts/UserContext";
 import { useMutation } from "react-query";
 import axios from "axios";
 import Logo from "../assets/LogoImg.png";
+import MapComponent from "./MapComponent";
+import "leaflet/dist/leaflet.css";
+
 
 const CreateRequest = () => {
+  const { user, token } = useUser();
   const [title, setTitle] = useState("");
-  const [location, setLocation] = useState("");
+  const [locationDescription, setLocationDescription] = useState(""); // For text description of location
+  const [location, setLocation] = useState({ lat: 51.505, lng: -0.09 }); // London's lat-lng as default
+  console.log("Initial position state:", location);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [taskType, setTaskType] = useState("");
   const [description, setDescription] = useState("");
 
-  const submitRequestMutation = useMutation((data) => {
-    const userId = localStorage.getItem("userId");
-    console.log("Retrieved userId from localStorage:", userId);
-    return axios.post(`http://localhost:4000/users/${userId}/requests`, data, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+  const submitRequestMutation = useMutation(
+    (newRequestData) => {
+      return axios.post(
+        `http://localhost:4000/users/${user.id}/requests`,
+        newRequestData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+    },
+    {
+      onSuccess: () => {
+        // Reset form on success
+        setTitle("");
+        setLocationDescription("");
+        setLocation({ lat: 51.505, lng: -0.09 }); // Reset to default or clear
+        setDate("");
+        setTime("");
+        setTaskType("");
+        setDescription("");
       },
-    });
-  });
+      onError: (error) => {
+        alert(`Error: ${error.response?.data?.message || error.message}`);
+      },
+    }
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     const formData = {
       title,
-      location,
+      location: locationDescription,
+      latitude: location.lat,
+      longitude: location.lng,
       date,
       time,
       taskType,
@@ -33,6 +60,12 @@ const CreateRequest = () => {
     };
 
     submitRequestMutation.mutate(formData);
+  };
+
+  const handleMapClick = (latlng) => {
+    console.log("Map clicked:", latlng);
+    setLocation(latlng);
+    setLocationDescription(`${latlng.lat}, ${latlng.lng}`);
   };
 
   return (
@@ -52,12 +85,12 @@ const CreateRequest = () => {
         <div className="mt-3 mb-6 text-lg leading-7 max-md:max-w-full">
           A helping hand, to unite community.
         </div>
-      </div>{" "}
+      </div>
       <div className="flex justify-center items-center px-16 py-12 w-full bg-white max-md:px-5 max-md:max-w-full border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl">
         <div className="flex flex-col mt-6 mb-10 max-w-full w-[768px] max-md:mt-10 p-12 border shadow-lg shadow-[#7d7d7d] rounded-2xl">
           <div className="mt-4 text-5xl font-bold text-center text-black leading-[57.6px] max-md:max-w-full max-md:text-4xl">
             Create Your Request
-          </div>{" "}
+          </div>
           <div className="mt-6 text-lg leading-7 text-center text-black max-md:max-w-full">
             Reach out to the community. We are here to help!
           </div>
@@ -77,17 +110,25 @@ const CreateRequest = () => {
                 />
               </div>
               <div className="flex flex-col flex-1">
-                <label htmlFor="location" className="block">
-                  Location:
+                <label htmlFor="locationDescription">
+                  Location Description:
                 </label>
                 <input
-                  id="location"
+                  id="locationDescription"
                   type="text"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
+                  value={locationDescription}
+                  onChange={(e) => setLocationDescription(e.target.value)}
                   className="shrink-0 mt-2 h-12 bg-white border border-black shadow-md shadow-[#7d7d7d] rounded-3xl px-4"
+                  placeholder="Enter a location description"
                 />
               </div>
+            </div>
+            <div className="leaflet-container leaflet-control-attribution border shadow-md shadow-[#7d7d7d] rounded-2xl my-4">
+              <MapComponent
+                initialPosition={[location.lat, location.lng]}
+                zoomLevel={13}
+                onMapClick={handleMapClick}
+              />
             </div>
             <div className="flex gap-5 justify-between mt-6 text-base leading-6 text-black whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
               <div className="flex flex-col flex-1">

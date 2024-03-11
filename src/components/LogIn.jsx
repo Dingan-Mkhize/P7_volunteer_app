@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import axios from "axios";
+import { useUser } from "../contexts/UserContext"; // Corrected import
 import LogInImg1 from "../assets/volunteer_7.png";
 import Logo from "../assets/LogoImg.png";
 
@@ -10,40 +11,22 @@ const LogIn = () => {
     email: "",
     password: "",
   });
-  
+
   const navigate = useNavigate();
-  
+
+  // Correctly using useUser to access login function
+  const { login } = useUser();
+
   const loginMutation = useMutation(
-    (loginData) =>
-      axios.post("http://localhost:4000/login", loginData, {
-        withCredentials: true,
-      }),
+    (loginData) => axios.post("http://localhost:4000/login", loginData),
     {
       onSuccess: (response) => {
-        console.log("Full server response:", response);
-
-        // Access the token from the response
-        const { token } = response.data;
-        console.log("JWT token:", token);
-
-        // Access and store the user ID from the response
-        const userId = response.data.data.id;
-        console.log("User ID:", userId);
-
-        if (token) {
-          localStorage.setItem("jwt", token);
-          console.log("JWT token stored locally:", localStorage.getItem("jwt"));
-
-          // Store user ID locally
-          localStorage.setItem("userId", userId);
-          console.log(
-            "User ID stored locally:",
-            localStorage.getItem("userId")
-          );
-
-          navigate("/dashboard"); // Navigate to dashboard upon success
+        // Simplified to directly use the login function from the context
+        if (response.data.token) {
+          login(`Bearer ${response.data.token}`, response.data.user);
+          navigate("/dashboard");
         } else {
-          console.error("Token or user ID not found in response:", response);
+          console.error("Token not found in response:", response);
         }
       },
       onError: (error) => {
@@ -53,7 +36,6 @@ const LogIn = () => {
     }
   );
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -62,14 +44,10 @@ const LogIn = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // Trigger the mutation
     loginMutation.mutate({
-      user: {
-        email: formData.email,
-        password: formData.password,
-      },
+      user: formData,
     });
   };
 

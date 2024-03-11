@@ -1,14 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { volunteerRequests, volunteers } from "../Data"; // Ensure you have updateVolunteerRequest function
+import { useQuery } from "react-query";
+import axios from "axios";
 import EditRequestModal from "../components/EditRequestModal";
 import MessageVolunteersModal from "../components/MessageVolunteersModal";
 import { FiEdit } from "react-icons/fi";
+import { differenceInHours } from "date-fns";
+import { useUser } from "../contexts/UserContext";
+
+const fetchRequestDetails = async (jobId, token) => {
+  try {
+    console.log(
+      `Fetching request details for jobId: ${jobId} with token: ${token}`
+    );
+    const response = await axios.get(
+      `http://localhost:4000/requests/${jobId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    console.log("Request details fetched successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching request details:", error);
+    throw error; // Rethrow the error so react-query can handle it
+  }
+};
+
 
 const RequestPage = () => {
   const { jobId } = useParams();
-  const [request, setRequest] = useState(null);
-  const [currentVolunteers, setCurrentVolunteers] = useState([]);
+  const { user } = useUser();
+  //const [request, setRequest] = useState(null);
+  const [currentVolunteers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editFields, setEditFields] = useState({
     title: "",
@@ -16,52 +40,56 @@ const RequestPage = () => {
     location: "",
   });
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
-  const [isRequester, setIsRequester] = useState(false);
+  const [isRequester] = useState(false);
 
-  useEffect(() => {
-    const job = volunteerRequests.find((job) => job.id === parseInt(jobId, 10));
-    if (job) {
-      setRequest(job);
-      setCurrentVolunteers(
-        volunteers.filter((v) => job.volunteers.includes(v.id))
-      );
-      setEditFields({
-        title: job.title,
-        description: job.description,
-        location: job.location,
-      });
-      setIsRequester(/* logic to determine if the user is the requester */);
+  const {
+    data: request,
+    isLoading,
+    isError,
+    error,
+  } = useQuery(
+    ["requestDetails", jobId, user?.token],
+    () => fetchRequestDetails(jobId, user?.token),
+    {
+      enabled: !!user?.token,
     }
-  }, [jobId]);
+  );
 
-  // const handleEditSave = (editedFields) => {
-  //   const updatedJob = updateVolunteerRequest(jobId, editedFields);
-  //   setRequest(updatedJob);
-  //   setIsModalOpen(false);
-  // };
+  if (isLoading) {
+    console.log("Request data is loading...");
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    console.error("Error fetching request details:", error);
+    return <div>Error fetching request details or request not found.</div>;
+  }
+
+  if (!request) {
+    console.log("No request data found");
+    return <div>Error fetching request details or request not found.</div>;
+  }
+
+  const jobUrgency = () => {
+    if (!request.lastPublishedAt) return "Unknown";
+    const hoursSincePublished = differenceInHours(
+      new Date(),
+      new Date(request.lastPublishedAt)
+    );
+    if (hoursSincePublished < 24) return "High Urgency";
+    if (hoursSincePublished < 48) return "Moderate Urgency";
+    return "Low Urgency";
+  };
 
   const handleRepublish = () => {
     console.log("Request republished!");
+    // Implement actual republish functionality here
   };
 
   const handleVolunteerClick = () => {
     console.log("Volunteer clicked!");
-    // Implement the logic for a volunteer to offer help
+    // Implement actual volunteer functionality here
   };
-
-  const jobUrgency = () => {
-    if (request.urgency >= 8) return "High Urgency";
-    else if (request.urgency >= 5) return "Moderate Urgency";
-    else return "Low Urgency";
-  };
-
-    if (!request) {
-      return <div>Loading...</div>;
-    }
-
-    const requester = volunteers.find((v) => v.id === request.requesterId);
-
-  // const isRequester = true;
 
   return (
     <div className="flex flex-col items-center bg-white mt-3 px-5 py-12 lg:px-16 border shadow-3xl rounded-md">
@@ -71,13 +99,11 @@ const RequestPage = () => {
           <p className="text-xs text-black leading-9">Requester</p>
           <img
             loading="lazy"
-            src={requester.profilePic}
+            src={user.profilePic}
             alt="Profile Pic"
             className="object-cover w-[100px] h-[100px] shadow-md shadow-[#7d7d7d] border border-black rounded-full mx-auto my-3"
           />
-          <div className="text-black font-semibold leading-9">
-            {requester.name}
-          </div>
+          <div className="text-black font-semibold leading-9">{user.name}</div>
         </div>
         <div className="lg:py-12 lg:px-6 m-6 text-center lg:text-left lg:w-3/4">
           <div className="text-3xl font-bold text-black flex justify-between items-center w-full px-5">

@@ -1,58 +1,88 @@
-import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Logo from "../assets/LogoImg.png";
 import { Link } from "react-router-dom";
+import { useUser } from "../contexts/UserContext";
+
+const fetchMyRequests = async (userId, token) => {
+  const response = await axios.get(
+    `http://localhost:4000/users/${userId}/my-requests`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  console.log("Fetched myRequests:", response.data); // Log fetched data
+  return response.data;
+};
+
+const fetchVolunteeredJobs = async (userId, token) => {
+  const response = await axios.get(
+    `http://localhost:4000/users/${userId}/volunteered-jobs`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  console.log("Fetched volunteeredJobs:", response.data); // Log fetched data
+  return response.data;
+};
 
 const MyJobsComponent = () => {
-  const [myRequests, setMyRequests] = useState([]);
-  const [volunteeredJobs, setVolunteeredJobs] = useState([]);
-  const userId = localStorage.getItem("userId"); // Retrieve the user ID from localStorage
+  const { user, token } = useUser();
+  const userId = user?.id;
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const fetchMyRequests = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:4000/users/${userId}/my-requests`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
-          }
-        );
-        console.log(response.data);
-        setMyRequests(response.data);
-      } catch (error) {
-        console.error("Error fetching my requests", error);
-      }
-    };
-
-    const fetchVolunteeredJobs = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:4000/users/${userId}/volunteered-jobs`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
-          }
-        );
-        setVolunteeredJobs(response.data);
-      } catch (error) {
-        console.error("Error fetching volunteered jobs", error);
-      }
-    };
-
-    if (userId) {
-      fetchMyRequests();
-      fetchVolunteeredJobs();
+  const myRequestsQuery = useQuery(
+    ["myRequests", userId],
+    () => fetchMyRequests(userId, token),
+    {
+      enabled: !!userId,
+      onSuccess: (data) => {
+        console.log("Fetched myRequests:", data); // Log fetched data on success
+      },
+      onError: (error) => {
+        console.error("Error fetching myRequests:", error); // Log any error
+      },
     }
-  }, [userId]);
+  );
 
-  const markJobAsCompleted = async (jobId, isMyRequest) => {
-    // Implementation of marking a job as completed
-    console.log(
-      `Marking job ${jobId} as completed. Is my request: ${isMyRequest}`
-    );
-    // Here, you'd typically send a request to your API to mark the job as completed
+  const volunteeredJobsQuery = useQuery(
+    ["volunteeredJobs", userId],
+    () => fetchVolunteeredJobs(userId, token),
+    {
+      enabled: !!userId,
+    }
+  );
+
+  const markJobAsCompletedMutation = useMutation(
+    async (jobId) => {
+      await axios.patch(
+        `http://localhost:4000/users/${userId}/requests/${jobId}/mark-as-completed`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    },
+    {
+      onSuccess: () => {
+        console.log("Job marked as completed, invalidating queries...");
+        queryClient.invalidateQueries(["myRequests", userId]);
+        queryClient.invalidateQueries(["volunteeredJobs", userId]);
+      },
+      onError: (error) => {
+        console.error("Error marking job as completed:", error);
+      },
+    }
+  );
+
+  const markJobAsCompleted = (jobId) => {
+    console.log(`Attempting to mark job ${jobId} as completed`);
+    markJobAsCompletedMutation.mutate(jobId);
   };
+
+  // Ensure data is available before attempting to map
+  const myRequests = myRequestsQuery.data ?? [];
+  const volunteeredJobs = volunteeredJobsQuery.data ?? [];
 
   return (
     <div className="bg-white mt-3 px-16 py-12 max-md:px-5 border shadow-3xl rounded-md">
@@ -91,7 +121,20 @@ const MyJobsComponent = () => {
                   key={request.id}
                   className="flex flex-col md:flex-row justify-between items-center bg-white p-4 border shadow-md space-x-4 rounded-lg"
                 >
-                  <h3 className="text-md font-bold flex-1">{request.title}</h3>
+                  {/* Link wrapping the title with dynamic color based on taskType */}
+                  <Link to={`/requests/${request.id}`}>
+                    <h3
+                      className={`text-md font-bold flex-1 ${
+                        request.taskType === "one-time"
+                          ? "text-[#15bec1]" // Example color for one-time tasks
+                          : request.taskType === "material-need"
+                            ? "text-[#f17d2b]" // Example color for material-need tasks
+                            : "text-black" // Default color
+                      }`}
+                    >
+                      {request.title}
+                    </h3>
+                  </Link>
                   <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                       <p className="font-semibold">Date:</p>
@@ -159,6 +202,5 @@ const MyJobsComponent = () => {
     </div>
   );
 };
-
 
 export default MyJobsComponent;

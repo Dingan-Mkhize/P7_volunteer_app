@@ -1,33 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useQuery } from "react-query";
-import axios from "axios";
+//import { useQuery } from "react-query";
+//import axios from "axios";
+import { useUser } from "../contexts/UserContext"; // Import useUser hook
 import ProfImg from "../assets/FRacer20.jpeg";
 import FooterBackground from "../assets/overlapping_circles.svg";
 import "../index.css";
 import { volunteerRequests } from "../Data";
 
-const fetchCurrentUser = async () => {
-  // Retrieve the token from localStorage
-  const token = localStorage.getItem("jwt");
-
-  const response = await axios.get("http://localhost:4000/current_user", {
-    headers: {
-      // Include the token in the Authorization header
-      Authorization: `Bearer ${token}`,
-    },
-    withCredentials: true, // Important for sessions to work
-  });
-
-  if (response.statusText !== "OK") {
-    throw new Error("Failed to fetch user data");
-  }
-  return response.data;
-};
-
-
 const Dashboard = () => {
-  // Removed useUser hook since we'll fetch user data using React Query
+  const { user, token } = useUser(); // Use useUser to access user and token
   const [unfulfilledRequests, setUnfulfilledRequests] = useState(0);
   const [sidebarRequests, setSidebarRequests] = useState([]);
   const [urgentRequests, setUrgentRequests] = useState([]);
@@ -35,20 +17,9 @@ const Dashboard = () => {
   const [animationClass, setAnimationClass] = useState("fadeIn");
   const requestsPerPage = 3;
 
-  // React Query hook to fetch current user data
-  const {
-    data: currentUser,
-    isLoading,
-    error,
-  } = useQuery("currentUser", fetchCurrentUser);
-
   useEffect(() => {
-    const fetchUnfulfilledRequestCount = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(Math.floor(Math.random() * 100));
-        }, 1000);
-      });
+    const fetchUnfulfilledRequestCount = async () => {
+      // Logic to fetch unfulfilled request count, potentially using user info
     };
 
     const updateUnfulfilledRequests = async () => {
@@ -59,7 +30,7 @@ const Dashboard = () => {
     updateUnfulfilledRequests();
     const intervalId = setInterval(updateUnfulfilledRequests, 5000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [token]); // Add token as a dependency if needed
 
   useEffect(() => {
     const sortedRequests = volunteerRequests.sort(
@@ -87,9 +58,8 @@ const Dashboard = () => {
     }, 500);
   };
 
-  if (isLoading) return <div>Loading user data...</div>;
-  if (error) return <div>Error fetching user data</div>;
-  if (!currentUser) return <div>No user data found</div>;
+  // Remove isLoading and error checks related to fetching user data
+  if (!user) return <div>No user data found</div>;
 
   return (
     <div className="bg-white flex flex-col mt-3 px-16 py-12 max-md:px-5 lg:flex-row border shadow-3xl rounded-md">
@@ -98,15 +68,15 @@ const Dashboard = () => {
           <div className="flex flex-col items-start">
             <div className="border border-black rounded-xl shadow-lg shadow-[#7d7d7d]">
               <p className="text-xs self-stretch text-black text-center p-3 whitespace-nowrap">
-                <i>Welcome back, {currentUser.first_name}!</i>
-                </p>
+                <i>Welcome back, {user.first_name}!</i>
+              </p>
               <img
                 src={ProfImg}
                 className="aspect-[1.01] object-contain object-center w-full overflow-hidden"
                 alt="Profile"
               />
               <div className="self-stretch text-black text-center font-semibold leading-10 whitespace-nowrap">
-                {currentUser.first_name} {currentUser.last_name}
+                {user.first_name} {user.last_name}
               </div>
             </div>
             <div className="mt-4 border border-black rounded-xl shadow-lg shadow-[#7d7d7d] p-4 text-center">
