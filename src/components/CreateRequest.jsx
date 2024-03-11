@@ -123,7 +123,7 @@ const CreateRequest = () => {
                 />
               </div>
             </div>
-            <div className="leaflet-container leaflet-control-attribution border shadow-md shadow-[#7d7d7d] rounded-2xl my-4">
+            <div className="leaflet-container leaflet-control-attribution border border-black shadow-md shadow-[#7d7d7d] rounded-2xl my-4">
               <MapComponent
                 initialPosition={[location.lat, location.lng]}
                 zoomLevel={13}
