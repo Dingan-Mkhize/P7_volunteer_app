@@ -5,18 +5,32 @@ import axios from "axios";
 import Logo from "../assets/LogoImg.png";
 import MapComponent from "./MapComponent";
 import "leaflet/dist/leaflet.css";
+import { useAutocomplete } from "../hooks/useAutocomplete";
 
 
 const CreateRequest = () => {
   const { user, token } = useUser();
   const [title, setTitle] = useState("");
-  const [locationDescription, setLocationDescription] = useState(""); // For text description of location
-  const [location, setLocation] = useState({ lat: 51.505, lng: -0.09 }); // London's lat-lng as default
+  const [locationDescription, setLocationDescription] = useState("");
+  const [location, setLocation] = useState({ lat: 51.505, lng: -0.09 });
   console.log("Initial position state:", location);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [taskType, setTaskType] = useState("");
   const [description, setDescription] = useState("");
+  const { suggestions, setInput } = useAutocomplete();
+  
+  const handleLocationChange = (e) => {
+    setInput(e.target.value); 
+    setLocationDescription(e.target.value); 
+  };
+
+  const handleSelectSuggestion = (suggestion) => {
+    console.log("Suggestion selected:", suggestion);
+    setLocationDescription(suggestion.name);
+    setLocation({ lat: suggestion.lat, lng: suggestion.lon });
+  };
+
 
   const submitRequestMutation = useMutation(
     (newRequestData) => {
@@ -109,18 +123,35 @@ const CreateRequest = () => {
                   required
                 />
               </div>
-              <div className="flex flex-col flex-1">
-                <label htmlFor="locationDescription">
+              <div className="flex flex-col flex-1 relative">
+                <label
+                  htmlFor="locationDescription"
+                  className="text font-medium text-gray-700"
+                >
                   Location Description:
                 </label>
                 <input
                   id="locationDescription"
                   type="text"
                   value={locationDescription}
-                  onChange={(e) => setLocationDescription(e.target.value)}
+                  onChange={handleLocationChange}
                   className="shrink-0 mt-2 h-12 bg-white border border-black shadow-md shadow-[#7d7d7d] rounded-3xl px-4"
                   placeholder="Enter a location description"
                 />
+                {/* Suggestions list */}
+                {suggestions.length > 0 && (
+                  <ul className="absolute z-20 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md text-base overflow-auto">
+                    {suggestions.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleSelectSuggestion(suggestion)}
+                        className="cursor-pointer py-2 px-4 hover:bg-gray-100"
+                      >
+                        {suggestion.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
             <div className="leaflet-container leaflet-control-attribution border border-black shadow-md shadow-[#7d7d7d] rounded-2xl my-4">
