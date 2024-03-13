@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { debounce } from "lodash";
 
 // The fetchSuggestions function remains the same, but it's no longer async
 // since React Query handles the promise.
@@ -20,6 +21,17 @@ const fetchSuggestions = (input) => {
 
 export const useAutocomplete = () => {
   const [input, setInput] = useState("");
+
+  const debouncedFetchSuggestions = debounce((query) => {
+    if (query.length > 2) {
+      refetch();
+    }
+  }, 300); // Adjust debounce timing as needed
+
+  useEffect(() => {
+    debouncedFetchSuggestions(input);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [input]);
 
   // Use React Query to fetch suggestions
   const { data: suggestions, refetch } = useQuery(

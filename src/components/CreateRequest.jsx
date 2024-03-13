@@ -7,30 +7,38 @@ import MapComponent from "./MapComponent";
 import "leaflet/dist/leaflet.css";
 import { useAutocomplete } from "../hooks/useAutocomplete";
 
-
 const CreateRequest = () => {
   const { user, token } = useUser();
   const [title, setTitle] = useState("");
   const [locationDescription, setLocationDescription] = useState("");
   const [location, setLocation] = useState({ lat: 51.505, lng: -0.09 });
+  const [latitude, setLatitude] = useState(location.lat);
+  const [longitude, setLongitude] = useState(location.lng)
   console.log("Initial position state:", location);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [taskType, setTaskType] = useState("");
   const [description, setDescription] = useState("");
   const { suggestions, setInput } = useAutocomplete();
-  
+
+
   const handleLocationChange = (e) => {
-    setInput(e.target.value); 
-    setLocationDescription(e.target.value); 
+    setInput(e.target.value);
+    setLocationDescription(e.target.value);
   };
 
   const handleSelectSuggestion = (suggestion) => {
     console.log("Suggestion selected:", suggestion);
     setLocationDescription(suggestion.name);
+    console.log("Location Description set to:", suggestion.name);
     setLocation({ lat: suggestion.lat, lng: suggestion.lon });
+    setLatitude(suggestion.lat);
+    setLongitude(suggestion.lon);
+    console.log("Location set to:", {
+      lat: suggestion.lat,
+      lng: suggestion.lon,
+    });
   };
-
 
   const submitRequestMutation = useMutation(
     (newRequestData) => {
@@ -79,6 +87,8 @@ const CreateRequest = () => {
   const handleMapClick = (latlng) => {
     console.log("Map clicked:", latlng);
     setLocation(latlng);
+    setLatitude(latlng.lat);
+    setLongitude(latlng.lng);
     setLocationDescription(`${latlng.lat}, ${latlng.lng}`);
   };
 
@@ -140,7 +150,7 @@ const CreateRequest = () => {
                 />
                 {/* Suggestions list */}
                 {suggestions.length > 0 && (
-                  <ul className="absolute z-20 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md text-base overflow-auto">
+                  <ul className="absolute z-30 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md text-base overflow-auto">
                     {suggestions.map((suggestion, index) => (
                       <li
                         key={index}
@@ -156,7 +166,7 @@ const CreateRequest = () => {
             </div>
             <div className="leaflet-container leaflet-control-attribution border border-black shadow-md shadow-[#7d7d7d] rounded-2xl my-4">
               <MapComponent
-                initialPosition={[location.lat, location.lng]}
+                initialPosition={[latitude, longitude]}
                 zoomLevel={13}
                 onMapClick={handleMapClick}
               />
