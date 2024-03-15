@@ -3,8 +3,6 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { debounce } from "lodash";
 
-// The fetchSuggestions function remains the same, but it's no longer async
-// since React Query handles the promise.
 const fetchSuggestions = (input) => {
   const apiUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(input)}&lat=51.5074&lon=-0.1278&limit=5`;
   return axios.get(apiUrl).then((response) =>
@@ -21,39 +19,44 @@ const fetchSuggestions = (input) => {
 
 export const useAutocomplete = () => {
   const [input, setInput] = useState("");
+  const [localSuggestions, setLocalSuggestions] = useState([]);
 
   const debouncedFetchSuggestions = debounce((query) => {
     if (query.length > 2) {
       refetch();
     }
-  }, 300); // Adjust debounce timing as needed
+  }, 300);
 
   useEffect(() => {
     debouncedFetchSuggestions(input);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input]);
 
-  // Use React Query to fetch suggestions
-  const { data: suggestions, refetch } = useQuery(
+  const { refetch } = useQuery(
     ["fetchSuggestions", input],
-    () => fetchSuggestions(input),
+    () =>
+      fetchSuggestions(input).then((fetchedSuggestions) => {
+        setLocalSuggestions(fetchedSuggestions);
+        return fetchedSuggestions;
+      }),
     {
-      enabled: false, // Disable automatic queries on mount and input change
-      keepPreviousData: true, // Keep displaying the old suggestions until new ones are fetched
+      enabled: false, 
+      keepPreviousData: true,
     }
   );
 
-  // A function to handle input changes and trigger the refetch manually
   const onInputChange = (value) => {
     setInput(value);
-    if (value.length > 2) {
+    if (value === "") {
+      setLocalSuggestions([]);
+    } else if (value.length > 2) {
       refetch();
     }
   };
 
   return {
     input,
-    suggestions: suggestions || [],
+    suggestions: localSuggestions,
     setInput: onInputChange,
   };
 };

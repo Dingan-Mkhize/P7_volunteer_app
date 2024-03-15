@@ -38,6 +38,7 @@ const CreateRequest = () => {
       lat: suggestion.lat,
       lng: suggestion.lon,
     });
+    setInput("");
   };
 
   const submitRequestMutation = useMutation(
@@ -118,6 +119,15 @@ const CreateRequest = () => {
           <div className="mt-6 text-lg leading-7 text-center text-black max-md:max-w-full">
             Reach out to the community. We are here to help!
           </div>
+          <div className="Z-0 leaflet-container leaflet-control-attribution border border-black shadow-md shadow-[#7d7d7d] rounded-2xl my-4">
+            <MapComponent
+              initialPosition={[latitude, longitude]}
+              zoomLevel={13}
+              onMapClick={handleMapClick}
+              selectionMode={true}
+              title={title || "Your location"}
+            />
+          </div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             <div className="flex gap-5 justify-between mt-12 text-base leading-6 text-black whitespace-nowrap max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
               <div className="flex flex-col flex-1">
@@ -150,12 +160,12 @@ const CreateRequest = () => {
                 />
                 {/* Suggestions list */}
                 {suggestions.length > 0 && (
-                  <ul className="absolute z-30 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md text-base overflow-auto">
+                  <ul className="absolute top-full z-[9999] mt-1 w-full bg-white shadow-lg max-h-60 rounded-md overflow-hidden">
                     {suggestions.map((suggestion, index) => (
                       <li
                         key={index}
                         onClick={() => handleSelectSuggestion(suggestion)}
-                        className="cursor-pointer py-2 px-4 hover:bg-gray-100"
+                        className="cursor-pointer py-2 px-4 hover:bg-gray-100 !important"
                       >
                         {suggestion.name}
                       </li>
@@ -164,13 +174,7 @@ const CreateRequest = () => {
                 )}
               </div>
             </div>
-            <div className="leaflet-container leaflet-control-attribution border border-black shadow-md shadow-[#7d7d7d] rounded-2xl my-4">
-              <MapComponent
-                initialPosition={[latitude, longitude]}
-                zoomLevel={13}
-                onMapClick={handleMapClick}
-              />
-            </div>
+
             <div className="flex gap-5 justify-between mt-6 text-base leading-6 text-black whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
               <div className="flex flex-col flex-1">
                 <label htmlFor="date" className="block">

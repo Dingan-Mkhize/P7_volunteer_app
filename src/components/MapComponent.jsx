@@ -1,19 +1,8 @@
 import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import {
-  MapContainer,
-  TileLayer,
-  useMapEvents,
-  Marker,
-  Popup,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-
-// const londonBounds = [
-//   [51.28676, -0.510375], // Southwest coordinates
-//   [51.691874, 0.334015], // Northeast coordinates
-// ];
 
 // Set up the icon properties with Leaflet
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
@@ -31,22 +20,11 @@ const MapComponent = ({
   initialPosition,
   zoomLevel,
   onMapClick,
+  jobs = [],
+  selectionMode = false,
+  title,
 }) => {
   const mapRef = useRef(null);
-  console.log("MapComponent props:", { initialPosition, zoomLevel });
-  // Define map event handling inside the component
-  const EventHandlers = ({ position }) => {
-    const map = useMapEvents({
-      click: (e) => {
-        onMapClick(e.latlng);
-      },
-      popupopen: () => {
-        map.panTo(position);
-      },
-    });
-
-    return null;
-  };
 
   useEffect(() => {
     if (mapRef.current) {
@@ -59,25 +37,38 @@ const MapComponent = ({
       <MapContainer
         center={initialPosition}
         zoom={zoomLevel}
-        maxZoom={18} // Example max zoom level
+        maxZoom={18}
         minZoom={10}
         style={{ height: "100%", width: "100%" }}
         ref={mapRef}
       >
-        <EventHandlers position={initialPosition} />
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        {initialPosition && (
-          <Marker position={initialPosition}>
-            <Popup>
-              A pretty CSS3 popup.
-              <br />
-              Easily customizable.
-            </Popup>
+
+        {selectionMode && initialPosition && (
+          <Marker
+            position={initialPosition}
+            draggable={true}
+            eventHandlers={{ dragend: (e) => onMapClick(e.target.getLatLng()) }}
+          >
+            <Popup>{title}</Popup>
           </Marker>
         )}
+
+        {!selectionMode &&
+          jobs.map((job) => (
+            <Marker key={job.id} position={[job.latitude, job.longitude]}>
+              <Popup>
+                <strong>{job.title}</strong>
+                <br />
+                {job.description}
+                <br />
+                Location: {job.location}
+              </Popup>
+            </Marker>
+          ))}
       </MapContainer>
     </div>
   );
@@ -87,8 +78,9 @@ MapComponent.propTypes = {
   initialPosition: PropTypes.arrayOf(PropTypes.number).isRequired,
   zoomLevel: PropTypes.number.isRequired,
   onMapClick: PropTypes.func.isRequired,
-  selectedLocation: PropTypes.func.isRequired,
-  position: PropTypes.func.isRequired,
+  jobs: PropTypes.array,
+  selectionMode: PropTypes.bool,
+  title: PropTypes.string,
 };
 
 export default MapComponent;

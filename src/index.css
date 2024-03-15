@@ -133,9 +133,7 @@ em, i {
 }
 
 .leaflet-container .leaflet-control-attribution {
-  background: rgba(255, 255, 255, 0.7); /* Adding a background to make text more readable */
-  bottom: 0; /* Adjust as needed */
-  right: 0; /* Adjust as needed */
-  padding: 5px; /* Adjust as needed */
+  border-radius: 0.75rem;
 }
+
 

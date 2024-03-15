@@ -1,51 +1,61 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-//import { useQuery } from "react-query";
-//import axios from "axios";
-import { useUser } from "../contexts/UserContext"; // Import useUser hook
+import { useQuery } from "react-query";
+import axios from "axios";
+import { useUser } from "../contexts/UserContext";
+import MapComponent from "./MapComponent";
 import ProfImg from "../assets/FRacer20.jpeg";
 import FooterBackground from "../assets/overlapping_circles.svg";
 import "../index.css";
-import { volunteerRequests } from "../Data";
 
 const Dashboard = () => {
-  const { user, token } = useUser(); // Use useUser to access user and token
-  const [unfulfilledRequests, setUnfulfilledRequests] = useState(0);
-  const [sidebarRequests, setSidebarRequests] = useState([]);
-  const [urgentRequests, setUrgentRequests] = useState([]);
+  const { user, token } = useUser();
   const [currentPage, setCurrentPage] = useState(0);
   const [animationClass, setAnimationClass] = useState("fadeIn");
   const requestsPerPage = 3;
+  const [urgentRequests, setUrgentRequests] = useState([]);
+  const [sidebarRequests, setSidebarRequests] = useState([]);
+  //const [activeRequests, setActiveRequests] = useState([]);
 
+  // Fetch active requests
+  const fetchActiveRequests = async () => {
+    const { data } = await axios.get("http://localhost:4000/requests/active", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data; // Ensure this always returns an array
+  };
+
+  // Use useQuery to fetch active requests
+  const {
+    data: activeRequests,
+    isLoading,
+    isError,
+    error,
+  } = useQuery(["activeRequests", token], () => fetchActiveRequests(), {
+    enabled: !!token,
+  });
+
+  // Sort and set urgent and sidebar requests
   useEffect(() => {
-    const fetchUnfulfilledRequestCount = async () => {
-      // Logic to fetch unfulfilled request count, potentially using user info
-    };
+    if (Array.isArray(activeRequests)) {
+      const sortedRequests = activeRequests.sort(
+        (a, b) => b.urgency - a.urgency
+      );
+      setUrgentRequests(sortedRequests.slice(0, 3));
+      setSidebarRequests(sortedRequests.slice(3));
+    }
+  }, [activeRequests]);
 
-    const updateUnfulfilledRequests = async () => {
-      const count = await fetchUnfulfilledRequestCount();
-      setUnfulfilledRequests(count);
-    };
-
-    updateUnfulfilledRequests();
-    const intervalId = setInterval(updateUnfulfilledRequests, 5000);
-    return () => clearInterval(intervalId);
-  }, [token]); // Add token as a dependency if needed
-
-  useEffect(() => {
-    const sortedRequests = volunteerRequests.sort(
-      (a, b) => b.urgency - a.urgency
-    );
-    setUrgentRequests(sortedRequests.slice(0, 3));
-    setSidebarRequests(sortedRequests.slice(3));
-  }, []);
-
+  // Calculate totalPages and displayedRequests
   const totalPages = Math.ceil(sidebarRequests.length / requestsPerPage);
   const displayedRequests = sidebarRequests.slice(
     currentPage * requestsPerPage,
     (currentPage + 1) * requestsPerPage
   );
 
+  // Change page
   const changePage = (direction) => {
     setAnimationClass("fadeOut");
     setTimeout(() => {
@@ -58,7 +68,8 @@ const Dashboard = () => {
     }, 500);
   };
 
-  // Remove isLoading and error checks related to fetching user data
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
   if (!user) return <div>No user data found</div>;
 
   return (
@@ -83,7 +94,7 @@ const Dashboard = () => {
               <h3 className="text-lg font-semibold">
                 Unfulfilled Help Requests
               </h3>
-              <p className="text-2xl font-bold">{unfulfilledRequests}</p>
+              <p className="text-2xl font-bold">{sidebarRequests.length}</p>
             </div>
           </div>
           <div
@@ -111,14 +122,14 @@ const Dashboard = () => {
         <div className="grid lg:grid-cols-5 gap-4 p-12 mt-6">
           {/* Sidebar Section */}
           <div
-            className="lg:col-span-1 mb-8 lg:mb-0 flex flex-col p-4 border border-black rounded-xl shadow-lg shadow-[#7d7d7d]"
+            className="lg:col-span-1 mb-9 lg:mb-0 flex flex-col px-3 py-6 border border-black rounded-xl shadow-lg shadow-[#7d7d7d]"
             style={{ maxHeight: "775px", overflowY: "hidden" }}
           >
             <h3 className="text-xl font-semibold mb-3">
               More Volunteer Requests
             </h3>
             {/* Content area for volunteer info boxes */}
-            <div className={`flex-grow overflow-hidden ${animationClass}`}>
+            <div className={`flex-grow overflow-hidden mt-3 ${animationClass}`}>
               <ul>
                 {displayedRequests.map((request, index) => (
                   <li
@@ -128,21 +139,25 @@ const Dashboard = () => {
                   >
                     {/* Title Section */}
                     <div
-                      className={`text-sm font-semibold mb-1 overflow-hidden whitespace-nowrap ${request.type === "task" ? "text-[#15bec1]" : "text-[#f17d2b]"}`}
-                      style={{ textOverflow: "ellipsis" }}
+                      className={`text-sm font-semibold my-1 ${request.taskType === "one-time" ? "text-[#15bec1]" : "text-[#f17d2b]"}`}
                     >
                       {request.title}
                     </div>
 
                     {/* Description Section */}
                     <div
-                      className="flex-grow text-xs mt-1 overflow-hidden px-1"
+                      className="flex-grow text-xs my-1 overflow-hidden px-1"
                       style={{ maxHeight: "6rem" }}
                     >
                       <p className="overflow-ellipsis whitespace-normal line-clamp-6">
                         {request.description}
                       </p>
                     </div>
+
+                    {/* Location */}
+                    <p className="text-xs text-gray-600 px-1 my-1">
+                      Location: {request.location}
+                    </p>
 
                     {/* View Details Button */}
                     <div className="flex justify-center mt-2">
@@ -176,34 +191,37 @@ const Dashboard = () => {
           </div>
 
           {/* Container for Map and Volunteer Cards */}
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-4 flex flex-col h-full">
             {/* Map */}
-            <div className="border border-dashed border-gray-400 bg-gray-200 h-[500px] flex justify-center items-center rounded-3xl lg:mb-12 shadow-lg shadow-[#7d7d7d]">
-              <h2 className="text-lg font-semibold text-gray-700">
-                Interactive Map Placeholder
-              </h2>
+            <div className="flex-grow border border-dashed border-gray-400 bg-gray-200 flex justify-center items-center rounded-3xl lg:mb-12 shadow-lg shadow-[#7d7d7d]">
+              <MapComponent
+                initialPosition={[51.505, -0.09]} 
+                zoomLevel={3}
+                jobs={activeRequests} 
+                selectionMode={false} 
+              />
             </div>
 
             {/* Volunteer Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 flex-grow">
               {urgentRequests.map((request) => (
                 <div
                   key={request.id}
-                  className="flex flex-col p-3 border border-black rounded-xl shadow-lg shadow-[#7d7d7d] overflow-hidden"
+                  className="flex flex-col p-3 border border-black rounded-xl shadow-lg shadow-[#7d7d7d] h-full"
                 >
-                  <div className="p-2 flex flex-col justify-between flex-grow">
+                  <div className="flex flex-col justify-between flex-grow">
                     <h3
-                      className={`text-sm font-semibold mb-1 ${request.type === "task" ? "text-[#15bec1]" : "text-[#f17d2b]"}`}
+                      className={`text-sm font-semibold mb-1 overflow-hidden text-ellipsis ${request.taskType === "one-time" ? "text-[#15bec1]" : "text-[#f17d2b]"}`}
                     >
                       {request.title}
                     </h3>
-                    <p className="text-xs text-black mb-2">
+                    <p className="text-xs text-black mb-2 overflow-hidden text-ellipsis line-clamp-6">
                       {request.description}
                     </p>
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-gray-600 mb-4">
                       Location: {request.location}
                     </p>
-                    <button className="mt-2 text-white text-xs leading-4 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
+                    <button className="mt-auto text-white text-xs leading-4 whitespace-nowrap justify-center items-center border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
                       Volunteer Now
                     </button>
                   </div>
@@ -213,12 +231,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Message Component */}
-        {/* <div className="lg:col-span-4 ml-12 mr-12 mt-6 p-3 rounded-3xl shadow-lg shadow-[#7d7d7d] border border-black overflow-hidden">
-          <Message />
-        </div> */}
-
-        <div className="flex justify-center text-black text-3xl font-bold leading-10 self-center whitespace-nowrap mt-24 max-md:mt-10">
+        <div className="flex justify-center text-black text-3xl font-bold leading-10 self-center whitespace-nowrap mt-9 max-md:mt-10">
           Have Your Own Request?
         </div>
         <div className="flex justify-center text-black text-lg leading-7 self-center whitespace-nowrap mt-4">
