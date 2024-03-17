@@ -1,220 +1,225 @@
 import PropTypes from "prop-types";
 import Logo from "../assets/LogoImg.png";
-import { Component, createRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useUser } from "../contexts/UserContext";
+import axios from "axios";
 
-class Avatar extends Component {
-  render() {
-    return (
-      <div className="relative inline-block">
-        <img
-          src={this.props.image}
-          alt="Avatar"
-          className="rounded-full w-10 h-10"
-        />
-        {this.props.isOnline && (
-          <span className="absolute bottom-0 right-0 block w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
-        )}
-      </div>
-    );
-  }
-}
+const Avatar = ({ image }) => {
+  return (
+    <div className="relative inline-block">
+      <img src={image} alt="Avatar" className="rounded-full w-10 h-10" />
+    </div>
+  );
+};
 
 Avatar.propTypes = {
   image: PropTypes.string.isRequired,
-  isOnline: PropTypes.bool,
 };
 
-class ChatListItems extends Component {
-  render() {
-    const { onClick, active, animationDelay, image, isOnline, name, id } =
-      this.props;
-
-    return (
-      <div
-        onClick={() => onClick(id)}
-        className={`flex items-center p-2 hover:bg-gray-200 cursor-pointer rounded-lg border ${
-          active ? "bg-blue-100" : ""
-        }`}
-        style={{ animationDelay: `0.${animationDelay}s` }}
-      >
-        <Avatar image={image} isOnline={isOnline} />
-        <div className="ml-2">
-          <p className="text-sm font-medium">{name}</p>
-          <span className="text-xs text-gray-500">Active recently</span>
-        </div>
+const RequestListItem = ({ onClick, active, animationDelay, title, id }) => {
+  return (
+    <div
+      onClick={() => onClick(id)}
+      className={`flex items-center p-2 hover:bg-gray-200 cursor-pointer rounded-lg border ${
+        active ? "bg-blue-100" : ""
+      }`}
+      style={{ animationDelay: `0.${animationDelay}s` }}
+    >
+      <div className="ml-2">
+        <p className="text-sm font-medium">{title}</p>
+        <span className="text-xs text-gray-500">Last message</span>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-ChatListItems.propTypes = {
+RequestListItem.propTypes = {
   id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  isOnline: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   animationDelay: PropTypes.number.isRequired,
 };
 
-class Message extends Component {
-  constructor(props) {
-    super(props);
-    this.messagesEndRef = createRef();
-    this.chatContentRef = createRef();
-    this.perfectScrollbar = null;
-    this.state = {
-      chat: [],
-      chatUsers: [],
-      activeChatId: null,
-      msg: "",
-    };
-  }
+const Message = () => {
+  const { user, token } = useUser();
+  const queryClient = useQueryClient();
+  const chatContentRef = useRef(null);
+  const messagesEndRef = useRef(null);
+  const [activeRequestId, setActiveRequestId] = useState(null);
+  const [newMessage, setNewMessage] = useState("");
 
-  componentDidMount() {
-    this.fetchChatUsers();
-    this.fetchMessages();
-    if (this.chatContentRef.current) {
-      this.perfectScrollbar = new PerfectScrollbar(this.chatContentRef.current);
-    }
-  }
+  const { data: requests, isLoading: isLoadingRequests } = useQuery(
+    "requests",
+    fetchRequests
+  );
+  const { data: messages, isLoading: isLoadingMessages } = useQuery(
+    ["messages", activeRequestId],
+    () => fetchMessages(activeRequestId),
+    { enabled: !!activeRequestId }
+  );
 
-  componentWillUnmount() {
-    if (this.perfectScrollbar) {
-      this.perfectScrollbar.destroy();
-    }
-  }
-
-  fetchChatUsers = async () => {
-    const response = await fetch('/api/chat/users');
-    const users = await response.json();
-    this.setState({ chatUsers: users });
-  };
-
-  fetchMessages = async () => {
-    const response = await fetch('/api/chat/messages');
-    const messages = await response.json();
-    this.setState({ chat: messages });
-  };
-
-  sendMessage = async () => {
-    const { msg } = this.state;
-    await fetch('/api/chat/send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+  const sendMessageMutation = useMutation(
+    ({ requestId, content }) => sendMessage({ requestId, content }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["messages", activeRequestId]);
+        setNewMessage("");
       },
-      body: JSON.stringify({ msg }),
+    }
+  );
+
+  useEffect(() => {
+    if (chatContentRef.current) {
+      new PerfectScrollbar(chatContentRef.current);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
+  async function fetchRequests() {
+    const response = await axios.get("http://localhost:4000/requests", {
+      headers: { Authorization: `Bearer ${token}` },
     });
-    this.setState({ msg: "" });
-    this.fetchMessages();
+    console.log("Fetched requests:", response.data);
+    return response.data;
+  }
+
+  async function fetchMessages(requestId) {
+    const response = await axios.get(
+      `http://localhost:4000/requests/${requestId}/messages`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    console.log("Fetched messages for request", requestId, ":", response.data);
+    return response.data;
+  }
+
+  async function sendMessage({ requestId, content }) {
+    await axios.post(
+      `http://localhost:4000/requests/${requestId}/messages`,
+      { content },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+  }
+
+  const handleSendMessage = () => {
+    if (newMessage.trim() !== "") {
+      sendMessageMutation.mutate({
+        requestId: activeRequestId,
+        content: newMessage,
+      });
+    }
   };
 
-  onStateChange = (e) => {
-    this.setState({ msg: e.target.value });
+  const selectRequest = (selectedRequestId) => {
+    setActiveRequestId(selectedRequestId);
   };
 
-  selectChat = (selectedChatId) => {
-    this.setState({ activeChatId: selectedChatId });
-  };
+  if (isLoadingRequests || isLoadingMessages) {
+    return <div>Loading...</div>;
+  }
 
-  renderChatListItems = () => {
-    return this.state.chatUsers.map((user, index) => (
-      <ChatListItems
-        key={user.id}
-        id={user.id}
-        name={user.name}
-        image={user.image}
-        isOnline={user.isOnline}
-        active={this.state.activeChatId === user.id}
-        onClick={this.selectChat}
-        animationDelay={(index % 5) + 1}
-      />
-    ));
-  };
+  console.log("Requests:", requests);
+  console.log("Messages:", messages);
 
-  render() {
-    return (
-      <div className="bg-white flex flex-col mt-3 px-16 py-12 max-md:px-5 lg:flex-row border shadow-3xl rounded-md">
-        <div className="w-full mx-auto lg:max-w-4xl flex flex-col">
-          {/* Logo Section */}
-          <div className="text-center text-black bg-white mb-6 pt-6 border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl">
-            <img
-              loading="lazy"
-              src={Logo}
-              alt="Hands United Logo"
-              className="mx-auto object-contain object-center w-[130px] h-[130px] overflow-hidden border border-black rounded-full shadow-lg shadow-[#7d7d7d]"
-            />
-            <div className="mt-6 text-6xl font-bold leading-[67.2px] max-md:mt-10 max-md:text-4xl">
-              Hands United
-            </div>
-            <div className="mt-3 mb-6 text-lg leading-7">
-              A helping hand, to unite community.
-            </div>
+  return (
+    <div className="bg-white flex flex-col mt-3 px-16 py-12 max-md:px-5 lg:flex-row border shadow-3xl rounded-md">
+      <div className="w-full mx-auto lg:max-w-4xl flex flex-col">
+        {/* Logo Section */}
+        <div className="text-center text-black bg-white mb-6 pt-6 border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl">
+          <img
+            loading="lazy"
+            src={Logo}
+            alt="Hands United Logo"
+            className="mx-auto object-contain object-center w-[130px] h-[130px] overflow-hidden border border-black rounded-full shadow-lg shadow-[#7d7d7d]"
+          />
+          <div className="mt-6 text-6xl font-bold leading-[67.2px] max-md:mt-10 max-md:text-4xl">
+            Hands United
           </div>
-          <div className="pb-3 flex flex-col lg:flex-row flex-1 overflow-hidden">
-            {/* Sidebar - Adjusted for mobile */}
-            <div className="lg:w-1/4 w-full bg-gray-100 p-4 overflow-y-auto border border-black shadow-md shadow-[#7d7d7d] rounded-xl mt-3 mb-3 lg:mb-0 lg:mt-0 lg:mr-3">
-              {this.renderChatListItems()}
-            </div>
-            <div className="flex-1 flex flex-col md:ml-3">
-              {/* Header */}
-              <div className="p-3 bg-gray-100 border border-black shadow-md shadow-[#7d7d7d] flex justify-between items-center rounded-xl">
-                <div className="flex items-center">
-                  <Avatar
-                    image="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU"
-                    isOnline={true}
-                  />
-                  <p className="ml-2 font-semibold">Chat</p>
-                </div>
+          <div className="mt-3 mb-6 text-lg leading-7">
+            A helping hand, to unite community.
+          </div>
+        </div>
+        <div className="pb-3 flex flex-col lg:flex-row flex-1 overflow-hidden">
+          {/* Sidebar - Adjusted for mobile */}
+          <div className="lg:w-1/4 w-full bg-gray-100 p-4 overflow-y-auto border border-black shadow-md shadow-[#7d7d7d] rounded-xl mt-3 mb-3 lg:mb-0 lg:mt-0 lg:mr-3">
+            {requests.map((request, index) => (
+              <RequestListItem
+                key={request.id}
+                id={request.id}
+                title={request.title}
+                active={activeRequestId === request.id}
+                onClick={selectRequest}
+                animationDelay={(index % 5) + 1}
+              />
+            ))}
+          </div>
+          <div className="flex-1 flex flex-col md:ml-3">
+            {/* Header */}
+            <div className="p-3 bg-gray-100 border border-black shadow-md shadow-[#7d7d7d] flex justify-between items-center rounded-xl">
+              <div className="flex items-center">
+                <p className="ml-2 font-semibold">Messages</p>
               </div>
-              {/* Chat content */}
-              <div className="flex-1 overflow-hidden rounded-xl border border-black shadow-md shadow-[#7d7d7d] mt-3 mb-3">
-                <div
-                  className="p-3"
-                  ref={this.chatContentRef}
-                  style={{ height: "100%", position: "relative" }}
-                >
-                  {this.state.chat.map((item, index) => (
+            </div>
+            {/* Chat content */}
+            <div className="flex-1 overflow-hidden rounded-xl border border-black shadow-md shadow-[#7d7d7d] mt-3 mb-3">
+              <div
+                className="p-3"
+                ref={chatContentRef}
+                style={{ height: "100%", position: "relative" }}
+              >
+                {messages &&
+                  messages.map((message, index) => (
                     <div
-                      key={index}
-                      className={`flex ${item.type === "me" ? "justify-end" : "justify-start"} my-2`}
+                      key={message.id}
+                      className={`flex ${
+                        message.sender.id === user.id
+                          ? "justify-end"
+                          : "justify-start"
+                      } my-2`}
                     >
-                      <Avatar image={item.image} isOnline={index % 2 === 0} />
+                      <Avatar image={message.sender.profilePic} />
                       <div className="bg-gray-200 rounded-lg p-2 mx-2">
-                        <p>{item.msg}</p>
+                        <p>{message.content}</p>
                       </div>
                     </div>
                   ))}
-                  <div ref={this.messagesEndRef} />
-                </div>
+
+                <div ref={messagesEndRef} />
               </div>
-              {/* Message input */}
-              <div className="p-4 bg-gray-200 rounded-xl border border-black shadow-md shadow-[#7d7d7d]">
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="text"
-                    placeholder="Type a message here..."
-                    onChange={this.onStateChange}
-                    value={this.state.msg}
-                    className="flex-1 p-2 border border-black rounded-full"
-                  />
-                  <button
-                    onClick={this.sendMessage}
-                    className="text-white text-base leading-6 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-2 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 max-md:px-5 rounded-full"
-                  >
-                    Send
-                  </button>
-                </div>
+            </div>
+            {/* Message input */}
+            <div className="p-4 bg-gray-200 rounded-xl border border-black shadow-md shadow-[#7d7d7d]">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  placeholder="Type a message here..."
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  className="flex-1 p-2 border border-black rounded-full"
+                />
+                <button
+                  onClick={handleSendMessage}
+                  className="text-white text-base leading-6 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-2 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 max-md:px-5 rounded-full"
+                >
+                  Send
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Message;

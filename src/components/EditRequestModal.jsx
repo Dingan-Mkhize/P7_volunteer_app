@@ -15,7 +15,7 @@ const EditRequestModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+    <div className="my-modal fixed z-[999] inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
       {" "}
       {/* Overlay */}
       <div className="relative top-1/4 mx-auto p-5 border border-black w-11/12 md:w-1/2 lg:w-1/3 shadow-lg bg-white rounded-3xl">

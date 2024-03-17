@@ -161,12 +161,12 @@ const Dashboard = () => {
 
                     {/* View Details Button */}
                     <div className="flex justify-center mt-2">
-                      <a
-                        href={`/volunteer-requests/${request.id}`}
+                      <Link
+                        to={`/requests/${request.id}`}
                         className="text-white text-xs leading-4 whitespace-nowrap justify-center items-stretch border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
                       >
                         View Details
-                      </a>
+                      </Link>
                     </div>
                   </li>
                 ))}
@@ -195,10 +195,10 @@ const Dashboard = () => {
             {/* Map */}
             <div className="flex-grow border border-dashed border-gray-400 bg-gray-200 flex justify-center items-center rounded-3xl lg:mb-12 shadow-lg shadow-[#7d7d7d]">
               <MapComponent
-                initialPosition={[51.505, -0.09]} 
+                position={[51.505, -0.09]}
                 zoomLevel={3}
-                jobs={activeRequests} 
-                selectionMode={false} 
+                jobs={activeRequests}
+                selectionMode={false}
               />
             </div>
 
@@ -221,9 +221,10 @@ const Dashboard = () => {
                     <p className="text-xs text-gray-600 mb-4">
                       Location: {request.location}
                     </p>
-                    <button className="mt-auto text-white text-xs leading-4 whitespace-nowrap justify-center items-center border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
+                    <Link
+                        to={`/requests/${request.id}`} className="text-white text-xs leading-4 whitespace-nowrap justify-center text-center items-stretch border bg-black px-3 py-1 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
                       Volunteer Now
-                    </button>
+                    </Link>
                   </div>
                 </div>
               ))}

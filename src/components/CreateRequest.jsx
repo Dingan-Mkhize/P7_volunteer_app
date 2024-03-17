@@ -5,6 +5,8 @@ import axios from "axios";
 import Logo from "../assets/LogoImg.png";
 import MapComponent from "./MapComponent";
 import "leaflet/dist/leaflet.css";
+import "../index.css";
+import AutoCompleteModal from "./AutoCompleteModal";
 import { useAutocomplete } from "../hooks/useAutocomplete";
 
 const CreateRequest = () => {
@@ -20,11 +22,16 @@ const CreateRequest = () => {
   const [taskType, setTaskType] = useState("");
   const [description, setDescription] = useState("");
   const { suggestions, setInput } = useAutocomplete();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLocationChange = (e) => {
-    setInput(e.target.value);
     setLocationDescription(e.target.value);
+      setInput(e.target.value);
+      if (e.target.value.trim().length > 2) {
+        setIsModalOpen(true); // Open the modal when there are enough characters
+      } else {
+        setIsModalOpen(false); // Close the modal if not
+      }
   };
 
   const handleSelectSuggestion = (suggestion) => {
@@ -38,6 +45,7 @@ const CreateRequest = () => {
       lat: suggestion.lat,
       lng: suggestion.lon,
     });
+    setIsModalOpen(false);
     setInput("");
   };
 
@@ -121,7 +129,7 @@ const CreateRequest = () => {
           </div>
           <div className="Z-0 leaflet-container leaflet-control-attribution border border-black shadow-md shadow-[#7d7d7d] rounded-2xl my-4">
             <MapComponent
-              initialPosition={[latitude, longitude]}
+              position={[latitude, longitude]}
               zoomLevel={13}
               onMapClick={handleMapClick}
               selectionMode={true}
@@ -158,20 +166,13 @@ const CreateRequest = () => {
                   className="shrink-0 mt-2 h-12 bg-white border border-black shadow-md shadow-[#7d7d7d] rounded-3xl px-4"
                   placeholder="Enter a location description"
                 />
-                {/* Suggestions list */}
-                {suggestions.length > 0 && (
-                  <ul className="absolute top-full z-[9999] mt-1 w-full bg-white shadow-lg max-h-60 rounded-md overflow-hidden">
-                    {suggestions.map((suggestion, index) => (
-                      <li
-                        key={index}
-                        onClick={() => handleSelectSuggestion(suggestion)}
-                        className="cursor-pointer py-2 px-4 hover:bg-gray-100 !important"
-                      >
-                        {suggestion.name}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                {/* Invoke the AutocompleteModal here */}
+                <AutoCompleteModal
+                  isOpen={isModalOpen}
+                  suggestions={suggestions}
+                  onSelectSuggestion={handleSelectSuggestion}
+                  onClose={() => setIsModalOpen(false)}
+                />
               </div>
             </div>
 

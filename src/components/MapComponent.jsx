@@ -17,25 +17,26 @@ L.Icon.Default.mergeOptions({
 });
 
 const MapComponent = ({
-  initialPosition,
+  position,
   zoomLevel,
   onMapClick,
   jobs = [],
   selectionMode = false,
   title,
 }) => {
+  console.log("MapComponent received position:", position);
   const mapRef = useRef(null);
 
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.setView(initialPosition, zoomLevel);
+      mapRef.current.setView(position, zoomLevel);
     }
-  }, [initialPosition, zoomLevel]);
+  }, [position, zoomLevel]);
 
   return (
     <div className="w-full" style={{ height: "400px", width: "100%" }}>
       <MapContainer
-        center={initialPosition}
+        center={position}
         zoom={zoomLevel}
         maxZoom={18}
         minZoom={10}
@@ -47,9 +48,9 @@ const MapComponent = ({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
 
-        {selectionMode && initialPosition && (
+        {selectionMode && position && (
           <Marker
-            position={initialPosition}
+            position={position}
             draggable={true}
             eventHandlers={{ dragend: (e) => onMapClick(e.target.getLatLng()) }}
           >
@@ -75,7 +76,7 @@ const MapComponent = ({
 };
 
 MapComponent.propTypes = {
-  initialPosition: PropTypes.arrayOf(PropTypes.number).isRequired,
+  position: PropTypes.arrayOf(PropTypes.number).isRequired,
   zoomLevel: PropTypes.number.isRequired,
   onMapClick: PropTypes.func.isRequired,
   jobs: PropTypes.array,

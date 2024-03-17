@@ -136,4 +136,15 @@ em, i {
   border-radius: 0.75rem;
 }
 
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 999 !important; /* Lower than the modal z-index */
+}
 
+.my-modal {
+  z-index: 1000; /* Higher than any Leaflet control */
+}
+
+.high-z-index {
+  z-index: 9999 !important; /* Use !important to override other styles if necessary */
+}

@@ -13,7 +13,7 @@ const MessageVolunteersModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+    <div className="my-modal fixed z-[999] inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
       <div className="relative top-1/4 mx-auto p-5 w-96 shadow-lg rounded-3xl bg-white border border-black">
         <h3 className="text-lg font-medium leading-6 text-gray-900">
           Message Volunteers

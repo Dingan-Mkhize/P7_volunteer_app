@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "react-query";
+//import { useQuery } from "react-query";
 import axios from "axios";
 import { debounce } from "lodash";
 
-const fetchSuggestions = (input) => {
-  const apiUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(input)}&lat=51.5074&lon=-0.1278&limit=5`;
+const fetchSuggestions = (input, lat = 51.5074, lon = -0.1278) => {
+  const apiUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(input)}&lat=${lat}&lon=${lon}&limit=5`;
   return axios.get(apiUrl).then((response) =>
     response.data.features.map((feature) => ({
       name: feature.properties.name,
@@ -21,37 +21,31 @@ export const useAutocomplete = () => {
   const [input, setInput] = useState("");
   const [localSuggestions, setLocalSuggestions] = useState([]);
 
-  const debouncedFetchSuggestions = debounce((query) => {
-    if (query.length > 2) {
-      refetch();
-    }
-  }, 300);
+  // Declarative function to refetch suggestions
+  const fetchAndSetSuggestions = (query) => {
+    fetchSuggestions(query).then((fetchedSuggestions) => {
+      setLocalSuggestions(fetchedSuggestions);
+    });
+  };
+
+  // Debounced fetch suggestions function
+  const debouncedFetchSuggestions = debounce(fetchAndSetSuggestions, 300);
 
   useEffect(() => {
-    debouncedFetchSuggestions(input);
+    if (input.length > 2) {
+      debouncedFetchSuggestions(input);
+    } else {
+      setLocalSuggestions([]);
+    }
+    // Cleanup debounced function on unmount
+    return () => {
+      debouncedFetchSuggestions.cancel();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input]);
 
-  const { refetch } = useQuery(
-    ["fetchSuggestions", input],
-    () =>
-      fetchSuggestions(input).then((fetchedSuggestions) => {
-        setLocalSuggestions(fetchedSuggestions);
-        return fetchedSuggestions;
-      }),
-    {
-      enabled: false, 
-      keepPreviousData: true,
-    }
-  );
-
   const onInputChange = (value) => {
     setInput(value);
-    if (value === "") {
-      setLocalSuggestions([]);
-    } else if (value.length > 2) {
-      refetch();
-    }
   };
 
   return {
