@@ -43,7 +43,7 @@ const NavBar = () => {
   return (
     <>
       <div
-        className={`sticky top-0 z-10 px-6 py-3 shadow-md grid grid-cols-3 items-center bg-white rounded-full transition-transform duration-500 ${!isVisible ? "-translate-y-full" : "translate-y-0"}`}
+        className={`sticky top-0 px-6 py-3 shadow-md grid grid-cols-3 items-center bg-white rounded-full transition-transform duration-500 ${!isVisible ? "-translate-y-full" : "translate-y-0"}`}
         style={{
           gridTemplateColumns: "auto 1fr auto", // First and last columns take as much space as needed, the middle one takes the rest.
         }}

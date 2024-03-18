@@ -134,9 +134,12 @@ const RequestPage = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      // Add any follow-up action here
     } catch (error) {
-      console.error("Failed to volunteer for request", error);
+      console.error(
+        "Failed to volunteer for request",
+        error.response?.data?.message || error.message
+      );
+      alert("Failed to volunteer for the request.");
     }
   };
 
@@ -199,7 +202,7 @@ const RequestPage = () => {
         </div>
         <div className="lg:py-12 lg:px-6 m-6 text-center lg:text-left lg:w-3/4">
           <div className="text-3xl font-bold text-black flex justify-between items-center w-full px-5">
-            {request.title}
+            {editFields.title}
             {isRequester && (
               <FiEdit
                 onClick={() => setIsModalOpen(true)}
@@ -224,41 +227,44 @@ const RequestPage = () => {
 
       {/* Focused Map and Job Details */}
       <div className="mt-6 flex flex-col md:flex-row justify-center items-center">
-        <div className="flex flex-col md:flex-row justify-center gap-5 p-6 border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl">
-          <div
-            className="Z-0 leaflet-container leaflet-control-attribution border border-black shadow-md shadow-[#7d7d7d] rounded-2xl my-4"
-            style={{ width: "100%", height: "400px" }} // Add explicit width and height
-          >
-            {location.lat !== undefined &&
-            location.lng !== undefined &&
-            !isNaN(location.lat) &&
-            !isNaN(location.lng) ? (
-              <MapComponent
-                position={[location.lat, location.lng]}
-                zoomLevel={13}
-                onMapClick={handleMapClick}
-                selectionMode={isRequester}
-                //draggable={isRequester}
-              />
-            ) : (
-              <div>Loading map...</div>
-            )}
-          </div>
-          <div className="flex flex-col w-full md:w-6/12 mt-6 md:mt-0 md:ml-5">
-            <div className="flex items-center font-bold p-3">
-              <span>Volunteer Request Details:</span>
-              <FiEdit
-                onClick={() => {
-                  setIsModalOpen(true);
-                  setEditFields({ ...editFields, currentField: "description" });
-                }}
-                className="cursor-pointer ml-2"
-                size={20}
-                color="#3B82F6" // Adjust size as needed
-              />
+        <div className="flex flex-col justify-center gap-5 p-6 border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl">
+          <span className="flex text-lg font-bold flex-row" >Volunteer Request Details:</span>{" "}
+          {/* Keep this on top */}
+          <div className="flex flex-col md:flex-row justify-center gap-5 w-full">
+            {/* Adjusted flex container for dynamic resizing */}
+            <div
+              className="flex-grow leaflet-container leaflet-control-attribution border border-black shadow-md shadow-[#7d7d7d] rounded-2xl md:my-4"
+              style={{ height: "400px" }} // Removed maxWidth to allow flex-grow to work
+            >
+              {location.lat !== undefined &&
+              location.lng !== undefined &&
+              !isNaN(location.lat) &&
+              !isNaN(location.lng) ? (
+                <MapComponent
+                  position={[location.lat, location.lng]}
+                  zoomLevel={13}
+                  onMapClick={handleMapClick}
+                  selectionMode={isRequester}
+                />
+              ) : (
+                <div>Loading map...</div>
+              )}
             </div>
-            <div className="mt-6 leading-9 text-black shadow-md shadow-[#7d7d7d] border border-black rounded-2xl p-3">
-              {request.description}
+            <div className="flex flex-col w-full md:w-6/12 max-w-full">
+              <div className="flex items-center font-bold p-3 gap-6">
+                {editFields.title}
+                {isRequester && (
+                  <FiEdit
+                    onClick={() => setIsModalOpen(true)}
+                    style={{ cursor: "pointer" }}
+                    size={20}
+                    color="#3B82F6"
+                  />
+                )}
+              </div>
+              <div className="mt-6 text-md leading-9 text-black shadow-md shadow-[#7d7d7d] border border-black rounded-2xl p-3">
+                {request.description}
+              </div>
             </div>
           </div>
         </div>

@@ -148,3 +148,7 @@ em, i {
 .high-z-index {
   z-index: 9999 !important; /* Use !important to override other styles if necessary */
 }
+
+.leaflet-control { z-index: 0 !important}
+.leaflet-pane { z-index: 0 !important}
+.leaflet-top, .leaflet-bottom {z-index: 0 !important}
