@@ -16,9 +16,18 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("jwt") || null);
 
+  // A simple check to see if the token looks like a JWT
+  // This is very basic and should be adjusted to fit your token format
+  const isValidToken = useCallback((token) => {
+    if (!token) return false;
+    // Example check: JWTs have three sections separated by dots
+    const parts = token.split(".");
+    return parts.length === 3;
+  }, []);
+
   // Declare fetchCurrentUser using useCallback to memoize the function
   const fetchCurrentUser = useCallback(async () => {
-    if (!token) return;
+    if (!token || !isValidToken(token)) return;
 
     try {
       const response = await axios.get("http://localhost:4000/current_user", {
@@ -26,21 +35,18 @@ export const UserProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setUser(response.data); // Adjust according to your response structure
+      setUser(response.data);
     } catch (error) {
       console.error("Failed to fetch current user:", error);
-      setToken(null); // Invalidate the token if there is an error
-      setUser(null); // Reset the user state
+      // Optionally handle token invalidation here
+      setToken(null);
+      setUser(null);
     }
-  }, [token]); // token is a dependency here
+  }, [token, isValidToken]);
 
   // Effect for syncing the token state with localStorage
   useEffect(() => {
-    if (token) {
-      localStorage.setItem("jwt", token);
-    } else {
-      localStorage.removeItem("jwt");
-    }
+    localStorage.setItem("jwt", token || "");
   }, [token]);
 
   // Effect for fetching current user data on mount and when token changes
@@ -49,9 +55,11 @@ export const UserProvider = ({ children }) => {
   }, [fetchCurrentUser]);
 
   const login = (authorization, userData) => {
-    // Assume the full "Bearer <token>" string is passed in as 'authorization'
-    setToken(authorization.replace("Bearer ", ""));
-    setUser(userData);
+    const newToken = authorization.replace("Bearer ", "");
+    if (isValidToken(newToken)) {
+      setToken(newToken);
+      setUser(userData);
+    }
   };
 
   const logout = () => {

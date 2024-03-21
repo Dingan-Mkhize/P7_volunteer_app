@@ -37,6 +37,7 @@ const RequestPage = () => {
     isLoading,
     isError,
     error,
+    refetch
   } = useQuery(
     ["requestDetails", jobId, token],
     () => fetchRequestDetails(jobId, token),
@@ -134,6 +135,9 @@ const RequestPage = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+
+        await refetch();
+
     } catch (error) {
       console.error(
         "Failed to volunteer for request",
@@ -193,7 +197,7 @@ const RequestPage = () => {
                 className="object-cover w-[100px] h-[100px] shadow-md shadow-[#7d7d7d] border border-black rounded-full mx-auto my-3"
               />
               <div className="text-black font-semibold leading-9">
-                {user.name}
+                {user.first_name} {user.last_name}
               </div>
             </>
           ) : (
@@ -228,7 +232,18 @@ const RequestPage = () => {
       {/* Focused Map and Job Details */}
       <div className="mt-6 flex flex-col md:flex-row justify-center items-center">
         <div className="flex flex-col justify-center gap-5 p-6 border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl">
-          <span className="flex text-lg font-bold flex-row" >Volunteer Request Details:</span>{" "}
+          <div className="flex text-lg font-bold flex-row">
+            Volunteer Request Details:
+            {isRequester && (
+              <FiEdit
+                onClick={() => setIsModalOpen(true)}
+                style={{ cursor: "pointer" }}
+                size={20}
+                color="#3B82F6"
+                className="ml-2" // Added margin left for spacing
+              />
+            )}
+          </div>
           {/* Keep this on top */}
           <div className="flex flex-col md:flex-row justify-center gap-5 w-full">
             {/* Adjusted flex container for dynamic resizing */}
@@ -251,16 +266,8 @@ const RequestPage = () => {
               )}
             </div>
             <div className="flex flex-col w-full md:w-6/12 max-w-full">
-              <div className="flex items-center font-bold p-3 gap-6">
+              <div className="flex items-center text-3xl font-bold pt-3">
                 {editFields.title}
-                {isRequester && (
-                  <FiEdit
-                    onClick={() => setIsModalOpen(true)}
-                    style={{ cursor: "pointer" }}
-                    size={20}
-                    color="#3B82F6"
-                  />
-                )}
               </div>
               <div className="mt-6 text-md leading-9 text-black shadow-md shadow-[#7d7d7d] border border-black rounded-2xl p-3">
                 {request.description}

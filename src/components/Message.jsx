@@ -6,18 +6,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useUser } from "../contexts/UserContext";
 import axios from "axios";
-
-const Avatar = ({ image }) => {
-  return (
-    <div className="relative inline-block">
-      <img src={image} alt="Avatar" className="rounded-full w-10 h-10" />
-    </div>
-  );
-};
-
-Avatar.propTypes = {
-  image: PropTypes.string.isRequired,
-};
+import { useParams } from "react-router-dom";
 
 const RequestListItem = ({ onClick, active, animationDelay, title, id }) => {
   return (
@@ -51,15 +40,24 @@ const Message = () => {
   const messagesEndRef = useRef(null);
   const [activeRequestId, setActiveRequestId] = useState(null);
   const [newMessage, setNewMessage] = useState("");
+  const { jobId } = useParams();
+
+  useEffect(() => {
+    if (jobId) {
+      setActiveRequestId(jobId);
+    }
+  }, [jobId]);
 
   const { data: requests, isLoading: isLoadingRequests } = useQuery(
     "requests",
-    fetchRequests
+    () => fetchRequests(),
+    { enabled: !!token } // Ensure token is available before making the request
   );
+
   const { data: messages, isLoading: isLoadingMessages } = useQuery(
     ["messages", activeRequestId],
     () => fetchMessages(activeRequestId),
-    { enabled: !!activeRequestId }
+    { enabled: !!activeRequestId && !!token } // Ensure both activeRequestId and token are available
   );
 
   const sendMessageMutation = useMutation(
@@ -88,18 +86,14 @@ const Message = () => {
     const response = await axios.get("http://localhost:4000/requests", {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log("Fetched requests:", response.data);
     return response.data;
   }
 
   async function fetchMessages(requestId) {
     const response = await axios.get(
       `http://localhost:4000/requests/${requestId}/messages`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
-    console.log("Fetched messages for request", requestId, ":", response.data);
     return response.data;
   }
 
@@ -127,9 +121,6 @@ const Message = () => {
   if (isLoadingRequests || isLoadingMessages) {
     return <div>Loading...</div>;
   }
-
-  console.log("Requests:", requests);
-  console.log("Messages:", messages);
 
   return (
     <div className="bg-white flex flex-col mt-3 px-16 py-12 max-md:px-5 lg:flex-row border shadow-3xl rounded-md">

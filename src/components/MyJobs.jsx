@@ -36,24 +36,19 @@ const MyJobsComponent = () => {
   const myRequestsQuery = useQuery(
     ["myRequests", userId],
     () => fetchMyRequests(userId, token),
-    {
-      enabled: !!userId,
-      onSuccess: (data) => {
-        console.log("Fetched myRequests:", data); // Log fetched data on success
-      },
-      onError: (error) => {
-        console.error("Error fetching myRequests:", error); // Log any error
-      },
-    }
+    { enabled: !!userId }
   );
-
   const volunteeredJobsQuery = useQuery(
     ["volunteeredJobs", userId],
     () => fetchVolunteeredJobs(userId, token),
-    {
-      enabled: !!userId,
-    }
+    { enabled: !!userId }
   );
+
+  // Function to handle initiating message flow for a volunteered job
+  const handleVolunteerJobAction = (jobId) => {
+    // Redirect user to the messaging interface for the selected job
+    window.location.href = `/message?requestId=${jobId}`;
+  };
 
   const markJobAsCompletedMutation = useMutation(
     async (jobId) => {
@@ -188,10 +183,11 @@ const MyJobsComponent = () => {
                     </div>
                   </div>
                   <button
-                    onClick={() => markJobAsCompleted(job.id, false)}
+                    // Update to call the new function
+                    onClick={() => handleVolunteerJobAction(job.id)}
                     className="mt-2 md:mt-0 px-4 py-2 text-sm text-white border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 bg-black hover:bg-gray-700 rounded-full"
                   >
-                    Mark as Complete
+                    Message to Complete
                   </button>
                 </div>
               ))}

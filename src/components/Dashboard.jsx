@@ -193,12 +193,11 @@ const Dashboard = () => {
           {/* Container for Map and Volunteer Cards */}
           <div className="lg:col-span-4 flex flex-col h-full">
             {/* Map */}
-            <div className="Z-0 leaflet-container leaflet-control-attribution border border-black justify-center items-center rounded-3xl lg:mb-12 shadow-lg shadow-[#7d7d7d]">
+            <div className="Z-0  mb-9 leaflet-container leaflet-control-attribution border border-black justify-center items-center rounded-3xl lg:mb-12 shadow-lg shadow-[#7d7d7d]">
               <MapComponent
                 position={[51.505, -0.09]}
                 zoomLevel={3}
                 jobs={activeRequests}
-                selectionMode={false}
               />
             </div>
 
