@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import Logo from "../assets/LogoImg.png";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 //import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 //import { useParams } from "react-router-dom";
@@ -11,7 +11,7 @@ import axios from "axios";
 const RequestListItem = ({ onClick, active, animationDelay, title, id }) => (
   <div
     onClick={() => onClick(id)}
-    className={`flex items-center p-2 hover:bg-gray-200 cursor-pointer rounded-lg border border-black ${active ? "bg-grey-500" : ""}`}
+    className={`flex items-center p-2 hover:bg-gray-200 cursor-pointer rounded-lg border border-black ${active ? "bg-grey-100" : ""}`}
     style={{ animationDelay: `0.${animationDelay}s` }}
   >
     <div className="ml-2">
@@ -34,10 +34,13 @@ const Message = () => {
   const queryClient = useQueryClient();
   const [newMessage, setNewMessage] = useState("");
   const [activeRequestId, setActiveRequestId] = useState(null);
-  const [receiverId, setReceiverId] = useState(null); // Update: State to dynamically manage receiverId
+  const [receiverId, setReceiverId] = useState(null);
   const chatContentRef = useRef(null);
+  const [animationClass, setAnimationClass] = useState("fadeIn");
+  const [currentPage, setCurrentPage] = useState(0);
+  const requestsPerPage = 6; 
 
-  // Fetch requests from the server
+    // Fetch requests from the server
   const { data: requests, isLoading: isLoadingRequests } = useQuery(
     "requests",
     async () => {
@@ -101,6 +104,25 @@ const Message = () => {
     }
   );
 
+  const totalPages = Math.ceil(requests.length / requestsPerPage);
+  const displayedRequests = requests.slice(
+    currentPage * requestsPerPage,
+    (currentPage + 1) * requestsPerPage
+  );
+
+  // Functions to change the page
+  const changePage = (direction) => {
+    setAnimationClass("fadeOut");
+    setTimeout(() => {
+      setCurrentPage((prev) =>
+        direction === "next"
+          ? (prev + 1) % totalPages
+          : (prev ? prev : totalPages) - 1
+      );
+      setAnimationClass("fadeIn");
+    }, 500);
+  };
+
   const handleSendMessage = () => {
     if (newMessage.trim() !== "" && receiverId) {
       sendMessageMutation.mutate({ content: newMessage });
@@ -129,20 +151,41 @@ const Message = () => {
             A helping hand, to unite community.
           </div>
         </div>
-        <div className="pb-3 flex flex-col lg:flex-row flex-1 overflow-hidden">
+        <div className="flex flex-col lg:flex-row flex-1 py-3 overflow-hidden">
           {/* Sidebar - Adjusted for mobile */}
-          <div className="lg:w-1/4 w-full bg-gray-100 p-4 overflow-y-auto border border-black shadow-md shadow-[#7d7d7d] rounded-xl mt-3 mb-3 lg:mb-0 lg:mt-0 lg:mr-3">
-            {requests.map((request, index) => (
-              <RequestListItem
-                key={request.id}
-                id={request.id}
-                title={request.title}
-                active={activeRequestId === request.id}
-                onClick={() => setActiveRequestId(request.id)} // Adjust based on how you manage active request state
-                animationDelay={index + 1}
-              />
-            ))}
+          <div
+            className={`lg:w-1/4 w-full flex flex-col justify-between bg-gray-100 p-4 border border-black shadow-md shadow-[#7d7d7d] rounded-xl mt-3 mb-3 lg:mb-0 lg:mt-0 lg:mr-3 ${animationClass}`}
+          >
+            {/* Requests List */}
+            <div className="overflow-y-auto">
+              {displayedRequests.map((request, index) => (
+                <RequestListItem
+                  key={request.id}
+                  id={request.id}
+                  title={request.title}
+                  active={activeRequestId === request.id}
+                  onClick={() => setActiveRequestId(request.id)} // Adjust based on how you manage active request state
+                  animationDelay={index}
+                />
+              ))}
+            </div>
+            {/* Pagination buttons */}
+            <div className="flex justify-between pb-4">
+              <button
+                onClick={() => changePage("next")}
+                className="text-sm bg-black text-white px-3 py-2 hover:bg-gray-600 shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+              >
+                &#9650;
+              </button>
+              <button
+                onClick={() => changePage("prev")}
+                className="text-sm bg-black text-white px-3 py-2 hover:bg-gray-600 shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+              >
+                &#9660;
+              </button>
+            </div>
           </div>
+
           <div className="flex-1 flex flex-col md:ml-3">
             {/* Header */}
             <div className="p-3 bg-gray-100 border border-black shadow-md shadow-[#7d7d7d] flex justify-between items-center rounded-xl">
@@ -152,27 +195,23 @@ const Message = () => {
             </div>
             {/* Chat content */}
             <div className="flex-1 overflow-hidden rounded-xl border border-black shadow-md shadow-[#7d7d7d] mt-3 mb-3">
-              <div className="flex-1 overflow-hidden">
-                <div
-                  ref={chatContentRef}
-                  className="p-3"
-                  style={{
-                    height: "calc(100vh - 250px)",
-                    position: "relative",
-                  }}
-                >
+              <div
+                className="flex-1 overflow-auto"
+                style={{ maxHeight: "calc(100vh - 250px)" }}
+              >
+                <div ref={chatContentRef} className="p-3">
                   {messages &&
                     messages.map((message, index) => (
                       <div
                         key={index}
-                        className={`message ${message.isSender ? "text-right" : "text-left"}`}
+                        className={`flex ${message.isSender ? "justify-end" : "justify-start"}`}
                       >
                         {/* Display the message content */}
                         <div
-                          className={`inline-block ${message.isSender ? "bg-blue-100" : "bg-gray-100"} p-2 rounded-lg`}
+                          className={`max-w-xs md:max-w-md lg:max-w-lg break-words ${message.isSender ? "bg-blue-100" : "bg-gray-100"} m-1 p-2 rounded-lg`}
                         >
                           {message.content}
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-gray-500 mt-1">
                             {message.createdAtFormatted}
                           </div>
                         </div>
@@ -181,8 +220,9 @@ const Message = () => {
                 </div>
               </div>
             </div>
+
             {/* Message input */}
-            <div className="p-4 bg-gray-200 rounded-xl border border-black shadow-md shadow-[#7d7d7d]">
+            <div className="p-4 bg-gray-100 rounded-xl border border-black shadow-md shadow-[#7d7d7d]">
               <div className="flex items-center space-x-2">
                 <input
                   type="text"
