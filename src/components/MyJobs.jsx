@@ -33,7 +33,7 @@ const fetchVolunteeredJobs = async (userId, token) => {
 };
 
 const MyJobsComponent = () => {
-  const { user, token } = useUser();
+  const { user, token, setActiveJobId } = useUser();
   const userId = user?.id;
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -50,8 +50,8 @@ const MyJobsComponent = () => {
 
   // Function to handle initiating message flow for a volunteered job
   const handleVolunteerJobAction = (jobId) => {
-    // Redirect user to the messaging interface for the selected job
-    navigate(`/message/${jobId}`);
+    setActiveJobId(jobId); // Set the active job ID for messaging
+    navigate("/message"); // Directly navigate to the messaging interface
   };
 
   const markJobAsCompletedMutation = useMutation(

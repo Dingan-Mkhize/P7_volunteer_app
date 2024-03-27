@@ -35,6 +35,7 @@ function parseJwt(token) {
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("jwt") || null);
+  const [activeJobId, setActiveJobId] = useState(null);
 
   const logout = useCallback(() => {
     setToken(null);
@@ -112,8 +113,10 @@ export const UserProvider = ({ children }) => {
       token,
       login,
       logout,
+      activeJobId,
+      setActiveJobId,
     }),
-    [user, token, login, logout]
+    [user, token, login, logout, activeJobId]
   );
 
   return (
