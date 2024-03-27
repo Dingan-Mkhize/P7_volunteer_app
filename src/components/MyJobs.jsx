@@ -1,4 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -13,8 +15,9 @@ const fetchMyRequests = async (userId, token) => {
       headers: { Authorization: `Bearer ${token}` },
     }
   );
-  console.log("Fetched myRequests:", response.data); // Log fetched data
-  return response.data;
+  const activeRequests = response.data.filter((request) => !request.archived);
+  console.log("Fetched myRequests:", activeRequests);
+  return activeRequests;
 };
 
 const fetchVolunteeredJobs = async (userId, token) => {
@@ -24,15 +27,16 @@ const fetchVolunteeredJobs = async (userId, token) => {
       headers: { Authorization: `Bearer ${token}` },
     }
   );
-  console.log("Fetched volunteeredJobs:", response.data); // Log fetched data
-  return response.data;
+  const activeJobs = response.data.filter((job) => !job.archived);
+  console.log("Fetched volunteeredJobs:", activeJobs);
+  return activeJobs;
 };
 
 const MyJobsComponent = () => {
   const { user, token } = useUser();
   const userId = user?.id;
   const queryClient = useQueryClient();
-
+  const navigate = useNavigate();
   const myRequestsQuery = useQuery(
     ["myRequests", userId],
     () => fetchMyRequests(userId, token),
@@ -47,7 +51,7 @@ const MyJobsComponent = () => {
   // Function to handle initiating message flow for a volunteered job
   const handleVolunteerJobAction = (jobId) => {
     // Redirect user to the messaging interface for the selected job
-    window.location.href = `/message?requestId=${jobId}`;
+    navigate(`/message/${jobId}`);
   };
 
   const markJobAsCompletedMutation = useMutation(

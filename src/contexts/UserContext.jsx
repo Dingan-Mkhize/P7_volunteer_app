@@ -5,6 +5,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useMemo,
 } from "react";
 import axios from "axios";
 
@@ -12,22 +13,53 @@ const UserContext = createContext();
 
 export const useUser = () => useContext(UserContext);
 
+function parseJwt(token) {
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    return null;
+  }
+}
+
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("jwt") || null);
 
-  // A simple check to see if the token looks like a JWT
-  // This is very basic and should be adjusted to fit your token format
-  const isValidToken = useCallback((token) => {
-    if (!token) return false;
-    // Example check: JWTs have three sections separated by dots
-    const parts = token.split(".");
-    return parts.length === 3;
+  const logout = useCallback(() => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem("jwt");
   }, []);
 
-  // Declare fetchCurrentUser using useCallback to memoize the function
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          logout();
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, [logout]);
+
   const fetchCurrentUser = useCallback(async () => {
-    if (!token || !isValidToken(token)) return;
+    if (!token) return;
 
     try {
       const response = await axios.get("http://localhost:4000/current_user", {
@@ -38,41 +70,51 @@ export const UserProvider = ({ children }) => {
       setUser(response.data);
     } catch (error) {
       console.error("Failed to fetch current user:", error);
-      // Optionally handle token invalidation here
-      setToken(null);
-      setUser(null);
+      logout();
     }
-  }, [token, isValidToken]);
+  }, [token, logout]);
 
-  // Effect for syncing the token state with localStorage
+
   useEffect(() => {
     localStorage.setItem("jwt", token || "");
   }, [token]);
 
-  // Effect for fetching current user data on mount and when token changes
   useEffect(() => {
     fetchCurrentUser();
   }, [fetchCurrentUser]);
 
-  const login = (authorization, userData) => {
+  const login = useCallback((authorization, userData) => {
     const newToken = authorization.replace("Bearer ", "");
-    if (isValidToken(newToken)) {
-      setToken(newToken);
-      setUser(userData);
+    setToken(newToken);
+    const decodedToken = parseJwt(newToken);
+    if (decodedToken) {
+      setUser({ ...userData, id: decodedToken.sub });
     }
-  };
+  }, []);
 
-  const logout = () => {
-    setToken(null);
-    setUser(null);
-  };
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === "jwt" && !event.newValue) {
+        logout();
+      }
+    };
 
-  const contextValue = {
-    user,
-    token,
-    login,
-    logout,
-  };
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [logout]);
+
+  const contextValue = useMemo(
+    () => ({
+      user,
+      token,
+      login,
+      logout,
+    }),
+    [user, token, login, logout]
+  );
 
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>

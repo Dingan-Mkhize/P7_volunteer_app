@@ -1,29 +1,25 @@
 import PropTypes from "prop-types";
 import Logo from "../assets/LogoImg.png";
 import { useEffect, useRef, useState } from "react";
-import PerfectScrollbar from "perfect-scrollbar";
+//import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
+//import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { useUser } from "../contexts/UserContext";
+import { useUser } from "../contexts/UserContext"; // Adjust the path to your context
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
-const RequestListItem = ({ onClick, active, animationDelay, title, id }) => {
-  return (
-    <div
-      onClick={() => onClick(id)}
-      className={`flex items-center p-2 hover:bg-gray-200 cursor-pointer rounded-lg border ${
-        active ? "bg-blue-100" : ""
-      }`}
-      style={{ animationDelay: `0.${animationDelay}s` }}
-    >
-      <div className="ml-2">
-        <p className="text-sm font-medium">{title}</p>
-        <span className="text-xs text-gray-500">Last message</span>
-      </div>
+const RequestListItem = ({ onClick, active, animationDelay, title, id }) => (
+  <div
+    onClick={() => onClick(id)}
+    className={`flex items-center p-2 hover:bg-gray-200 cursor-pointer rounded-lg border border-black ${active ? "bg-grey-500" : ""}`}
+    style={{ animationDelay: `0.${animationDelay}s` }}
+  >
+    <div className="ml-2">
+      <p className="text-sm font-medium">{title}</p>
+      <span className="text-xs text-gray-500">Last message</span>
     </div>
-  );
-};
+  </div>
+);
 
 RequestListItem.propTypes = {
   id: PropTypes.number.isRequired,
@@ -36,32 +32,67 @@ RequestListItem.propTypes = {
 const Message = () => {
   const { user, token } = useUser();
   const queryClient = useQueryClient();
-  const chatContentRef = useRef(null);
-  const messagesEndRef = useRef(null);
-  const [activeRequestId, setActiveRequestId] = useState(null);
   const [newMessage, setNewMessage] = useState("");
-  const { jobId } = useParams();
+  const [activeRequestId, setActiveRequestId] = useState(null);
+  const [receiverId, setReceiverId] = useState(null); // Update: State to dynamically manage receiverId
+  const chatContentRef = useRef(null);
 
-  useEffect(() => {
-    if (jobId) {
-      setActiveRequestId(jobId);
-    }
-  }, [jobId]);
-
+  // Fetch requests from the server
   const { data: requests, isLoading: isLoadingRequests } = useQuery(
     "requests",
-    () => fetchRequests(),
-    { enabled: !!token } // Ensure token is available before making the request
+    async () => {
+      const response = await axios.get(`http://localhost:4000/requests`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data;
+    },
+    { enabled: !!token }
   );
 
+  // Fetch messages and determine receiverId based on the latest message
   const { data: messages, isLoading: isLoadingMessages } = useQuery(
     ["messages", activeRequestId],
-    () => fetchMessages(activeRequestId),
-    { enabled: !!activeRequestId && !!token } // Ensure both activeRequestId and token are available
+    async () => {
+      if (activeRequestId) {
+        const response = await axios.get(
+          `http://localhost:4000/requests/${activeRequestId}/messages`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const fetchedMessages = response.data;
+        if (fetchedMessages.length > 0) {
+          // Determine receiverId based on the role in the last message
+          const lastMessage = fetchedMessages[fetchedMessages.length - 1];
+          setReceiverId(
+            lastMessage.sender_id === user.id
+              ? lastMessage.receiver_id
+              : lastMessage.sender_id
+          );
+        }
+        return fetchedMessages
+          .map((message) => ({
+            ...message,
+            isSender: message.sender_id === user.id,
+            createdAtFormatted: new Date(message.created_at).toLocaleString(),
+          }))
+          .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      }
+      return [];
+    },
+    { enabled: !!activeRequestId && !!token }
   );
 
+  // Send a new message mutation
   const sendMessageMutation = useMutation(
-    ({ requestId, content }) => sendMessage({ requestId, content }),
+    async (messageData) => {
+      await axios.post(
+        `http://localhost:4000/requests/${activeRequestId}/messages`,
+        {
+          content: messageData.content,
+          receiver_id: receiverId, // use dynamically determined receiverId
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["messages", activeRequestId]);
@@ -70,52 +101,10 @@ const Message = () => {
     }
   );
 
-  useEffect(() => {
-    if (chatContentRef.current) {
-      new PerfectScrollbar(chatContentRef.current);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
-
-  async function fetchRequests() {
-    const response = await axios.get("http://localhost:4000/requests", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  }
-
-  async function fetchMessages(requestId) {
-    const response = await axios.get(
-      `http://localhost:4000/requests/${requestId}/messages`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return response.data;
-  }
-
-  async function sendMessage({ requestId, content }) {
-    await axios.post(
-      `http://localhost:4000/requests/${requestId}/messages`,
-      { content },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-  }
-
   const handleSendMessage = () => {
-    if (newMessage.trim() !== "") {
-      sendMessageMutation.mutate({
-        requestId: activeRequestId,
-        content: newMessage,
-      });
+    if (newMessage.trim() !== "" && receiverId) {
+      sendMessageMutation.mutate({ content: newMessage });
     }
-  };
-
-  const selectRequest = (selectedRequestId) => {
-    setActiveRequestId(selectedRequestId);
   };
 
   if (isLoadingRequests || isLoadingMessages) {
@@ -149,8 +138,8 @@ const Message = () => {
                 id={request.id}
                 title={request.title}
                 active={activeRequestId === request.id}
-                onClick={selectRequest}
-                animationDelay={(index % 5) + 1}
+                onClick={() => setActiveRequestId(request.id)} // Adjust based on how you manage active request state
+                animationDelay={index + 1}
               />
             ))}
           </div>
@@ -163,29 +152,33 @@ const Message = () => {
             </div>
             {/* Chat content */}
             <div className="flex-1 overflow-hidden rounded-xl border border-black shadow-md shadow-[#7d7d7d] mt-3 mb-3">
-              <div
-                className="p-3"
-                ref={chatContentRef}
-                style={{ height: "100%", position: "relative" }}
-              >
-                {messages &&
-                  messages.map((message, index) => (
-                    <div
-                      key={message.id}
-                      className={`flex ${
-                        message.sender.id === user.id
-                          ? "justify-end"
-                          : "justify-start"
-                      } my-2`}
-                    >
-                      <Avatar image={message.sender.profilePic} />
-                      <div className="bg-gray-200 rounded-lg p-2 mx-2">
-                        <p>{message.content}</p>
+              <div className="flex-1 overflow-hidden">
+                <div
+                  ref={chatContentRef}
+                  className="p-3"
+                  style={{
+                    height: "calc(100vh - 250px)",
+                    position: "relative",
+                  }}
+                >
+                  {messages &&
+                    messages.map((message, index) => (
+                      <div
+                        key={index}
+                        className={`message ${message.isSender ? "text-right" : "text-left"}`}
+                      >
+                        {/* Display the message content */}
+                        <div
+                          className={`inline-block ${message.isSender ? "bg-blue-100" : "bg-gray-100"} p-2 rounded-lg`}
+                        >
+                          {message.content}
+                          <div className="text-xs text-gray-500">
+                            {message.createdAtFormatted}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-
-                <div ref={messagesEndRef} />
+                    ))}
+                </div>
               </div>
             </div>
             {/* Message input */}
