@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/LogoImg.png";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { useUser } from "../contexts/UserContext";
 // import { AiOutlineDashboard, AiOutlineInfoCircle } from 'react-icons/ai'; // Dashboard Icon
 // import { HiOutlineMail } from 'react-icons/hi'; // Contact Icon
 
 const NavBar = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [nav, setNav] = useState(false);
+  const { user, logout } = useUser();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,6 +42,10 @@ const NavBar = () => {
   }, []);
 
   const handleNav = () => setNav(!nav);
+  const handleLogout = () => {
+    logout(); // Logout the user
+    navigate("/"); // Navigate to the home page after logout
+  };
 
   return (
     <>
@@ -59,40 +66,58 @@ const NavBar = () => {
           </Link>
         </div>
 
+        <div></div>
+
         {/* Hide this part on smaller screens and show hamburger icon instead */}
         <div
           className={`flex justify-center gap-4 md:gap-9  ${nav ? "hidden" : "hidden md:flex"}`}
         >
-          {/* <Link to="/about" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
-            About Us
-          </Link> */}
-          <Link to="/dashboard" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
-            Dashboard
-          </Link>
-          <Link to="/message" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
-            Messages
-          </Link>
-          <Link to="/myjobs" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
-            My Jobs
-          </Link>
-          {/* <Link to="/contact" className="text-black p-2 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full">
-            Contact
-          </Link> */}
-        </div>
-
-        <div className="justify-self-end hidden md:flex gap-2">
-          <Link
-            to="/login"
-            className="px-6 py-3 text-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
-          >
-            Log In
-          </Link>
-          <Link
-            to="/signup"
-            className="px-6 py-3 text-white bg-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
-          >
-            Sign Up
-          </Link>
+          {user ? (
+            <>
+              {/* Authenticated User Links */}
+              <Link
+                to="/dashboard"
+                className="text-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+              >
+                Dashboard
+              </Link>
+              <Link
+                to="/message"
+                className="text-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+              >
+                Messages
+              </Link>
+              <Link
+                to="/myjobs"
+                className="text-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+              >
+                My Jobs
+              </Link>
+              {/* Logout Button */}
+              <button
+                onClick={handleLogout}
+                className="px-6 py-3 text-white bg-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              {/* Guest User Links */}
+              <Link
+                to="/login"
+                className="px-6 py-3 text-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+              >
+                Log In
+              </Link>
+              <Link
+                to="/signup"
+                className="px-6 py-3 text-white bg-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Hamburger Menu Icon: Visible on small screens */}
@@ -120,52 +145,74 @@ const NavBar = () => {
         }}
       >
         <ul className="flex flex-col p-6 mt-6 mb-6">
-          <li>
-            <Link
-              to="/about"
-              className="flex justify-center p-1 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
-              onClick={() => setNav(false)}
-            >
-              About Us
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/dashboard"
-              className="flex justify-center p-1 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
-              onClick={() => setNav(false)}
-            >
-              Dashboard
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/contact"
-              className="flex justify-center p-1 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
-              onClick={() => setNav(false)}
-            >
-              Contact
-            </Link>
-          </li>
-          <p className="flex justify-center text-sm mb-3">————</p>
-          <li>
-            <Link
-              to="/login"
-              className="flex justify-center p-1 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
-              onClick={() => setNav(false)}
-            >
-              Log In
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/signup"
-              className="flex justify-center p-1 bg-black border border-black text-white shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
-              onClick={() => setNav(false)}
-            >
-              Sign Up
-            </Link>
-          </li>
+          {/* Conditional rendering based on user authentication status */}
+          {user ? (
+            <>
+              {/* Authenticated User Links */}
+              <li>
+                <Link
+                  to="/dashboard"
+                  className="flex justify-center p-1 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
+                  onClick={() => setNav(false)}
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/message"
+                  className="flex justify-center p-1 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
+                  onClick={() => setNav(false)}
+                >
+                  Messages
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/myjobs"
+                  className="flex justify-center p-1 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
+                  onClick={() => setNav(false)}
+                >
+                  My Jobs
+                </Link>
+              </li>
+              <p className="flex justify-center text-sm mb-3">————</p>
+              <li className="flex justify-center">
+                {/* Logout Button */}
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setNav(false);
+                  }}
+                  className="py-2 px-3 text-white bg-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              {/* Guest User Links */}
+              <li>
+                <Link
+                  to="/login"
+                  className="flex justify-center p-1 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
+                  onClick={() => setNav(false)}
+                >
+                  Log In
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/signup"
+                  className="flex justify-center p-1 bg-black border border-black text-white shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+                  onClick={() => setNav(false)}
+                >
+                  Sign Up
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </>

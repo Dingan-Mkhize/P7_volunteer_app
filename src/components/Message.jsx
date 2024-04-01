@@ -1,12 +1,9 @@
 import PropTypes from "prop-types";
 import Logo from "../assets/LogoImg.png";
-import { useRef, useState } from "react";
-//import PerfectScrollbar from "perfect-scrollbar";
+import { useRef, useState, useEffect } from "react";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
-//import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useUser } from "../contexts/UserContext"; 
-//import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 const RequestListItem = ({
@@ -15,8 +12,6 @@ const RequestListItem = ({
   animationDelay,
   title,
   id,
-  showCompletionButton,
-  completeJob,
 }) => (
   <div
     onClick={() => onClick(id)}
@@ -27,17 +22,6 @@ const RequestListItem = ({
       <p className="text-sm font-medium">{title}</p>
       <span className="text-xs text-gray-500">Last message</span>
     </div>
-    {showCompletionButton && (
-      <button
-        className="flex flex-col ml-4 px-4 py-1 bg-blue-500 text-white text-sm rounded-full"
-        onClick={(e) => {
-          e.stopPropagation(); // Prevent triggering the onClick of the parent div
-          completeJob(id); 
-        }}
-      >
-        Complete Job
-      </button>
-    )}
   </div>
 );
 
@@ -59,8 +43,9 @@ RequestListItem.defaultProps = {
 };
 
 const Message = () => {
-  const { user, token, activeJobId, setActiveJobId } = useUser();
+  const { user, token, activeJobId } = useUser();
   const queryClient = useQueryClient();
+  const [requestsList, setRequestsList] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [activeRequestId, setActiveRequestId] = useState(null);
   const [receiverId, setReceiverId] = useState(null);
@@ -113,6 +98,12 @@ const Message = () => {
     { enabled: !!activeRequestId && !!token }
   );
 
+  useEffect(() => {
+    if (requests) {
+      setRequestsList(requests);
+    }
+  }, [requests]);
+
   // Send a new message mutation
   const sendMessageMutation = useMutation(
     async (messageData) => {
@@ -133,44 +124,70 @@ const Message = () => {
     }
   );
 
-  const completeJobMutation = useMutation(
-    async (volunteeringId) => {
-      await axios.patch(
-        `http://localhost:4000/volunteerings/${volunteeringId}/mark-as-completed`,
-        {}, // No need for a body in a PATCH request
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-    },
-    {
-      onSuccess: () => {
-        // Invalidate or refetch any related queries to reflect the changes
-        queryClient.invalidateQueries("volunteeredJobs");
-        console.log("Volunteering marked as completed successfully.");
-        setActiveJobId(null); // Reset the active job id
-      },
-      onError: (error) => {
-        console.error("Failed to mark volunteering as completed:", error);
-      },
-    }
-  );
+  // const completeJobMutation = useMutation(
+  //   async (volunteeringId) => {
+  //     return axios.patch(
+  //       `http://localhost:4000/volunteerings/${volunteeringId}/mark-as-completed`,
+  //       {},
+  //       { headers: { Authorization: `Bearer ${token}` } }
+  //     );
+  //   },
+  //   {
+  //     onSuccess: (_, variables) => {
+  //       // "variables" contains the volunteeringId that was passed to the mutation
+  //       const { volunteeringId } = variables;
+  //       // Refetch the requests list to get the updated state
+  //       queryClient.invalidateQueries(["volunteeredJobs"]);
+  //       queryClient.invalidateQueries(["requests", activeRequestId]);
+  //       queryClient.invalidateQueries("requests");
+
+  //       // Remove the job from the local state to update the UI optimistically
+  //       setRequestsList((currentList) =>
+  //         currentList.filter((request) => request.id !== volunteeringId)
+  //       );
+
+  //       // Also, remove the job from the 'volunteeredJobs' cache if necessary
+  //       queryClient.setQueryData(["volunteeredJobs"], (oldData) =>
+  //         oldData.filter((job) => job.id !== volunteeringId)
+  //       );
+
+  //       // Reset the active job id
+  //       setActiveJobId(null);
+
+  //       console.log("Volunteering marked as completed successfully.");
+  //     },
+  //     onError: (error, variables) => {
+  //       // "variables" contains the volunteeringId that was passed to the mutation
+  //       const { volunteeringId } = variables;
+  //       console.error("Failed to mark volunteering as completed:", error);
+  //       alert(
+  //         `Failed to mark volunteering as completed for job ID ${volunteeringId}. Please try again.`
+  //       );
+  //     },
+  //     // Provide the volunteeringId to the mutation context for use in onSuccess/onError
+  //     onMutate: async (volunteeringId) => {
+  //       return { volunteeringId };
+  //     },
+  //   }
+  // );
 
   // Function to call the complete job mutation
-  const completeJob = (jobId) => {
-    completeJobMutation.mutate(jobId);
-  };
+  // const completeJob = (jobId) => {
+  //   completeJobMutation.mutate(jobId);
+  // };
 
-  const totalPages = requests
-    ? Math.ceil(requests.length / requestsPerPage)
+  const totalPages = requestsList
+    ? Math.ceil(requestsList.length / requestsPerPage)
     : 0;
-  const displayedRequests = requests
-    ? requests
+  const displayedRequests = requestsList
+    ? requestsList
         .slice(
           currentPage * requestsPerPage,
           (currentPage + 1) * requestsPerPage
         )
         .map((request) => ({
           ...request,
-          showCompletionButton: request.id === activeJobId, // Conditionally show the button
+          showCompletionButton: request.id === activeJobId,
         }))
     : [];
 
@@ -230,15 +247,15 @@ const Message = () => {
                   active={activeRequestId === request.id}
                   onClick={() => setActiveRequestId(request.id)} // Adjust based on how you manage active request state
                   animationDelay={index}
-                  showCompletionButton={
-                    activeRequestId === request.id && request.id === activeJobId
-                  }
-                  completeJob={completeJob}
+                  // showCompletionButton={
+                  //   activeRequestId === request.id && request.id === activeJobId
+                  // }
+                  // completeJob={completeJob}
                 />
               ))}
             </div>
             {/* Pagination buttons */}
-            <div className="flex justify-between pb-4">
+            <div className="flex justify-between p-3">
               <button
                 onClick={() => changePage("next")}
                 className="text-sm bg-black text-white px-3 py-2 hover:bg-gray-600 shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"

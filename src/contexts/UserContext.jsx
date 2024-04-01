@@ -78,20 +78,24 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("jwt", token || "");
-  }, [token]);
-
-  useEffect(() => {
-    fetchCurrentUser();
-  }, [fetchCurrentUser]);
-
-  const login = useCallback((authorization, userData) => {
-    const newToken = authorization.replace("Bearer ", "");
-    setToken(newToken);
-    const decodedToken = parseJwt(newToken);
-    if (decodedToken) {
-      setUser({ ...userData, id: decodedToken.sub });
+    if (token) {
+      fetchCurrentUser();
     }
-  }, []);
+  }, [token, fetchCurrentUser]);
+
+
+  const login = useCallback(
+    (authorization, userData) => {
+      const newToken = authorization.replace("Bearer ", "");
+      setToken(newToken);
+      const decodedToken = parseJwt(newToken);
+      if (decodedToken) {
+        setUser({ ...userData, id: decodedToken.sub });
+        fetchCurrentUser(); // Call fetchCurrentUser directly
+      }
+    },
+    [fetchCurrentUser]
+  );
 
   useEffect(() => {
     const handleStorageChange = (event) => {

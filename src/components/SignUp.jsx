@@ -44,43 +44,32 @@ const SignUpPage = () => {
     signupMutation.mutate(formData, {
       onSuccess: (response) => {
         console.log("Signup response:", response);
+        console.log("Full signup response:", response);
 
-        // Access the 'Authorization' header from the response
         const authorizationHeader = response.headers.authorization;
         console.log("Authorization header:", authorizationHeader);
-
-        // Extract the token from the Authorization header
-        // We assume the token is the second part of the header value (after "Bearer ")
         const token = authorizationHeader
           ? authorizationHeader.split(" ")[1]
           : null;
 
-        // Extract the user data from the nested `data` object of the response
-        // The actual structure of response.data should be verified with your API's response format
-        const user = response.data.data; // The user object is assumed to be nested under 'data'
+        const user = response.data.data; 
 
         console.log("JWT from signup:", token);
         console.log("User from signup:", user);
 
-        // Check for the existence of token and user
         if (token && user) {
-          // Pass the extracted token and user object to the login function
-          login(token, user); // Make sure the login function accepts these parameters correctly
-          navigate("/dashboard"); // Redirect the user to the dashboard after a successful login
+          login(token, user); 
+          navigate("/dashboard");
         } else {
-          // Log an error if either the token or user data is missing
           console.error("JWT or user data is missing from the signup response");
         }
       },
       onError: (error) => {
-        // Log the error if the mutation encounters a problem
         console.error("Signup error:", error.response || error);
       },
     });
   };
 
-
-  // Handle file input change for the government ID
   const handleFileChange = (event) => {
     setGovernmentId(event.target.files[0]);
   };

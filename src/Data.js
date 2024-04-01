@@ -1,7 +1,7 @@
 export const volunteers = [
   {
     id: 1,
-    name: "Michaela",
+    name: "Michaela Greggs",
     role: "Requester",
     profilePic: "/FtestPic6.jpeg",
     email: "michaela@example.com",
@@ -9,7 +9,7 @@ export const volunteers = [
   },
   {
     id: 2,
-    name: "Grace",
+    name: "Grace Pasty",
     role: "Member",
     profilePic: "/FtestPic2.jpeg",
     email: "grace@example.com",
@@ -17,7 +17,7 @@ export const volunteers = [
   },
   {
     id: 3,
-    name: "Wakil",
+    name: "Wakil Jalil",
     role: "Member",
     profilePic: "/MtestPic1.png",
     email: "wakil@example.com",
@@ -25,7 +25,7 @@ export const volunteers = [
   },
   {
     id: 4,
-    name: "Larry",
+    name: "Larry Hoover",
     role: "member",
     profilePic: "/MtestPic2.jpeg",
     email: "larry@example.com",
@@ -33,7 +33,7 @@ export const volunteers = [
   },
   {
     id: 5,
-    name: "Bob",
+    name: "Bob Hope",
     role: "Member",
     profilePic: "/MtestPic3.jpeg",
     email: "bob@example.com",
@@ -41,7 +41,7 @@ export const volunteers = [
   },
   {
     id: 6,
-    name: "Fredo",
+    name: "Fredo Bang",
     role: "Member",
     profilePic: "/MtestPic4.jpeg",
     email: "fredo@example.com",
@@ -49,7 +49,7 @@ export const volunteers = [
   },
   {
     id: 7,
-    name: "Gilbert",
+    name: "Gilbert Grape",
     role: "Member",
     profilePic: "/MtestPic5.jpeg",
     email: "gilbert@example.com",
@@ -57,7 +57,7 @@ export const volunteers = [
   },
   {
     id: 8,
-    name: "Sandra",
+    name: "Sandra Redmen",
     role: "Member",
     profilePic: "/FtestPic3.jpeg",
     email: "sandra@example.com",
@@ -65,15 +65,15 @@ export const volunteers = [
   },
   {
     id: 9,
-    name: "Santino",
+    name: "Santino Corleone",
     role: "Member",
     profilePic: "/MtestPic4.jpeg",
-    email: "santino1@example.com",
+    email: "santino@example.com",
     password: "password123",
   },
   {
     id: 10,
-    name: "Franklin",
+    name: "Franklin White",
     role: "Member",
     profilePic: "/MtestPic4.jpeg",
     email: "franklin2@example.com",
@@ -210,9 +210,9 @@ export const volunteerRequests = [
   },
   {
     id: 9,
-    title: "Homework Helpers",
+    title: "Homework Books Shortage",
     description:
-      "Volunteer to help students with homework after school. Background check required.",
+      "Volunteer to help to supply students with homework text books. We need all subjects.",
     location: "Community Youth Center",
     urgency: 8,
     type: "task",
@@ -253,7 +253,7 @@ export const volunteerRequests = [
     id: 12,
     title: "Volunteer: Food Drive",
     description:
-      "We need volunteers to help organize the food drive next week.",
+      "We need volunteers to help collect and donate food for the local soup kitchen in Friern Barnet.",
     location: "Community Center",
     urgency: 5,
     type: "task",

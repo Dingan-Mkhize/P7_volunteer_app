@@ -1,6 +1,4 @@
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { useNavigate } from "react-router-dom";
-
 import axios from "axios";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -29,6 +27,7 @@ const fetchVolunteeredJobs = async (userId, token) => {
   );
   const activeJobs = response.data.filter((job) => !job.archived);
   console.log("Fetched volunteeredJobs:", activeJobs);
+  console.log("Data received for volunteeredJobs:", response.data);
   return activeJobs;
 };
 
@@ -36,7 +35,6 @@ const MyJobsComponent = () => {
   const { user, token, setActiveJobId } = useUser();
   const userId = user?.id;
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const myRequestsQuery = useQuery(
     ["myRequests", userId],
     () => fetchMyRequests(userId, token),
@@ -47,12 +45,6 @@ const MyJobsComponent = () => {
     () => fetchVolunteeredJobs(userId, token),
     { enabled: !!userId }
   );
-
-  // Function to handle initiating message flow for a volunteered job
-  const handleVolunteerJobAction = (jobId) => {
-    setActiveJobId(jobId); // Set the active job ID for messaging
-    navigate("/message"); // Directly navigate to the messaging interface
-  };
 
   const markJobAsCompletedMutation = useMutation(
     async (jobId) => {
@@ -82,6 +74,37 @@ const MyJobsComponent = () => {
   // Ensure data is available before attempting to map
   const myRequests = myRequestsQuery.data ?? [];
   const volunteeredJobs = volunteeredJobsQuery.data ?? [];
+
+  const completeJobMutation = useMutation(
+    async (volunteeringId) => {
+      console.log(`Bearer ${token}`);
+      await axios.patch(
+        `http://localhost:4000/volunteerings/${volunteeringId}/mark-as-completed`,
+        {}, // No need for a body in a PATCH request
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    },
+    {
+      onSuccess: () => {
+        // Invalidate or refetch any related queries to reflect the changes
+        queryClient.invalidateQueries("volunteeredJobs");
+        console.log("Volunteering marked as completed successfully.");
+        setActiveJobId(null); // Reset the active job id
+      },
+      onError: (error) => {
+        console.error("Failed to mark volunteering as completed:", error);
+      },
+    }
+  );
+
+  // Function to call the complete job mutation
+  const completeJob = (volunteeringId) => {
+    console.log(
+      `About to mark volunteering with ID ${volunteeringId} as completed`
+    );
+    completeJobMutation.mutate(volunteeringId);
+  };
+
 
   return (
     <div className="bg-white mt-3 px-16 py-12 max-md:px-5 border shadow-3xl rounded-md">
@@ -188,10 +211,10 @@ const MyJobsComponent = () => {
                   </div>
                   <button
                     // Update to call the new function
-                    onClick={() => handleVolunteerJobAction(job.id)}
+                    onClick={() => completeJob(job.volunteeringId)}
                     className="mt-2 md:mt-0 px-4 py-2 text-sm text-white border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 bg-black hover:bg-gray-700 rounded-full"
                   >
-                    Message to Complete
+                    Volunteer Complete
                   </button>
                 </div>
               ))}

@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { useUser } from "../contexts/UserContext";
 import MapComponent from "./MapComponent";
-import ProfImg from "../assets/FRacer20.jpeg";
+import FallbackProfilePic from "./FallbackProfilePic";
 import FooterBackground from "../assets/overlapping_circles.svg";
 import "../index.css";
 
@@ -36,6 +36,21 @@ const Dashboard = () => {
   } = useQuery(["activeRequests", token], () => fetchActiveRequests(), {
     enabled: !!token,
   });
+
+  const { data: unfulfilledRequests } = useQuery(
+    "unfulfilledCount",
+    async () => {
+      const response = await axios.get(
+        "http://localhost:4000/requests/unfulfilled-count"
+      );
+
+      console.log("Unfulfilled Count Response:", response.data);
+      return response.data.unfulfilled_count;
+    },
+    {
+      refetchInterval: 60000, // Refetch the data every 60 seconds
+    }
+  );
 
   // Sort and set urgent and sidebar requests
   useEffect(() => {
@@ -72,29 +87,39 @@ const Dashboard = () => {
   if (isError) return <div>Error: {error.message}</div>;
   if (!user) return <div>No user data found</div>;
 
+  const fullName = `${user.first_name} ${user.last_name}`;
+
   return (
     <div className="bg-white flex flex-col mt-3 px-16 py-12 max-md:px-5 lg:flex-row border shadow-3xl rounded-md">
       <div className="flex-grow">
         <div className="self-stretch flex items-stretch justify-between gap-5 mt-6 mx-11 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <div className="flex flex-col items-start">
             <div className="border border-black rounded-xl shadow-lg shadow-[#7d7d7d]">
-              <p className="text-xs self-stretch text-black text-center p-3 whitespace-nowrap">
+              <p className="text-xs text-black text-center p-3">
                 <i>Welcome back, {user.first_name}!</i>
               </p>
-              <img
-                src={ProfImg}
-                className="aspect-[1.01] object-contain object-center w-full overflow-hidden"
-                alt="Profile"
-              />
-              <div className="self-stretch text-black text-center font-semibold leading-10 whitespace-nowrap">
-                {user.first_name} {user.last_name}
+              <div className="flex flex-col items-center">
+                {user.profileImage ? (
+                  <img
+                    src={user.profileImage}
+                    alt={`${user.first_name}'s profile`}
+                    className="rounded-full h-10 w-10"
+                  />
+                ) : (
+                  <FallbackProfilePic name={fullName} />
+                )}
+                <div className="text-black text-center m-3">{fullName}</div>
               </div>
             </div>
             <div className="mt-4 border border-black rounded-xl shadow-lg shadow-[#7d7d7d] p-4 text-center">
               <h3 className="text-lg font-semibold">
                 Unfulfilled Help Requests
               </h3>
-              <p className="text-2xl font-bold">{sidebarRequests.length}</p>
+              <p className="text-2xl font-bold">
+                {unfulfilledRequests !== undefined
+                  ? `${unfulfilledRequests}`
+                  : ""}
+              </p>
             </div>
           </div>
           <div
@@ -242,7 +267,7 @@ const Dashboard = () => {
         <div className="flex justify-center mt-9">
           <Link
             to="/create"
-            className="flex justify-center w-32 h-12 min-w-32 min-h-12 text-black text-base leading-6 whitespace-nowrap items-center border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 max-md:px-5 rounded-full"
+            className="flex justify-center p-3 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
           >
             Create Requests
           </Link>

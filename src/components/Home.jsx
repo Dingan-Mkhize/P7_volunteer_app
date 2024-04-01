@@ -1,4 +1,7 @@
-import { useState, useEffect } from "react";
+//import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useQuery } from "react-query";
+import axios from "axios";
 import HeroImg from "../assets/homepage.webp";
 import HomeImg1 from "../assets/volunteer_6.png";
 import HomeImg2 from "../assets/volunteer_1.png";
@@ -6,18 +9,18 @@ import HomeImg3 from "../assets/volunteer_4.png";
 import HomeImg4 from "../assets/volunteer_5.png";
 
 const Home = () => {
-  // Placeholder state for unfulfilled help requests
-  const [unfulfilledRequests, setUnfulfilledRequests] = useState(50);
+  const { data: unfulfilledRequests } = useQuery(
+    "unfulfilledCount",
+    async () => {
+      const response = await axios.get("http://localhost:4000/requests/unfulfilled-count");
 
-  // Simulate updating the counter every few seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const placeholderData = Math.floor(Math.random() * 100); // Random number between 0 and 99
-      setUnfulfilledRequests(placeholderData);
-    }, 3000); // Update every 3000 milliseconds (3 seconds)
-
-    return () => clearInterval(interval);
-  }, []);
+      console.log("Unfulfilled Count Response:", response.data);
+      return response.data.unfulfilled_count;
+    },
+    {
+      refetchInterval: 60000, // Refetch the data every 30 seconds
+    }
+  );
 
   return (
     <div className="flex flex-col items-stretch">
@@ -38,12 +41,18 @@ const Home = () => {
           community and make a difference today.
         </div>
         <div className="flex justify-center items-center gap-4 mb-9 mt-9">
-          <button className="text-white bg-black border-black text-base leading-6 whitespace-nowrap justify-center items-center px-4 py-2 border shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full w-28">
+          <Link
+            to="/signup"
+            className="text-center text-white bg-black border-black text-base leading-6 py-2 border shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full w-28"
+          >
             Sign Up
-          </button>
-          <button className="text-black bg-white border-black text-base leading-6 whitespace-nowrap justify-center items-center px-4 py-2 border shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full w-28">
+          </Link>
+          <Link
+            to="/about"
+            className="text-center text-black bg-white border-black text-base leading-6 py-2 border shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full w-28"
+          >
             Learn More
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -64,26 +73,14 @@ const Home = () => {
                   <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                     <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0">
                       <div className="items-stretch flex flex-col max-md:mt-8">
-                        {/* Dynamic counter for unfulfilled help requests */}
-
                         <div className="rounded-xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden p-3">
-                          <div className="text-black text-5xl font-bold leading-[57.6px] whitespace-nowrap max-md:text-4xl">
-                            {unfulfilledRequests}%
+                          <div className="text-black text-center text-6xl font-bold leading-[57.6px] whitespace-nowrap max-md:text-4xl">
+                            {unfulfilledRequests !== undefined
+                              ? `${unfulfilledRequests}`
+                              : ""}
                           </div>
-                          <div className="text-black text-base leading-6 mt-2">
-                            Unfulfilled Help Requests Near You
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">
-                      <div className="items-stretch flex grow flex-col max-md:mt-8">
-                        <div className="rounded-xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden p-3">
-                          <div className="text-black text-5xl font-bold leading-[57.6px] whitespace-nowrap max-md:text-4xl">
-                            50%
-                          </div>
-                          <div className="text-black text-base leading-6 mt-2">
-                            Make a Difference in Your Community Today
+                          <div className="flex justify-center text-black text-base leading-6 mt-2">
+                            Unfulfilled Help Requests
                           </div>
                         </div>
                       </div>

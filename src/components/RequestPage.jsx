@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import axios from "axios";
 import EditRequestModal from "../components/EditRequestModal";
-import MessageVolunteersModal from "../components/MessageVolunteersModal";
 import MapComponent from "../components/MapComponent";
 import { FiEdit } from "react-icons/fi";
 import { differenceInHours } from "date-fns";
@@ -22,13 +21,14 @@ const RequestPage = () => {
   const { jobId } = useParams();
   const { user, token } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [isRequester, setIsRequester] = useState(false);
-  
+
   const [editFields, setEditFields] = useState({
     title: "",
     description: "",
     location: "",
+    lat: 51.505,
+    lng: -0.09,
   });
   const [location, setLocation] = useState({ lat: 51.505, lng: -0.09 });
 
@@ -37,7 +37,7 @@ const RequestPage = () => {
     isLoading,
     isError,
     error,
-    refetch
+    refetch,
   } = useQuery(
     ["requestDetails", jobId, token],
     () => fetchRequestDetails(jobId, token),
@@ -80,18 +80,25 @@ const RequestPage = () => {
     }
   }, [request, user]);
 
-  const handleSaveChanges = async () => {
+  const updateMapMarker = (newLatitude, newLongitude) => {
+    setLocation({ lat: newLatitude, lng: newLongitude });
+  };
+
+  const handleSaveChanges = async (editFields) => {
     // Headers must include 'Content-Type': 'application/json' for JSON payloads
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
-
+    setEditFields(editFields);
+    setLocation({lat: editFields.lat, lng: editFields.lng})
     // Stringify the updated fields to send as the request body
     const updatedFields = JSON.stringify({
       title: editFields.title,
       description: editFields.description,
       location: editFields.location,
+      lat: editFields.lat,
+      long: editFields.lng,
     });
 
     try {
@@ -107,7 +114,6 @@ const RequestPage = () => {
       console.error("Failed to save changes:", error);
     }
   };
-
 
   // Handle republish logic
   const republishRequest = async () => {
@@ -136,8 +142,7 @@ const RequestPage = () => {
         }
       );
 
-        await refetch();
-
+      await refetch();
     } catch (error) {
       console.error(
         "Failed to volunteer for request",
@@ -219,6 +224,7 @@ const RequestPage = () => {
           <EditRequestModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
+            updateMapMarker={updateMapMarker}
             editFields={editFields}
             setEditFields={setEditFields}
             onSave={handleSaveChanges}
@@ -270,7 +276,7 @@ const RequestPage = () => {
                 {editFields.title}
               </div>
               <div className="mt-6 text-md leading-9 text-black shadow-md shadow-[#7d7d7d] border border-black rounded-2xl p-3">
-                {request.description}
+                {editFields.description}
               </div>
             </div>
           </div>
@@ -310,22 +316,6 @@ const RequestPage = () => {
             Volunteers ({request?.volunteers?.length || 0})
           </div>
         </div>
-        <div className="flex justify-center">
-          {isRequester && (
-            <button
-              className="mt-4 mb-4 px-6 py-2 text-white bg-blue-500 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
-              onClick={() => setIsMessageModalOpen(true)}
-            >
-              Message Volunteers
-            </button>
-          )}
-        </div>
-
-        <MessageVolunteersModal
-          isOpen={isMessageModalOpen}
-          onClose={() => setIsMessageModalOpen(false)}
-          volunteers={request?.volunteers}
-        />
 
         {/* For larger screens: Display individual volunteer cards */}
         <div className="hidden sm:flex justify-center gap-5 flex-wrap">
