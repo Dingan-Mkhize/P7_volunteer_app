@@ -29,7 +29,7 @@ const Footer = () => {
                 Address:
               </div>
               <div className="self-stretch text-black text-sm leading-5 mt-1 max-md:max-w-full">
-                Level 1, 12 Sample St, Sydney NSW 2000
+                123, Sample St, London, UK
               </div>
               <div className="self-stretch text-black text-sm font-semibold leading-5 mt-6 max-md:max-w-full">
                 Contact:
@@ -38,7 +38,7 @@ const Footer = () => {
                 1800 123 4567
               </div>
               <div className="self-stretch text-black text-sm leading-5 underline max-md:max-w-full">
-                Email:
+                Email: hands.united@email.com
               </div>
               <div className="items-stretch flex w-[168px] max-w-full gap-3 mt-6 self-start">
                 <img

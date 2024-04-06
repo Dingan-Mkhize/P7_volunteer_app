@@ -12,7 +12,9 @@ const Home = () => {
   const { data: unfulfilledRequests } = useQuery(
     "unfulfilledCount",
     async () => {
-      const response = await axios.get("http://localhost:4000/requests/unfulfilled-count");
+      const response = await axios.get(
+        "http://localhost:4000/requests/unfulfilled-count"
+      );
 
       console.log("Unfulfilled Count Response:", response.data);
       return response.data.unfulfilled_count;
@@ -32,11 +34,12 @@ const Home = () => {
       </div>
 
       <div className="rounded-xl shadow-lg shadow-white mx-auto w-full max-w-3xl overflow-hidden p-6 mt-3 mb-3">
-        <div className="self-center text-black text-center text-6xl font-bold">
-          Hands United<p className="text-sm mt-3">———————</p>
+        <div className="self-center text-black text-center font-bold text-4xl sm:text-5xl md:text-6xl">
+          Hands United
+          <p className="text-sm mt-3">———————</p>
           Connecting Communities, One Request at a Time
         </div>
-        <div className="text-black text-center text-lg mt-3">
+        <div className="text-black text-center text-base sm:text-lg mt-3">
           Welcome to our platform where neighbors help neighbors. Join our
           community and make a difference today.
         </div>
@@ -72,16 +75,14 @@ const Home = () => {
                 <div className="max-md:max-w-full mt-3">
                   <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                     <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0">
-                      <div className="items-stretch flex flex-col max-md:mt-8">
-                        <div className="rounded-xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden p-3">
-                          <div className="text-black text-center text-6xl font-bold leading-[57.6px] whitespace-nowrap max-md:text-4xl">
-                            {unfulfilledRequests !== undefined
-                              ? `${unfulfilledRequests}`
-                              : ""}
-                          </div>
-                          <div className="flex justify-center text-black text-base leading-6 mt-2">
-                            Unfulfilled Help Requests
-                          </div>
+                      <div className="rounded-xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
+                        <div className="text-black text-center text-6xl font-bold leading-[57.6px] whitespace-nowrap max-md:text-4xl">
+                          {unfulfilledRequests !== undefined
+                            ? `${unfulfilledRequests}`
+                            : ""}
+                        </div>
+                        <div className="flex justify-center text-black text-base leading-6 mt-2">
+                          Unfulfilled Help Requests
                         </div>
                       </div>
                     </div>
@@ -102,7 +103,7 @@ const Home = () => {
       <div className="items-center bg-white flex w-full flex-col px-16 py-12 max-md:max-w-full max-md:px-5">
         <div className="relative pb-9 px-6 rounded-3xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
           <div className="circle-bg"></div>
-          <div className="flex justify-center text-black text-center text-base font-semibold leading-6 self-center whitespace-nowrap mt-16 max-md:mt-10">
+          <div className="flex justify-center text-black text-center text-base font-semibold leading-6 self-center mt-16 max-md:mt-10">
             Empower Your Community, One Act at a Time
           </div>
           <div className="flex flex-col justify-center items-center text-center max-w-screen-md mx-auto">
@@ -179,64 +180,7 @@ const Home = () => {
         </div>
       </div>
       <div className="items-center bg-white flex w-full flex-col px-20 py-12 max-md:max-w-full max-md:px-5">
-        <div className="text-black text-center text-5xl font-bold leading-[57.6px] mt-16 max-md:max-w-full max-md:text-4xl max-md:mt-10">
-          FAQs
-        </div>
-        <div className="text-black text-center text-lg leading-7 mt-6 max-md:max-w-full">
-          Find answers to commonly asked questions to help you make the most of
-          our platform.
-        </div>
-
-        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
-          <div className="text-black text-lg font-bold leading-7 grow my-auto max-md:max-w-full">
-            How do I sign up?
-          </div>
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/2ad63b5c32e64980fa0c23030c39b683ea86ebbc2078f66fab9e4d55a8f3cf6e?"
-            className="aspect-square object-contain object-center w-8 overflow-hidden self-stretch shrink-0 max-w-full"
-          />
-        </div>
-        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
-          <div className="text-black text-lg font-bold leading-7 grow my-auto max-md:max-w-full">
-            How does the interactive map work?
-          </div>
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/2ad63b5c32e64980fa0c23030c39b683ea86ebbc2078f66fab9e4d55a8f3cf6e?"
-            className="aspect-square object-contain object-center w-8 overflow-hidden self-stretch shrink-0 max-w-full"
-          />
-        </div>
-        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
-          <div className="text-black text-lg font-bold leading-7 grow my-auto max-md:max-w-full">
-            What happens after I volunteer?
-          </div>
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/2ad63b5c32e64980fa0c23030c39b683ea86ebbc2078f66fab9e4d55a8f3cf6e?"
-            className="aspect-square object-contain object-center w-8 overflow-hidden self-stretch shrink-0 max-w-full"
-          />
-        </div>
-        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
-          <div className="text-black text-lg font-bold leading-7 grow my-auto max-md:max-w-full">
-            How do I submit a help request?
-          </div>
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/2ad63b5c32e64980fa0c23030c39b683ea86ebbc2078f66fab9e4d55a8f3cf6e?"
-            className="aspect-square object-contain object-center w-8 overflow-hidden self-stretch shrink-0 max-w-full"
-          />
-        </div>
-        <div className="items-center flex max-w-full gap-3 py-5 max-md:flex-wrap rounded-full shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
-          <div className="text-black text-lg font-bold leading-7 grow my-auto max-md:max-w-full">
-            What is the real-time counter on the homepage?
-          </div>
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/2ad63b5c32e64980fa0c23030c39b683ea86ebbc2078f66fab9e4d55a8f3cf6e?"
-            className="aspect-square object-contain object-center w-8 overflow-hidden self-stretch shrink-0 max-w-full"
-          />
-        </div>
+        {/*  Contact form Link */}
         <div className="text-black text-center text-3xl font-bold leading-10 mt-20 max-md:max-w-full max-md:mt-10">
           Still have questions?
         </div>

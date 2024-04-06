@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -55,6 +55,25 @@ const RequestPage = () => {
     }
   );
 
+  // useMemo to create a jobs array from the request data
+  const jobs = useMemo(() => {
+    if (request) {
+      return [
+        {
+          id: request.id,
+          title: request.title,
+          taskType: request.taskType, // this should match the task type property in your request object
+          description: request.description,
+          location: request.location,
+          latitude: Number(request.latitude),
+          longitude: Number(request.longitude),
+          // ... include any other properties required by the MapComponent for the popup
+        },
+      ];
+    }
+    return [];
+  }, [request]);
+
   useEffect(() => {
     if (request && user) {
       console.log("Request object:", request);
@@ -91,7 +110,7 @@ const RequestPage = () => {
       "Content-Type": "application/json",
     };
     setEditFields(editFields);
-    setLocation({lat: editFields.lat, lng: editFields.lng})
+    setLocation({ lat: editFields.lat, lng: editFields.lng });
     // Stringify the updated fields to send as the request body
     const updatedFields = JSON.stringify({
       title: editFields.title,
@@ -189,38 +208,25 @@ const RequestPage = () => {
 
   return (
     <div className="flex flex-col items-center bg-white mt-3 px-5 py-12 lg:px-16 border shadow-3xl rounded-md">
-      {/* Requester and job title section */}
-      <div className="flex flex-col md:flex-row items-center justify-center mb-3 py-3">
-        <div className="px-6 py-3 border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl text-center">
-          <p className="text-xs text-black leading-9">Requester</p>
-          {user ? (
-            <>
-              <img
-                loading="lazy"
-                src={user.profilePic || "defaultProfilePicUrlHere"} // Provide a default profile picture URL if user.profilePic is not available
-                alt="Profile Pic"
-                className="object-cover w-[100px] h-[100px] shadow-md shadow-[#7d7d7d] border border-black rounded-full mx-auto my-3"
-              />
-              <div className="text-black font-semibold leading-9">
-                {user.first_name} {user.last_name}
-              </div>
-            </>
-          ) : (
-            <div>Loading requester information...</div> // Or any other placeholder you prefer
-          )}
-        </div>
-        <div className="lg:py-12 lg:px-6 m-6 text-center lg:text-left lg:w-3/4">
-          <div className="text-3xl font-bold text-black flex justify-between items-center w-full px-5">
-            {editFields.title}
+      {/* Job title and subheading section */}
+      <div className="flex justify-center items-center bg-white mt-3 px-5 py-12 lg:px-16 border shadow-3xl rounded-xl w-full">
+        <div className="text-center w-full lg:w-3/4">
+          <div className="flex justify-center items-center flex-col lg:flex-row">
+            <h1 className="text-3xl font-bold text-black mb-3 lg:mb-0">
+              {editFields.title}
+            </h1>
             {isRequester && (
               <FiEdit
                 onClick={() => setIsModalOpen(true)}
-                style={{ cursor: "pointer" }}
+                className="cursor-pointer lg:ml-4"
                 size={20}
                 color="#3B82F6"
               />
             )}
           </div>
+          <p className="text-lg text-black">
+            Volunteer and start making a difference in your community.
+          </p>
           <EditRequestModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
@@ -229,15 +235,12 @@ const RequestPage = () => {
             setEditFields={setEditFields}
             onSave={handleSaveChanges}
           />
-          <div className="mt-6 text-lg leading-7 text-black">
-            Volunteer and start making a difference in your community.
-          </div>
         </div>
       </div>
 
       {/* Focused Map and Job Details */}
-      <div className="mt-6 flex flex-col md:flex-row justify-center items-center">
-        <div className="flex flex-col justify-center gap-5 p-6 border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl">
+      <div className="mt-6 flex flex-col md:flex-row justify-center items-stretch w-full px-4 md:px-0">
+        <div className="flex flex-col justify-center gap-5 p-6 border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl w-full max-w-4xl mx-auto">
           <div className="flex text-lg font-bold flex-row">
             Volunteer Request Details:
             {isRequester && (
@@ -251,12 +254,9 @@ const RequestPage = () => {
             )}
           </div>
           {/* Keep this on top */}
-          <div className="flex flex-col md:flex-row justify-center gap-5 w-full">
-            {/* Adjusted flex container for dynamic resizing */}
-            <div
-              className="flex-grow leaflet-container leaflet-control-attribution border border-black shadow-md shadow-[#7d7d7d] rounded-2xl md:my-4"
-              style={{ height: "400px" }} // Removed maxWidth to allow flex-grow to work
-            >
+          <div className="flex flex-col md:flex-row justify-center gap-5 w-full ">
+            {/* Map container */}
+            <div className="leaflet-container leaflet-control-attribution w-full md:w-1/2 md:order-2 border border-black shadow-md shadow-[#7d7d7d] rounded-2xl">
               {location.lat !== undefined &&
               location.lng !== undefined &&
               !isNaN(location.lat) &&
@@ -266,16 +266,16 @@ const RequestPage = () => {
                   zoomLevel={13}
                   onMapClick={handleMapClick}
                   selectionMode={isRequester}
+                  jobs={jobs}
                 />
               ) : (
                 <div>Loading map...</div>
               )}
             </div>
-            <div className="flex flex-col w-full md:w-6/12 max-w-full">
-              <div className="flex items-center text-3xl font-bold pt-3">
-                {editFields.title}
-              </div>
-              <div className="mt-6 text-md leading-9 text-black shadow-md shadow-[#7d7d7d] border border-black rounded-2xl p-3">
+            {/* Description container */}
+            <div className="w-full md:w-1/2 md:order-1">
+              <div className="text-3xl font-bold pt-3">{editFields.title}</div>
+              <div className="mt-6 text-md leading-relaxed text-black shadow-md shadow-[#7d7d7d] border border-black rounded-2xl p-3">
                 {editFields.description}
               </div>
             </div>

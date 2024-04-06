@@ -60,7 +60,7 @@ const LogIn = () => {
           backgroundBlendMode: "darken",
         }}
       >
-        <div className="outline-text-white w-full text-center py-28">
+        <div className="outline-text-white text-4xl sm:text-5xl md:text-6xl text-center py-28">
           Welcome Back To Hands United
         </div>
       </div>
@@ -70,7 +70,7 @@ const LogIn = () => {
             loading="lazy"
             src={Logo}
             alt="Hands United Logo"
-            className="object-contain object-center w-[230px] h-[230px] overflow-hidden border border-black rounded-full shadow-lg shadow-[#7d7d7d] mb-4"
+            className="w-36 h-33 object-contain object-center overflow-hidden border border-black rounded-full shadow-lg shadow-[#7d7d7d]"
           />
         </div>
         <form

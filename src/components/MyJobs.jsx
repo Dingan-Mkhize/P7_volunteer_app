@@ -32,7 +32,7 @@ const fetchVolunteeredJobs = async (userId, token) => {
 };
 
 const MyJobsComponent = () => {
-  const { user, token, setActiveJobId } = useUser();
+  const { user, token } = useUser();
   const userId = user?.id;
   const queryClient = useQueryClient();
   const myRequestsQuery = useQuery(
@@ -75,40 +75,9 @@ const MyJobsComponent = () => {
   const myRequests = myRequestsQuery.data ?? [];
   const volunteeredJobs = volunteeredJobsQuery.data ?? [];
 
-  const completeJobMutation = useMutation(
-    async (volunteeringId) => {
-      console.log(`Bearer ${token}`);
-      await axios.patch(
-        `http://localhost:4000/volunteerings/${volunteeringId}/mark-as-completed`,
-        {}, // No need for a body in a PATCH request
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-    },
-    {
-      onSuccess: () => {
-        // Invalidate or refetch any related queries to reflect the changes
-        queryClient.invalidateQueries("volunteeredJobs");
-        console.log("Volunteering marked as completed successfully.");
-        setActiveJobId(null); // Reset the active job id
-      },
-      onError: (error) => {
-        console.error("Failed to mark volunteering as completed:", error);
-      },
-    }
-  );
-
-  // Function to call the complete job mutation
-  const completeJob = (volunteeringId) => {
-    console.log(
-      `About to mark volunteering with ID ${volunteeringId} as completed`
-    );
-    completeJobMutation.mutate(volunteeringId);
-  };
-
-
   return (
     <div className="bg-white mt-3 px-16 py-12 max-md:px-5 border shadow-3xl rounded-md">
-      <div className="text-center text-black bg-white mb-6 pt-6 border border-black shadow-lg shadow-[#7d7d7d] rounded-2xl">
+      <div className="text-center text-black bg-white mb-6 pt-6 border border-black shadow-lg shadow-[#7d7d7d] rounded-xl">
         <img
           src={Logo}
           alt="Hands United Logo"
@@ -209,13 +178,12 @@ const MyJobsComponent = () => {
                       <p>{job.location}</p>
                     </div>
                   </div>
-                  <button
-                    // Update to call the new function
-                    onClick={() => completeJob(job.volunteeringId)}
+                  {/* <Link
+                        to={`/requests/${job.id}`}
                     className="mt-2 md:mt-0 px-4 py-2 text-sm text-white border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 bg-black hover:bg-gray-700 rounded-full"
                   >
-                    Volunteer Complete
-                  </button>
+                    Request Info
+                  </Link> */}
                 </div>
               ))}
             </div>

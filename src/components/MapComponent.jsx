@@ -3,13 +3,28 @@ import PropTypes from "prop-types";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import handIcon from "../assets/hand.png"; // Make sure the path is correct
 
 // Correct imports for the marker icons and shadow
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
-// Delete the old icon URLs and assign the new ones
+// Define a function to get a custom icon
+const getCustomIcon = () => {
+  return L.icon({
+    iconUrl: handIcon,
+    iconRetinaUrl: handIcon,
+    iconSize: [35, 45], // Customize as needed
+    iconAnchor: [17, 45], // Adjust based on your icon's design
+    popupAnchor: [1, -34], // Adjust for best popup placement
+    shadowUrl: markerShadow,
+    shadowSize: [50, 64],
+    shadowAnchor: [13, 62],
+  });
+};
+
+// Update the default marker icon configuration
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
@@ -52,8 +67,27 @@ const MapComponent = ({ position, zoomLevel, jobs, title }) => {
         />
         {jobs && jobs.length > 0 ? (
           jobs.map((job) => (
-            <Marker key={job.id} position={[job.latitude, job.longitude]}>
-              <Popup>{job.title}</Popup>
+            <Marker
+              key={job.id}
+              position={[job.latitude, job.longitude]}
+              icon={getCustomIcon()} // Now using the custom hand icon
+            >
+              <Popup>
+                <div className="p-4">
+                  <h2 className="text-lg font-semibold">{job.title}</h2>
+                  <p
+                    className="text-sm font-semibold my-1"
+                    style={{
+                      color:
+                        job.taskType === "one-time" ? "#15bec1" : "#f17d2b",
+                    }}
+                  >
+                    Job Type: {job.taskType}
+                  </p>
+                  <p>Location: {job.location}</p>
+                  {/* Additional job details */}
+                </div>
+              </Popup>
             </Marker>
           ))
         ) : (

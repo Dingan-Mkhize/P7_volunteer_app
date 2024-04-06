@@ -3,8 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/LogoImg.png";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useUser } from "../contexts/UserContext";
-// import { AiOutlineDashboard, AiOutlineInfoCircle } from 'react-icons/ai'; // Dashboard Icon
-// import { HiOutlineMail } from 'react-icons/hi'; // Contact Icon
+import {
+  MdLogin,
+  MdLogout,
+  MdPersonAdd,
+  MdDashboard,
+  MdMessage,
+  MdWork,
+} from "react-icons/md";
+
 
 const NavBar = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -149,66 +156,67 @@ const NavBar = () => {
           {user ? (
             <>
               {/* Authenticated User Links */}
-              <li>
+              <li className="flex justify-center p-1 mb-3">
                 <Link
                   to="/dashboard"
-                  className="flex justify-center p-1 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
+                  className="border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full p-2"
                   onClick={() => setNav(false)}
                 >
-                  Dashboard
+                  <MdDashboard className="text-lg" />
                 </Link>
               </li>
-              <li>
+              <li className="flex justify-center p-1 mb-3">
                 <Link
                   to="/message"
-                  className="flex justify-center p-1 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
+                  className="border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full p-2"
                   onClick={() => setNav(false)}
                 >
-                  Messages
+                  <MdMessage className="text-lg" />
                 </Link>
               </li>
-              <li>
+              <li className="flex justify-center p-1 mb-3">
                 <Link
                   to="/myjobs"
-                  className="flex justify-center p-1 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
+                  className="border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full p-2"
                   onClick={() => setNav(false)}
                 >
-                  My Jobs
+                  <MdWork className="text-lg" />
                 </Link>
               </li>
+
               <p className="flex justify-center text-sm mb-3">————</p>
-              <li className="flex justify-center">
+              <li className="flex justify-center p-1 mb-3">
                 {/* Logout Button */}
                 <button
                   onClick={() => {
                     handleLogout();
                     setNav(false);
                   }}
-                  className="py-2 px-3 text-white bg-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+                  className="border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full p-2"
                 >
-                  Logout
+                  <MdLogout className="text-lg" />
                 </button>
               </li>
             </>
           ) : (
             <>
               {/* Guest User Links */}
-              <li>
+              <li className="flex justify-center p-1 mb-3">
                 <Link
                   to="/login"
-                  className="flex justify-center p-1 mb-3 border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full"
+                  className="border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full p-2"
                   onClick={() => setNav(false)}
                 >
-                  Log In
+                  <MdLogin className="text-lg" />
                 </Link>
               </li>
-              <li>
+              <li className="flex justify-center p-1 mb-3">
                 <Link
                   to="/signup"
-                  className="flex justify-center p-1 bg-black border border-black text-white shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+                  className="border border-black shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 shadow-md rounded-full p-2"
                   onClick={() => setNav(false)}
                 >
-                  Sign Up
+                  <MdPersonAdd className="text-lg" />
                 </Link>
               </li>
             </>

@@ -10,88 +10,89 @@ const Contact = () => {
   };
 
   return (
-    <div className="items-stretch bg-white flex flex-col mt-3 p-9 border shadow-3xl rounded-md">
+    <div className="flex flex-col items-stretch bg-white mt- p-9 border shadow-3xl rounded-md">
       <div
-        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-md shadow-[#7d7d7d] mb-6"
+        className="w-full h-[500px] bg-no-repeat bg-cover flex items-center justify-center text-6xl font-bold text-white rounded-full px-16 shadow-md shadow-[#7d7d7d] mb-6"
         style={{ backgroundImage: `url(${ContactImg1})` }}
       >
-        <div className="outline-text-white w-full text-center py-28">
+        <div className="text-center outline-text-white py-28 w-full text-4xl sm:text-5xl md:text-6xl">
           Get In Touch, Community Is Always Available
         </div>
       </div>
 
-      <div className="items-center bg-white flex w-full flex-col justify-center px-16 py-9 max-md:max-w-full max-md:px-5 mt-6">
-        <div className="flex w-[768px] max-w-full flex-col max-md:mt-10 rounded-2xl border border-black shadow-lg shadow-[#7d7d7d]">
-          <div className="flex justify-center py-6 px-16">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center justify-center w-full md:px-16 py-9"
+      >
+        <div className="flex flex-col items-center justify-center w-full sm:w-[768px] max-w-full rounded-2xl border border-black shadow-lg shadow-[#7d7d7d]">
+          <div className=" flex justify-center mt-6">
             <img
               loading="lazy"
               src={Logo}
               alt="Hands United Logo"
-              className="object-contain object-center w-[230px] h-[230px] overflow-hidden border border-black rounded-full shadow-lg shadow-[#7d7d7d] mb-4"
+              className="object-contain object-center w-36 h-33 overflow-hidden border border-black rounded-full shadow-lg shadow-[#7d7d7d]"
             />
           </div>
-          <div className="self-stretch text-black text-center text-5xl font-bold leading-[57.6px] max-md:max-w-full max-md:text-4xl mt-3">
+          <div className="text-center text-5xl font-bold text-black mt-3">
             Contact us
-          </div>{" "}
-          <div className="self-stretch text-black text-center text-lg leading-7 mt-6 max-md:max-w-full">
+          </div>
+          <div className="text-center text-lg text-black mt-6">
             Have a question? We are here to help!
           </div>
-          <label
-            htmlFor="name"
-            className="self-center text-black text-base leading-6 mt-9 max-md:max-w-full max-md:mt-10"
-          >
-            Name
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
-            className="self-center text-base leading-6 border bg-white w-[560px] max-w-full justify-center mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black max-md:max-w-full rounded-full"
-            placeholder="Your Name"
-          />
-          <label
-            htmlFor="email"
-            className="self-center text-black text-base leading-6 mt-6 max-md:max-w-full"
-          >
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            className="self-center text-base leading-6 border bg-white w-[560px] max-w-full justify-center mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black max-md:max-w-full rounded-full"
-            placeholder="Your Email"
-          />
-          <label
-            htmlFor="message"
-            className="self-center text-black text-base leading-6 mt-6 max-md:max-w-full"
-          >
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            required
-            className="self-center text-base leading-6 border bg-white w-[560px] max-w-full mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black max-md:max-w-full max-md:pb-10 rounded-3xl"
-            placeholder="Your Message"
-            rows="6"
-          ></textarea>
-          {/* <div className="self-center flex gap-2 mt-6 pr-11 pb-3.5 items-start max-md:pr-5">
-            <div className="border bg-white flex w-[18px] shrink-0 h-[18px] flex-col border-solid border-black" />
-  
-          </div> */}
-          <div className="flex justify-center p-9">
-            <button
-              type="submit"
-              className="text-white text-base leading-6 whitespace-nowrap border bg-black px-6 py-3 border-solid border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+          <div className="w-full p-9">
+            <label
+              htmlFor="name"
+              className="block text-black text-base leading-6 mb-3"
             >
-              Send Message
-            </button>
+              Name
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              className="block text-base leading-6 border bg-white w-full p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-full"
+              placeholder="Your Name"
+            />
+            <label
+              htmlFor="email"
+              className="block text-black text-base leading-6 mt-6"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              className="block text-base leading-6 border bg-white w-full mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-full"
+              placeholder="Your Email"
+            />
+            <label
+              htmlFor="message"
+              className="block text-black text-base leading-6 mt-6"
+            >
+              Message
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              className="block text-base leading-6 border bg-white w-full mt-2 p-3 shadow-md shadow-[#7d7d7d] border-solid border-black rounded-3xl"
+              placeholder="Your Message"
+              rows="6"
+            ></textarea>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="text-base leading-6 text-white whitespace-nowrap bg-black px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full mt-6"
+              >
+                Send Message
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

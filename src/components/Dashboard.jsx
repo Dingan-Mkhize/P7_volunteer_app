@@ -92,8 +92,8 @@ const Dashboard = () => {
   return (
     <div className="bg-white flex flex-col mt-3 px-16 py-12 max-md:px-5 lg:flex-row border shadow-3xl rounded-md">
       <div className="flex-grow">
-        <div className="self-stretch flex items-stretch justify-between gap-5 mt-6 mx-11 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-          <div className="flex flex-col items-start">
+        <div className="self-stretch flex flex-col items-center justify-center gap-5 mt-6 mx-11 md:flex-row md:justify-between md:items-stretch max-md:max-w-full max-md:mt-10">
+          <div className="flex flex-col items-center mb-4 md:mb-0">
             <div className="border border-black rounded-xl shadow-lg shadow-[#7d7d7d]">
               <p className="text-xs text-black text-center p-3">
                 <i>Welcome back, {user.first_name}!</i>
@@ -258,10 +258,10 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="flex justify-center text-black text-3xl font-bold leading-10 self-center whitespace-nowrap mt-9 max-md:mt-10">
+        <div className="flex justify-center text-black text-3xl font-bold leading-10 self-center mt-9 max-md:mt-10">
           Have Your Own Request?
         </div>
-        <div className="flex justify-center text-black text-lg leading-7 self-center whitespace-nowrap mt-4">
+        <div className="flex justify-center text-black text-lg leading-7 self-center mt-4">
           Reach out to your community for a helping hand.
         </div>
         <div className="flex justify-center mt-9">

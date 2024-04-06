@@ -11,10 +11,10 @@ const About = () => {
     <div className="flex flex-col items-stretch mt-3 p-9 border shadow-3xl rounded-md">
       {/* Section with background image and title */}
       <div
-        className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-md shadow-[#7d7d7d] mb-6"
+        className="w-full h-[500px] bg-no-repeat bg-cover flex items-center justify-center text-6xl font-bold text-white rounded-full px-16 shadow-md shadow-[#7d7d7d] mb-6"
         style={{ backgroundImage: `url(${AboutImg1})` }}
       >
-        <div className="outline-text-white w-full text-center py-28">
+        <div className="outline-text-white text-4xl sm:text-5xl md:text-6xl text-center py-28">
           Connecting Communities Through Kindness
         </div>
       </div>
@@ -49,8 +49,8 @@ const About = () => {
             Passionate individuals dedicated to making a difference
           </div>
           <div className="self-stretch mt-20 max-md:max-w-full max-md:mt-10">
-            <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-              <div className="pb-9 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-10 max-md:flex-col max-md:items-stretch max-md:gap-0">
+              <div className="pb-9 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mb-6">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
                     src={teamImg1}
@@ -60,7 +60,7 @@ const About = () => {
                   <div className="self-stretch text-black text-center text-xl font-semibold leading-8 whitespace-nowrap mt-6">
                     John Doe
                   </div>
-                  <div className="self-stretch text-black text-center text-lg leading-7 whitespace-nowrap">
+                  <div className="self-stretch text-black text-center text-lg leading-7">
                     Founder
                   </div>
                   <div className="self-stretch text-black text-center text-base leading-6 mt-4">
@@ -86,7 +86,7 @@ const About = () => {
                   </div>
                 </div>
               </div>
-              <div className="pb-9 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
+              <div className="pb-9 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mb-6">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
                     src={teamImg3}
@@ -96,7 +96,7 @@ const About = () => {
                   <div className="self-stretch text-black text-center text-xl font-semibold leading-8 whitespace-nowrap mt-6">
                     Jane Smith
                   </div>
-                  <div className="self-stretch text-black text-center text-lg leading-7 whitespace-nowrap">
+                  <div className="self-stretch text-black text-center text-lg leading-7">
                     Community Manager
                   </div>
                   <div className="self-stretch text-black text-center text-base leading-6 mt-4">
@@ -121,17 +121,17 @@ const About = () => {
                   </div>
                 </div>
               </div>
-              <div className="pb-9 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
+              <div className="pb-9 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mb-6">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
                     src={teamImg4}
                     className="aspect-[1.01] object-contain object-center w-full overflow-hidden"
                     alt="Profile"
                   />
-                  <div className="self-stretch text-black text-center text-xl font-semibold leading-8 whitespace-nowrap mt-6">
-                    Michael Johnson
+                  <div className="self-stretch text-black text-center text-xl font-semibold leading-8 mt-6">
+                    James Smith
                   </div>
-                  <div className="self-stretch text-black text-center text-lg leading-7 whitespace-nowrap">
+                  <div className="self-stretch text-black text-center text-lg leading-7">
                     Technical Lead
                   </div>
                   <div className="self-stretch text-black text-center text-base leading-6 mt-4">
@@ -156,7 +156,7 @@ const About = () => {
                   </div>
                 </div>
               </div>
-              <div className="pb-9 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden">
+              <div className="pb-9 px-6 rounded-2xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mb-6">
                 <div className="items-center flex grow flex-col max-md:mt-8">
                   <img
                     src={teamImg2}
@@ -166,7 +166,7 @@ const About = () => {
                   <div className="self-stretch text-black text-center text-xl font-semibold leading-8 whitespace-nowrap mt-6">
                     Emily Davis
                   </div>
-                  <div className="self-stretch text-black text-center text-lg leading-7 whitespace-nowrap">
+                  <div className="self-stretch text-black text-center text-lg leading-7">
                     Marketing Specialist
                   </div>
                   <div className="self-stretch text-black text-center text-base leading-6 mt-4">
@@ -195,7 +195,7 @@ const About = () => {
           </div>
         </div>
         <div className="items-center bg-white flex w-full flex-col px-16 py-12 max-md:max-w-full max-md:px-5">
-          <div className="text-black text-lg font-bold leading-7 whitespace-nowrap mt-8">
+          <div className="text-black text-lg font-bold leading-7 mt-8">
             Trusted by industry leaders for exceptional service
           </div>
           <div className="self-stretch flex gap-2 mt-12 items-start max-md:max-w-full max-md:flex-wrap max-md:mt-10">

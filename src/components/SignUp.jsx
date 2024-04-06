@@ -81,7 +81,7 @@ const SignUpPage = () => {
         className="w-full h-[500px] object-cover bg-no-repeat bg-cover flex items-center justify-center text-white text-6xl font-bold rounded-full leading-[67px] px-16 shadow-md shadow-[#7d7d7d] mb-6"
         style={{ backgroundImage: `url(${SignUpImg1})` }}
       >
-        <div className="outline-text-white w-full text-center py-28">
+        <div className="outline-text-white text-4xl sm:text-5xl md:text-6xl text-center py-28">
           Join Our Community
           <div className="text-white text-xl leading-7 mt-6 mb-16 max-md:max-w-full max-md:mb-10">
             Create an account to start making a difference in your community.
@@ -94,7 +94,7 @@ const SignUpPage = () => {
         <div className="max-md:max-w-full max-md:mr-1 max-md:mt-10">
           <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
             {/* Left side content: Community description and logo unified in one section */}
-            <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0">
+            <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0 mt-6">
               <div className="flex flex-col max-md:max-w-full rounded-2xl border border-black shadow-lg shadow-[#7d7d7d] p-6">
                 {/* Logo placement at the top of the unified section */}
                 <div className="flex justify-center">
@@ -102,7 +102,7 @@ const SignUpPage = () => {
                     loading="lazy"
                     src={Logo}
                     alt="Hands United Logo"
-                    className="object-contain object-center w-[230px] h-[230px] overflow-hidden border border-black rounded-full shadow-lg shadow-[#7d7d7d] mb-4"
+                    className="w-36 h-33 object-contain object-center overflow-hidden border border-black rounded-full shadow-lg shadow-[#7d7d7d]"
                   />
                 </div>
 
@@ -120,7 +120,7 @@ const SignUpPage = () => {
             </div>
 
             {/* Form section for user details */}
-            <div className="flex flex-col items-stretch md:w-6/12 ml-5 p-6 rounded-2xl border border-black shadow-lg shadow-[#7d7d7d]">
+            <div className="flex flex-col items-stretch md:w-6/12 mt-6 p-6 rounded-2xl border border-black shadow-lg shadow-[#7d7d7d]">
               <form
                 onSubmit={handleSubmit}
                 encType="multipart/form-data"
@@ -241,14 +241,14 @@ const SignUpPage = () => {
         </div>
       </div>
       <div className="items-stretch bg-white flex w-full flex-col justify-center px-16 py-12 max-md:max-w-full max-md:px-5">
-        <div className="max-md:max-w-full max-md:mr-1 max-md:mt-10">
+        <div className="max-md:max-w-full max-md:mr-1">
           <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
             <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0 rounded-2xl border border-black shadow-lg shadow-[#7d7d7d]">
               <img
                 loading="lazy"
                 src={SignUpImg2}
                 alt="John Doe"
-                className="aspect-[0.96] object-cover object-center w-full overflow-hidden grow max-md:max-w-full max-md:mt-10 rounded-2xl"
+                className="aspect-[0.96] object-cover object-center  w-full overflow-hidden grow max-md:max-w-full rounded-2xl"
               />
             </div>
             <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">
@@ -319,7 +319,7 @@ const SignUpPage = () => {
                     className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full"
                   />
                   <div className="text-black text-base leading-6 grow shrink basis-auto">
-                    hello@relume.io
+                    hands.united@email.com
                   </div>
                 </div>
                 <div className="items-stretch flex gap-4 mt-4 self-start">
@@ -338,8 +338,8 @@ const SignUpPage = () => {
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/8b8ff161a94ced2235dff2fea0403b96e72f37444c61148102d9e8eb918c4ea5?"
                     className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full"
                   />
-                  <div className="text-black text-base leading-6 grow whitespace-nowrap">
-                    123 Sample St, Sydney NSW 2000 AU
+                  <div className="text-black text-base leading-6 grow">
+                    123 Sample St, London, UK
                   </div>
                 </div>
               </div>
