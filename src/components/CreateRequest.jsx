@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useUser } from "../contexts/UserContext";
 import { useMutation } from "react-query";
 import axios from "axios";
@@ -23,15 +23,36 @@ const CreateRequest = () => {
   const [description, setDescription] = useState("");
   const { suggestions, setInput } = useAutocomplete();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      inputRef.current?.focus();
+    }
+  }, [isModalOpen]);
+
+  const handleSearchChange = (e) => {
+    const { value } = e.target;
+    setSearchValue(value);
+    setInput(value); 
+    if (value.trim().length > 2) {
+      if (!isModalOpen) setIsModalOpen(true);
+    } else {
+      if (isModalOpen) setIsModalOpen(false);
+    }
+  };
 
   const handleLocationChange = (e) => {
-    setLocationDescription(e.target.value);
-      setInput(e.target.value);
-      if (e.target.value.trim().length > 2) {
-        setIsModalOpen(true); // Open the modal when there are enough characters
-      } else {
-        setIsModalOpen(false); // Close the modal if not
-      }
+    const value = e.target.value;
+    setLocationDescription(value);
+    setSearchValue(value); 
+    setInput(value); 
+    if (value.trim().length > 2) {
+      setIsModalOpen(true);
+    } else {
+      setIsModalOpen(false);
+    }
   };
 
   const handleSelectSuggestion = (suggestion) => {
@@ -46,6 +67,7 @@ const CreateRequest = () => {
       lng: suggestion.lon,
     });
     setIsModalOpen(false);
+    setSearchValue("");
     setInput("");
   };
 
@@ -61,7 +83,6 @@ const CreateRequest = () => {
     },
     {
       onSuccess: () => {
-        // Reset form on success
         setTitle("");
         setLocationDescription("");
         setLocation({ lat: 51.505, lng: -0.09 }); // Reset to default or clear
@@ -169,6 +190,9 @@ const CreateRequest = () => {
                 {/* Invoke the AutocompleteModal here */}
                 <AutoCompleteModal
                   isOpen={isModalOpen}
+                  searchValue={searchValue}
+                  onSearchChange={handleSearchChange}
+                  inputRef={inputRef}
                   suggestions={suggestions}
                   onSelectSuggestion={handleSelectSuggestion}
                   onClose={() => setIsModalOpen(false)}

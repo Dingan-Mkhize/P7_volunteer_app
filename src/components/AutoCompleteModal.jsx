@@ -1,25 +1,33 @@
 import PropTypes from "prop-types";
+import { useEffect, useRef } from "react";
 
 const AutoCompleteModal = ({
   isOpen,
   suggestions,
   onSelectSuggestion,
   onClose,
-  onSearchChange, // Add this prop for handling search input changes
-  searchValue, // Add this prop to maintain the search input state
+  onSearchChange,
+  searchValue,
 }) => {
-  if (!isOpen) return null;
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      inputRef.current?.focus();
+    }
+  }, [isOpen]);
 
   return (
-    <div className="fixed my-modal inset-0 z-[999] bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
-      {/* Overlay */}
+    <div
+      className={`fixed inset-0 z-[999] ${isOpen ? "bg-gray-600 bg-opacity-50" : "hidden"} overflow-y-auto h-full w-full`}
+    >
       <div className="relative top-1/4 mx-auto p-5 border w-11/12 md:w-1/2 lg:w-1/3 shadow-lg bg-white rounded-3xl">
-        {/* Modal */}
         <div className="mt-3 text-center">
           <h2 className="text-lg leading-6 font-medium text-gray-900">
             Select Location
           </h2>
           <input
+            ref={inputRef}
             type="text"
             value={searchValue}
             onChange={onSearchChange}
@@ -61,8 +69,8 @@ AutoCompleteModal.propTypes = {
   suggestions: PropTypes.array.isRequired,
   onSelectSuggestion: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  onSearchChange: PropTypes.func.isRequired, // Add this to the propTypes
-  searchValue: PropTypes.string.isRequired, // And this one as well
+  onSearchChange: PropTypes.func.isRequired,
+  searchValue: PropTypes.string.isRequired,
 };
 
 export default AutoCompleteModal;

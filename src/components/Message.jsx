@@ -245,12 +245,8 @@ const Message = () => {
                   id={request.id}
                   title={request.title}
                   active={activeRequestId === request.id}
-                  onClick={() => setActiveRequestId(request.id)} // Adjust based on how you manage active request state
+                  onClick={() => setActiveRequestId(request.id)}
                   animationDelay={index}
-                  // showCompletionButton={
-                  //   activeRequestId === request.id && request.id === activeJobId
-                  // }
-                  // completeJob={completeJob}
                 />
               ))}
             </div>

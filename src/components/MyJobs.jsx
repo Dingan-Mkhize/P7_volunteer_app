@@ -102,6 +102,7 @@ const MyJobsComponent = () => {
             </Tab>
           </TabList>
 
+          {/* My Request Section */}
           <TabPanel>
             <h2 className="flex justify-center text-lg font-semibold mb-9 mt-6">
               Requests Made
@@ -112,10 +113,9 @@ const MyJobsComponent = () => {
                   key={request.id}
                   className="flex flex-col md:flex-row justify-between items-center bg-white p-4 border shadow-md space-x-4 rounded-lg"
                 >
-                  {/* Link wrapping the title with dynamic color based on taskType */}
                   <Link to={`/requests/${request.id}`}>
                     <h3
-                      className={`text-md font-bold flex-1 ${
+                      className={`text-md font-bold flex-1 truncate max-w-[200px] ${
                         request.taskType === "one-time"
                           ? "text-[#15bec1]" // Example color for one-time tasks
                           : request.taskType === "material-need"
@@ -126,23 +126,29 @@ const MyJobsComponent = () => {
                       {request.title}
                     </h3>
                   </Link>
-                  <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 mx-3">
                     <div>
-                      <p className="font-semibold">Date:</p>
-                      <p>{request.date}</p>
+                      <p className="font-semibold">
+                        Date:{" "}
+                        <span className="font-normal">{request.date}</span>
+                      </p>
                     </div>
                     <div>
-                      <p className="font-semibold">Time:</p>
-                      <p>{request.time}</p>
+                      <p className="font-semibold">
+                        Time:{" "}
+                        <span className="font-normal">{request.time}</span>
+                      </p>
                     </div>
                     <div>
-                      <p className="font-semibold">Location:</p>
-                      <p>{request.location}</p>
+                      <p className="font-semibold">
+                        Location:{" "}
+                        <span className="font-normal">{request.location}</span>
+                      </p>
                     </div>
                   </div>
                   <button
                     onClick={() => markJobAsCompleted(request.id, true)}
-                    className="mt-2 md:mt-0 px-4 py-2 text-sm text-white border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 bg-black hover:bg-gray-700 rounded-full"
+                    className="mt-3 md:mt-0 px-3 py-2 text-sm text-white border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 bg-black hover:bg-gray-700 rounded-full"
                   >
                     Mark as Complete
                   </button>
@@ -161,29 +167,34 @@ const MyJobsComponent = () => {
                   key={job.id}
                   className="flex flex-col md:flex-row justify-between items-center bg-white p-3 border rounded-xl shadow-md space-x-4"
                 >
-                  <h3 className="text-md font-bold flex-1">
+                  <h3 className="text-md font-bold flex-1 truncate max-w-[200px]">
                     <Link to={`/requests/${job.id}`}>{job.title}</Link>
                   </h3>
-                  <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
-                      <p className="font-semibold">Date:</p>
-                      <p>{job.date}</p>
+                      <p className="font-semibold">
+                        Date: <span className="font-normal">{job.date}</span>
+                      </p>
                     </div>
                     <div>
-                      <p className="font-semibold">Time:</p>
-                      <p>{job.time}</p>
+                      <p className="font-semibold">
+                        Time:{" "}
+                        <span className="font-normal">
+                          {new Date(job.time).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: false,
+                          })}
+                        </span>
+                      </p>
                     </div>
                     <div>
-                      <p className="font-semibold">Location:</p>
-                      <p>{job.location}</p>
+                      <p className="font-semibold">
+                        Location:{" "}
+                        <span className="font-normal">{job.location}</span>
+                      </p>
                     </div>
                   </div>
-                  {/* <Link
-                        to={`/requests/${job.id}`}
-                    className="mt-2 md:mt-0 px-4 py-2 text-sm text-white border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 bg-black hover:bg-gray-700 rounded-full"
-                  >
-                    Request Info
-                  </Link> */}
                 </div>
               ))}
             </div>
