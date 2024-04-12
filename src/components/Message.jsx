@@ -5,6 +5,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useUser } from "../contexts/UserContext"; 
 import axios from "axios";
+import FallbackProfilePic from "./FallbackProfilePic";
 
 const RequestListItem = ({
   onClick,
@@ -12,18 +13,30 @@ const RequestListItem = ({
   animationDelay,
   title,
   id,
-}) => (
-  <div
-    onClick={() => onClick(id)}
-    className={`flex items-center p-2 hover:bg-gray-200 cursor-pointer rounded-lg border border-black ${active ? "bg-grey-100" : ""}`}
-    style={{ animationDelay: `0.${animationDelay}s` }}
-  >
-    <div className="ml-2 flex-1">
-      <p className="text-sm font-medium">{title}</p>
-      <span className="text-xs text-gray-500">Last message</span>
+  requesterFirstName,
+  requesterLastName,
+}) => {
+  const requesterFullName = `${requesterFirstName} ${requesterLastName}`;
+
+  return (
+    <div
+      onClick={() => onClick(id)}
+      className={`flex items-center p-2 hover:bg-gray-200 cursor-pointer rounded-lg border border-black ${
+        active ? "bg-grey-100" : ""
+      }`}
+      style={{ animationDelay: `0.${animationDelay}s` }}
+    >
+      <FallbackProfilePic name={requesterFullName} size="10" color="blue" />
+      <div className="ml-3 flex-1">
+        <p className="text-sm font-medium">{title}</p>
+        <span className="text-xs text-gray-500">
+          Requested by: {requesterFullName}
+        </span>
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
 
 
 RequestListItem.propTypes = {
@@ -34,6 +47,8 @@ RequestListItem.propTypes = {
   animationDelay: PropTypes.number.isRequired,
   showCompletionButton: PropTypes.bool,
   completeJob: PropTypes.func,
+  requesterFirstName: PropTypes.string.isRequired,
+  requesterLastName: PropTypes.string.isRequired,
 };
 
 // Set default props
@@ -61,6 +76,7 @@ const Message = () => {
       const response = await axios.get(`http://localhost:4000/requests`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log("Requests data:", response.data);
       return response.data;
     },
     { enabled: !!token }
@@ -124,58 +140,6 @@ const Message = () => {
     }
   );
 
-  // const completeJobMutation = useMutation(
-  //   async (volunteeringId) => {
-  //     return axios.patch(
-  //       `http://localhost:4000/volunteerings/${volunteeringId}/mark-as-completed`,
-  //       {},
-  //       { headers: { Authorization: `Bearer ${token}` } }
-  //     );
-  //   },
-  //   {
-  //     onSuccess: (_, variables) => {
-  //       // "variables" contains the volunteeringId that was passed to the mutation
-  //       const { volunteeringId } = variables;
-  //       // Refetch the requests list to get the updated state
-  //       queryClient.invalidateQueries(["volunteeredJobs"]);
-  //       queryClient.invalidateQueries(["requests", activeRequestId]);
-  //       queryClient.invalidateQueries("requests");
-
-  //       // Remove the job from the local state to update the UI optimistically
-  //       setRequestsList((currentList) =>
-  //         currentList.filter((request) => request.id !== volunteeringId)
-  //       );
-
-  //       // Also, remove the job from the 'volunteeredJobs' cache if necessary
-  //       queryClient.setQueryData(["volunteeredJobs"], (oldData) =>
-  //         oldData.filter((job) => job.id !== volunteeringId)
-  //       );
-
-  //       // Reset the active job id
-  //       setActiveJobId(null);
-
-  //       console.log("Volunteering marked as completed successfully.");
-  //     },
-  //     onError: (error, variables) => {
-  //       // "variables" contains the volunteeringId that was passed to the mutation
-  //       const { volunteeringId } = variables;
-  //       console.error("Failed to mark volunteering as completed:", error);
-  //       alert(
-  //         `Failed to mark volunteering as completed for job ID ${volunteeringId}. Please try again.`
-  //       );
-  //     },
-  //     // Provide the volunteeringId to the mutation context for use in onSuccess/onError
-  //     onMutate: async (volunteeringId) => {
-  //       return { volunteeringId };
-  //     },
-  //   }
-  // );
-
-  // Function to call the complete job mutation
-  // const completeJob = (jobId) => {
-  //   completeJobMutation.mutate(jobId);
-  // };
-
   const totalPages = requestsList
     ? Math.ceil(requestsList.length / requestsPerPage)
     : 0;
@@ -188,6 +152,7 @@ const Message = () => {
         .map((request) => ({
           ...request,
           showCompletionButton: request.id === activeJobId,
+          userName: request.userName || "",
         }))
     : [];
 
@@ -247,6 +212,8 @@ const Message = () => {
                   active={activeRequestId === request.id}
                   onClick={() => setActiveRequestId(request.id)}
                   animationDelay={index}
+                  requesterFirstName={request.user?.first_name || ""}
+                  requesterLastName={request.user?.last_name || ""}
                 />
               ))}
             </div>
@@ -267,7 +234,7 @@ const Message = () => {
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col md:ml-3">
+          <div className="flex-1 flex flex-col">
             {/* Header */}
             <div className="p-3 bg-gray-100 border border-black shadow-md shadow-[#7d7d7d] flex justify-between items-center rounded-xl">
               <div className="flex items-center">

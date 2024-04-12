@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useAutocomplete } from "../hooks/useAutocomplete";
 import AutoCompleteModal from "./AutoCompleteModal";
@@ -10,52 +10,54 @@ const EditRequestModal = ({
   editFields,
   updateMapMarker,
 }) => {
-  // Autocomplete hook for location suggestions
   const { suggestions, setInput } = useAutocomplete();
-  // Local state for modal input fields
   const [localEditFields, setLocalEditFields] = useState(editFields);
-  // Modal state for showing the autocomplete suggestions
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const inputRef = useRef(null);
 
-  // Update local state when editFields prop changes
   useEffect(() => {
     if (isOpen) {
       setLocalEditFields(editFields);
+      setSearchValue(editFields.location);
+      inputRef.current?.focus();
     }
   }, [editFields, isOpen]);
 
-  // Handlers for changes in the location input field
   const handleLocationChange = (e) => {
     const value = e.target.value;
     setLocalEditFields((prev) => ({ ...prev, location: value }));
-    setInput(value); // Set input for autocomplete suggestions
+    setSearchValue(value);
+    setInput(value);
     if (value.trim().length > 2) {
-      setIsModalOpen(true); // Open the modal if the input length is more than 2
+      setIsModalOpen(true);
     } else {
-      setIsModalOpen(false); // Close the modal otherwise
+      setIsModalOpen(false);
     }
   };
 
-  // Handler for selecting a suggestion from the autocomplete modal
   const handleSelectSuggestion = (suggestion) => {
-    setLocalEditFields((prev) => ({ ...prev, location: suggestion.name, lat: suggestion.lat, lng: suggestion.lon }));
+    setLocalEditFields((prev) => ({
+      ...prev,
+      location: suggestion.name,
+      lat: suggestion.lat,
+      lng: suggestion.lon,
+    }));
+    setSearchValue(suggestion.name);
     updateMapMarker(suggestion.lat, suggestion.lon);
-    setIsModalOpen(false); // Close the modal after selecting a suggestion
+    setIsModalOpen(false);
   };
 
-  // Handlers for other input field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLocalEditFields((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Save changes and call the onSave callback with updated fields
   const handleSave = () => {
     onSave(localEditFields);
-    onClose(); // Close the modal after saving
+    onClose();
   };
 
-  // Do not render the modal if it's not open
   if (!isOpen) return null;
 
   return (
@@ -66,7 +68,6 @@ const EditRequestModal = ({
             Edit Request
           </h2>
           <div className="mt-2 px-7 py-3">
-            {/* Title input */}
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Title:
             </label>
@@ -77,7 +78,6 @@ const EditRequestModal = ({
               onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
-            {/* Description input */}
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Description:
             </label>
@@ -87,26 +87,29 @@ const EditRequestModal = ({
               onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             />
-            {/* Location input */}
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Location:
             </label>
             <input
               type="text"
               name="location"
-              value={localEditFields.location}
+              value={searchValue}
               onChange={handleLocationChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
-            {/* Autocomplete suggestions modal */}
             <AutoCompleteModal
               isOpen={isModalOpen}
+              searchValue={searchValue}
+              onSearchChange={(e) => {
+                setSearchValue(e.target.value);
+                setInput(e.target.value);
+              }}
+              inputRef={inputRef}
               suggestions={suggestions}
               onSelectSuggestion={handleSelectSuggestion}
               onClose={() => setIsModalOpen(false)}
             />
           </div>
-
           <div className="items-center px-4 py-3">
             <button
               onClick={handleSave}
@@ -136,8 +139,9 @@ EditRequestModal.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
+    lat: PropTypes.number,
+    lng: PropTypes.number,
   }).isRequired,
-  setEditFields: PropTypes.func.isRequired,
 };
 
 export default EditRequestModal;

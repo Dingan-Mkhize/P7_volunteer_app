@@ -22,6 +22,7 @@ const RequestPage = () => {
   const { user, token } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRequester, setIsRequester] = useState(false);
+  
 
   const [editFields, setEditFields] = useState({
     title: "",
@@ -50,6 +51,8 @@ const RequestPage = () => {
           title: data.title,
           description: data.description,
           location: data.location,
+          lat: data.latitude,
+          lng: data.longitude,
         });
       },
     }
@@ -274,7 +277,7 @@ const RequestPage = () => {
             </div>
             {/* Description container */}
             <div className="w-full md:w-1/2 md:order-1">
-              <div className="text-3xl font-bold pt-3">{editFields.title}</div>
+              <div className="text-xl font-bold pt-3">{editFields.title}</div>
               <div className="mt-6 text-md leading-relaxed text-black shadow-md shadow-[#7d7d7d] border border-black rounded-2xl p-3">
                 {editFields.description}
               </div>

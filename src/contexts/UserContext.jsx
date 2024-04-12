@@ -32,7 +32,7 @@ function parseJwt(token) {
   }
 }
 
-export const UserProvider = ({ children }) => {
+export const UserProvider = ({ children, navigate }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("jwt") || null);
   const [activeJobId, setActiveJobId] = useState(null);
@@ -41,7 +41,8 @@ export const UserProvider = ({ children }) => {
     setToken(null);
     setUser(null);
     localStorage.removeItem("jwt");
-  }, []);
+    navigate("/"); // Redirect to homepage on logout
+  }, [navigate]);
 
   useEffect(() => {
     const interceptor = axios.interceptors.response.use(
@@ -54,9 +55,7 @@ export const UserProvider = ({ children }) => {
       }
     );
 
-    return () => {
-      axios.interceptors.response.eject(interceptor);
-    };
+    return () => axios.interceptors.response.eject(interceptor);
   }, [logout]);
 
   const fetchCurrentUser = useCallback(async () => {
@@ -64,9 +63,7 @@ export const UserProvider = ({ children }) => {
 
     try {
       const response = await axios.get("http://localhost:4000/current_user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setUser(response.data);
     } catch (error) {
@@ -75,14 +72,12 @@ export const UserProvider = ({ children }) => {
     }
   }, [token, logout]);
 
-
   useEffect(() => {
     localStorage.setItem("jwt", token || "");
     if (token) {
       fetchCurrentUser();
     }
   }, [token, fetchCurrentUser]);
-
 
   const login = useCallback(
     (authorization, userData) => {
@@ -91,7 +86,7 @@ export const UserProvider = ({ children }) => {
       const decodedToken = parseJwt(newToken);
       if (decodedToken) {
         setUser({ ...userData, id: decodedToken.sub });
-        fetchCurrentUser(); // Call fetchCurrentUser directly
+        fetchCurrentUser();
       }
     },
     [fetchCurrentUser]
@@ -105,11 +100,23 @@ export const UserProvider = ({ children }) => {
     };
 
     window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, [logout]);
+
+  useEffect(() => {
+    if (token) {
+      const decodedToken = parseJwt(token);
+      if (decodedToken && decodedToken.exp) {
+        const currentTime = Date.now() / 1000; // Convert to seconds
+        const timeUntilExpiration = (decodedToken.exp - currentTime) * 1000; // Convert back to milliseconds
+        const timeoutId = setTimeout(() => {
+          logout(); // Log out when the token expires
+        }, timeUntilExpiration);
+
+        return () => clearTimeout(timeoutId); // Clear the timeout if the component unmounts
+      }
+    }
+  }, [token, logout]);
 
   const contextValue = useMemo(
     () => ({
@@ -130,4 +137,5 @@ export const UserProvider = ({ children }) => {
 
 UserProvider.propTypes = {
   children: PropTypes.node.isRequired,
+  navigate: PropTypes.func.isRequired,
 };

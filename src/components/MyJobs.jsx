@@ -150,7 +150,7 @@ const MyJobsComponent = () => {
                     onClick={() => markJobAsCompleted(request.id, true)}
                     className="mt-3 md:mt-0 px-3 py-2 text-sm text-white border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 bg-black hover:bg-gray-700 rounded-full"
                   >
-                    Mark as Complete
+                    Job Done
                   </button>
                 </div>
               ))}

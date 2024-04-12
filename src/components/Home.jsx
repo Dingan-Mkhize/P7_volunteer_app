@@ -73,9 +73,9 @@ const Home = () => {
                   in your area, empowering you to lend a hand.
                 </div>
                 <div className="max-md:max-w-full mt-3">
-                  <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-                    <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0">
-                      <div className="rounded-xl shadow-lg shadow-[#7d7d7d] object-center w-full border border-black overflow-hidden mt-6 p-6">
+                  <div className="gap-5 flex justify-center max-md:flex-col max-md:items-stretch max-md:gap-0">
+                    <div className="flex flex-col items-center w-6/12 max-md:w-full max-md:ml-0">
+                      <div className=" object-center w-full border border-black shadow-lg shadow-[#7d7d7d] rounded-xl overflow-hidden mt-6 p-6">
                         <div className="text-black text-center text-6xl font-bold leading-[57.6px] whitespace-nowrap max-md:text-4xl">
                           {unfulfilledRequests !== undefined
                             ? `${unfulfilledRequests}`
