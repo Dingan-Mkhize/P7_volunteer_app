@@ -36,19 +36,29 @@ const MapComponent = ({ position, zoomLevel, jobs, title }) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
+    console.log("useEffect triggered");
+    console.log("position:", position);
+    console.log("mapRef.current:", mapRef.current);
+
     if (
       mapRef.current &&
       position &&
       Array.isArray(position) &&
       position.length === 2
     ) {
+      console.log("Updating map view");
       mapRef.current.setView(position, zoomLevel);
+    } else {
+      console.log("Map view not updated");
     }
   }, [position, zoomLevel]);
 
   if (!position || !Array.isArray(position) || position.length !== 2) {
+    console.log("Invalid location data");
     return <div>Map cannot be displayed due to invalid location data.</div>;
   }
+
+  console.log("Rendering map component");
 
   return (
     <div className="w-full" style={{ height: "400px", width: "100%" }}>

@@ -7,6 +7,7 @@ import MapComponent from "../components/MapComponent";
 import { FiEdit } from "react-icons/fi";
 import { differenceInHours } from "date-fns";
 import { useUser } from "../contexts/UserContext";
+import FallbackProfilePic from "./FallbackProfilePic";
 import "../index.css";
 
 const fetchRequestDetails = async (jobId, token) => {
@@ -21,8 +22,7 @@ const RequestPage = () => {
   const { jobId } = useParams();
   const { user, token } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isRequester, setIsRequester] = useState(false);
-  
+  const [isRequester, setIsRequester] = useState(false);  
 
   const [editFields, setEditFields] = useState({
     title: "",
@@ -65,12 +65,11 @@ const RequestPage = () => {
         {
           id: request.id,
           title: request.title,
-          taskType: request.taskType, // this should match the task type property in your request object
+          taskType: request.taskType,
           description: request.description,
           location: request.location,
           latitude: Number(request.latitude),
           longitude: Number(request.longitude),
-          // ... include any other properties required by the MapComponent for the popup
         },
       ];
     }
@@ -107,14 +106,12 @@ const RequestPage = () => {
   };
 
   const handleSaveChanges = async (editFields) => {
-    // Headers must include 'Content-Type': 'application/json' for JSON payloads
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
     setEditFields(editFields);
     setLocation({ lat: editFields.lat, lng: editFields.lng });
-    // Stringify the updated fields to send as the request body
     const updatedFields = JSON.stringify({
       title: editFields.title,
       description: editFields.description,
@@ -124,14 +121,19 @@ const RequestPage = () => {
     });
 
     try {
-      // Ensure the correct URL and pass the stringified body and headers
       const response = await axios.patch(
         `http://localhost:4000/users/${user.id}/requests/${jobId}`,
         updatedFields,
         { headers }
       );
       console.log("Save successful:", response.data);
-      setIsModalOpen(false); // Assuming you want to close the modal on successful save
+      setIsModalOpen(false); 
+      setLocation({ lat: editFields.lat, lng: editFields.lng });
+      console.log("Updated location after saving:", {
+        lat: editFields.lat,
+        lng: editFields.lng,
+      });
+      await refetch();
     } catch (error) {
       console.error("Failed to save changes:", error);
     }
@@ -147,7 +149,7 @@ const RequestPage = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      // Add any follow-up action here, like refetching request details
+      await refetch();
     } catch (error) {
       console.error("Failed to republish request", error);
     }
@@ -204,8 +206,8 @@ const RequestPage = () => {
       new Date(),
       new Date(request.last_published_at)
     );
-    if (hoursSincePublished < 24) return "High Urgency";
-    if (hoursSincePublished < 48) return "Moderate Urgency";
+    if (hoursSincePublished < 12) return "High Urgency";
+    if (hoursSincePublished < 24) return "Moderate Urgency";
     return "Low Urgency";
   };
 
@@ -312,28 +314,34 @@ const RequestPage = () => {
         </div>
       </div>
 
-      {/* Displaying the number of volunteers and their profiles */}
+      {/* volunteer cards and their profile pics */}
       <div className="m-3 p-12">
         <div className="text-center mb-4 hidden sm:block">
           <div className="text-3xl font-bold text-black">
             Volunteers ({request?.volunteers?.length || 0})
           </div>
         </div>
-
-        {/* For larger screens: Display individual volunteer cards */}
         <div className="hidden sm:flex justify-center gap-5 flex-wrap">
           {request?.volunteers?.slice(0, 5).map((volunteer) => (
             <div
               key={volunteer.id}
               className="flex flex-col items-center p-3 rounded-2xl shadow-lg shadow-[#7d7d7d] border border-black"
-              style={{ width: "130px" }} // Fixed width for individual cards
+              style={{ width: "130px" }}
             >
-              <img
-                loading="lazy"
-                src={volunteer.profilePic || "//placehold.it/100"}
-                alt={`${volunteer.name}'s profile`}
-                className="w-24 h-24 object-cover border border-black rounded-full shadow-md shadow-[#7d7d7d]"
-              />
+              {volunteer.profilePic ? (
+                <img
+                  loading="lazy"
+                  src={volunteer.profilePic}
+                  alt={`${volunteer.name}'s profile`}
+                  className="w-24 h-24 object-cover border border-black rounded-full shadow-md shadow-[#7d7d7d]"
+                />
+              ) : (
+                <FallbackProfilePic
+                  name={volunteer.name}
+                  size="24"
+                  color="blue"
+                />
+              )}
               <div className="mt-2 font-semibold text-black text-center">
                 {volunteer.name}
               </div>

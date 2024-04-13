@@ -26,7 +26,7 @@ const RequestListItem = ({
       }`}
       style={{ animationDelay: `0.${animationDelay}s` }}
     >
-      <FallbackProfilePic name={requesterFullName} size="10" color="blue" />
+      <FallbackProfilePic name={requesterFullName} size="3" color="blue" />
       <div className="ml-3 flex-1">
         <p className="text-sm font-medium">{title}</p>
         <span className="text-xs text-gray-500">
