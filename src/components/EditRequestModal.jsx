@@ -12,6 +12,8 @@ const EditRequestModal = ({
 }) => {
   const { suggestions, setInput } = useAutocomplete();
   const [localEditFields, setLocalEditFields] = useState(editFields);
+  const [wordCount, setWordCount] = useState(0);
+  const [descriptionError, setDescriptionError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const inputRef = useRef(null);
@@ -40,8 +42,8 @@ const EditRequestModal = ({
     setLocalEditFields((prev) => ({
       ...prev,
       location: suggestion.name,
-      lat: suggestion.lat,
-      lng: suggestion.lon,
+      latitude: suggestion.lat,
+      longitude: suggestion.lon,
     }));
     setSearchValue(suggestion.name);
     updateMapMarker(suggestion.lat, suggestion.lon);
@@ -50,13 +52,29 @@ const EditRequestModal = ({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "description") {
+      const words = value.match(/\S+/g) || [];
+      const newWordCount = words.length;
+      if (newWordCount <= 300) {
+        setWordCount(newWordCount);
+        setDescriptionError("");
+      } else {
+        setDescriptionError("Description must not exceed 300 words.");
+        return; // Prevent the description state from updating
+      }
+    }
     setLocalEditFields((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSave = () => {
+    if (wordCount > 300) {
+      alert("Cannot save. Description exceeds 300 words.");
+      return;
+    }
     onSave(localEditFields);
     onClose();
   };
+
 
   if (!isOpen) return null;
 
@@ -87,6 +105,9 @@ const EditRequestModal = ({
               onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             />
+            {descriptionError && (
+              <p className="text-red-500 text-xs italic">{descriptionError}</p>
+            )}
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Location:
             </label>
@@ -139,8 +160,8 @@ EditRequestModal.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
-    lat: PropTypes.number,
-    lng: PropTypes.number,
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
   }).isRequired,
 };
 

@@ -10,10 +10,11 @@ import { useUser } from "../contexts/UserContext";
 import FallbackProfilePic from "./FallbackProfilePic";
 import "../index.css";
 
-const fetchRequestDetails = async (jobId, token) => {
+const fetchRequestDetails = async (jobId, token, includeTimedOut = false) => {
   return axios
     .get(`http://localhost:4000/requests/${jobId}`, {
       headers: { Authorization: `Bearer ${token}` },
+      params: { includeTimedOut },
     })
     .then((response) => response.data);
 };
@@ -41,7 +42,7 @@ const RequestPage = () => {
     refetch,
   } = useQuery(
     ["requestDetails", jobId, token],
-    () => fetchRequestDetails(jobId, token),
+    () => fetchRequestDetails(jobId, token, false),
     {
       enabled: !!token,
       onSuccess: (data) => {
@@ -110,15 +111,16 @@ const RequestPage = () => {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
-    setEditFields(editFields);
-    setLocation({ lat: editFields.lat, lng: editFields.lng });
-    const updatedFields = JSON.stringify({
-      title: editFields.title,
-      description: editFields.description,
-      location: editFields.location,
-      lat: editFields.lat,
-      long: editFields.lng,
-    });
+
+    const updatedFields = {
+      request: {
+        title: editFields.title,
+        description: editFields.description,
+        location: editFields.location,
+        latitude: editFields.latitude, // use directly latitude and longitude from editFields
+        longitude: editFields.longitude,
+      },
+    };
 
     try {
       const response = await axios.patch(
@@ -127,13 +129,14 @@ const RequestPage = () => {
         { headers }
       );
       console.log("Save successful:", response.data);
-      setIsModalOpen(false); 
-      setLocation({ lat: editFields.lat, lng: editFields.lng });
+      setIsModalOpen(false);
+      // Ensure you update the location state that the MapComponent uses
+      setLocation({ lat: editFields.latitude, lng: editFields.longitude });
       console.log("Updated location after saving:", {
-        lat: editFields.lat,
-        lng: editFields.lng,
+        lat: editFields.latitude,
+        lng: editFields.longitude,
       });
-      await refetch();
+      await refetch(); // this should also update your location based on fetched data
     } catch (error) {
       console.error("Failed to save changes:", error);
     }
@@ -280,7 +283,7 @@ const RequestPage = () => {
             {/* Description container */}
             <div className="w-full md:w-1/2 md:order-1">
               <div className="text-xl font-bold pt-3">{editFields.title}</div>
-              <div className="mt-6 text-md leading-relaxed text-black shadow-md shadow-[#7d7d7d] border border-black rounded-2xl p-3">
+              <div className="mt-6 text-xs leading-relaxed text-black shadow-md shadow-[#7d7d7d] border border-black rounded-2xl p-3">
                 {editFields.description}
               </div>
             </div>
@@ -297,12 +300,18 @@ const RequestPage = () => {
             </div>
           </div>
           {isRequester ? (
-            <button
-              onClick={handleRepublish}
-              className="px-6 py-2 text-white bg-blue-500 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
-            >
-              Re-publish
-            </button>
+            request?.volunteer_count < 5 &&
+            differenceInHours(
+              new Date(),
+              new Date(request?.last_published_at)
+            ) >= 24 ? (
+              <button
+                onClick={handleRepublish}
+                className="px-6 py-2 text-white bg-blue-500 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+              >
+                Re-publish
+              </button>
+            ) : null
           ) : (
             <button
               onClick={handleVolunteerClick}

@@ -21,6 +21,8 @@ const CreateRequest = () => {
   const [time, setTime] = useState("");
   const [taskType, setTaskType] = useState("");
   const [description, setDescription] = useState("");
+  const [wordCount, setWordCount] = useState(0);
+  const [descriptionError, setDescriptionError] = useState("");
   const { suggestions, setInput } = useAutocomplete();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -31,6 +33,20 @@ const CreateRequest = () => {
       inputRef.current?.focus();
     }
   }, [isModalOpen]);
+
+  const handleDescriptionChange = (e) => {
+    const text = e.target.value;
+    const words = text.match(/\S+/g);
+    const wordCount = words ? words.length : 0;
+
+    if (wordCount <= 300) {
+      setDescription(text);
+      setWordCount(wordCount);
+      setDescriptionError("");
+    } else {
+      setDescriptionError("Description must not exceed 300 words.");
+    }
+  };
 
   const handleSearchChange = (e) => {
     const { value } = e.target;
@@ -90,6 +106,7 @@ const CreateRequest = () => {
         setTime("");
         setTaskType("");
         setDescription("");
+        setWordCount(0);
       },
       onError: (error) => {
         alert(`Error: ${error.response?.data?.message || error.message}`);
@@ -98,21 +115,25 @@ const CreateRequest = () => {
   );
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+  event.preventDefault();
+  if (wordCount > 300) {
+    setDescriptionError("Description must not exceed 300 words.");
+    return;
+  }
 
-    const formData = {
-      title,
-      location: locationDescription,
-      latitude: location.lat,
-      longitude: location.lng,
-      date,
-      time,
-      taskType,
-      description,
-    };
-
-    submitRequestMutation.mutate(formData);
+  const formData = {
+    title,
+    location: locationDescription,
+    latitude: location.lat,
+    longitude: location.lng,
+    date,
+    time,
+    taskType,
+    description,
   };
+
+  submitRequestMutation.mutate(formData);
+};
 
   const handleMapClick = (latlng) => {
     console.log("Map clicked:", latlng);
@@ -254,10 +275,15 @@ const CreateRequest = () => {
               <textarea
                 id="description"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={handleDescriptionChange}
                 className="mt-2 p-3 bg-white border border-black shadow-md shadow-[#7d7d7d] rounded-3xl w-full h-48"
-                placeholder="Type your description..."
+                placeholder="Type your description (max 300 words)..."
               ></textarea>
+              {descriptionError && (
+                <p className="text-red-500 text-xs italic">
+                  {descriptionError}
+                </p>
+              )}
             </div>
             <button
               type="submit"

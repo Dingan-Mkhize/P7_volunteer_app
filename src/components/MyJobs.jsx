@@ -6,11 +6,14 @@ import Logo from "../assets/LogoImg.png";
 import { Link } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
 
-const fetchMyRequests = async (userId, token) => {
+const fetchMyRequests = async (userId, token, includeTimedOut = false) => {
   const response = await axios.get(
     `http://localhost:4000/users/${userId}/my-requests`,
     {
       headers: { Authorization: `Bearer ${token}` },
+      params: {
+        includeTimedOut,
+      },
     }
   );
   const activeRequests = response.data.filter((request) => !request.archived);

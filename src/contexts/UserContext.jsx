@@ -1,3 +1,4 @@
+// UserContext.jsx
 import PropTypes from "prop-types";
 import {
   createContext,
@@ -25,7 +26,6 @@ function parseJwt(token) {
         })
         .join("")
     );
-
     return JSON.parse(jsonPayload);
   } catch (error) {
     return null;
@@ -119,14 +119,7 @@ export const UserProvider = ({ children, navigate }) => {
   }, [token, logout]);
 
   const contextValue = useMemo(
-    () => ({
-      user,
-      token,
-      login,
-      logout,
-      activeJobId,
-      setActiveJobId,
-    }),
+    () => ({ user, token, login, logout, activeJobId, setActiveJobId }),
     [user, token, login, logout, activeJobId]
   );
 

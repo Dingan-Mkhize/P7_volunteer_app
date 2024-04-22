@@ -18,10 +18,13 @@ const Dashboard = () => {
   //const [activeRequests, setActiveRequests] = useState([]);
 
   // Fetch active requests
-  const fetchActiveRequests = async () => {
+  const fetchActiveRequests = async (includeTimedOut = false) => {
     const { data } = await axios.get("http://localhost:4000/requests/active", {
       headers: {
         Authorization: `Bearer ${token}`,
+      },
+      params: {
+        includeTimedOut,
       },
     });
     return data; // Ensure this always returns an array
@@ -33,9 +36,13 @@ const Dashboard = () => {
     isLoading,
     isError,
     error,
-  } = useQuery(["activeRequests", token], () => fetchActiveRequests(), {
+  } = useQuery(["activeRequests", token], () => fetchActiveRequests(true), {
     enabled: !!token,
+    onSuccess: (data) => {
+      console.log("Active Requests:", data);
+    },
   });
+
 
   const { data: unfulfilledRequests } = useQuery(
     "unfulfilledCount",

@@ -21,12 +21,17 @@ const RequestListItem = ({
   return (
     <div
       onClick={() => onClick(id)}
-      className={`flex items-center p-2 hover:bg-gray-200 cursor-pointer rounded-lg border border-black ${
+      className={`flex items-center mb-3 py-1 hover:bg-gray-200 cursor-pointer rounded-lg border border-black shadow-md shadow-[#7d7d7d] ${
         active ? "bg-grey-100" : ""
       }`}
       style={{ animationDelay: `0.${animationDelay}s` }}
     >
-      <FallbackProfilePic name={requesterFullName} size="3" color="blue" />
+      <FallbackProfilePic
+        name={requesterFullName}
+        size={5}
+        color="blue"
+        padding="p-6"
+      />
       <div className="ml-3 flex-1">
         <p className="text-sm font-medium">{title}</p>
         <span className="text-xs text-gray-500">
@@ -67,7 +72,7 @@ const Message = () => {
   const chatContentRef = useRef(null);
   const [animationClass, setAnimationClass] = useState("fadeIn");
   const [currentPage, setCurrentPage] = useState(0);
-  const requestsPerPage = 6;
+  const requestsPerPage = 5;
 
   // Fetch requests from the server
   const { data: requests, isLoading: isLoadingRequests } = useQuery(
@@ -75,6 +80,9 @@ const Message = () => {
     async () => {
       const response = await axios.get(`http://localhost:4000/requests`, {
         headers: { Authorization: `Bearer ${token}` },
+        params: {
+          includeTimedOut: false,
+        },
       });
       console.log("Requests data:", response.data);
       return response.data;
@@ -199,11 +207,9 @@ const Message = () => {
         </div>
         <div className="flex flex-col lg:flex-row flex-1 py-3 overflow-hidden">
           {/* Sidebar - Adjusted for mobile */}
-          <div
-            className={`lg:w-1/4 w-full flex flex-col justify-between bg-gray-100 p-4 border border-black shadow-md shadow-[#7d7d7d] rounded-xl mt-3 mb-3 lg:mb-0 lg:mt-0 lg:mr-3 ${animationClass}`}
-          >
-            {/* Requests List */}
-            <div className="overflow-y-auto">
+          <div className="lg:w-1/4 w-full flex flex-col justify-between bg-gray-100 p-4 border border-black shadow-md shadow-[#7d7d7d] rounded-xl mt-3 mb-3 lg:mb-0 lg:mt-0 lg:mr-3">
+            {/* Wrap the request list in a div that will receive the animation class */}
+            <div className={`overflow-y-auto ${animationClass}`}>
               {displayedRequests.map((request, index) => (
                 <RequestListItem
                   key={request.id}
@@ -217,6 +223,7 @@ const Message = () => {
                 />
               ))}
             </div>
+
             {/* Pagination buttons */}
             <div className="flex justify-between p-3">
               <button
@@ -256,11 +263,11 @@ const Message = () => {
                       >
                         {/* Display the message content */}
                         <div
-                          className={`max-w-xs md:max-w-md lg:max-w-lg break-words ${message.isSender ? "bg-blue-100" : "bg-gray-100"} m-1 p-2 rounded-lg`}
+                          className={`max-w-xs md:max-w-md lg:max-w-lg break-words ${message.isSender ? "bg-blue-100" : "bg-gray-100"} m-3 p-3 border border-black shadow-lg shadow-[#7d7d7d] rounded-xl`}
                         >
                           {message.content}
                           <div className="text-xs text-gray-500 mt-1">
-                            {message.createdAtFormatted}
+                            {message.sender.full_name} - {message.createdAtFormatted}
                           </div>
                         </div>
                       </div>

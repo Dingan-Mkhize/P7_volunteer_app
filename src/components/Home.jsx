@@ -187,9 +187,9 @@ const Home = () => {
         <div className="text-black text-center text-lg leading-7 mb-4 mt-4 max-md:max-w-full">
           Contact us for further assistance.
         </div>
-        <button className="text-black text-base leading-6 whitespace-nowrap justify-center items-stretch px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 max-md:px-5 rounded-full">
+        <Link to="contact" className="text-black text-base leading-6 whitespace-nowrap justify-center items-stretch px-6 py-3 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 max-md:px-5 rounded-full">
           Contact
-        </button>
+        </Link>
       </div>
     </div>
   );
