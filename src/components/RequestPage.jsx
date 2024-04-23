@@ -78,8 +78,15 @@ const RequestPage = () => {
   }, [request]);
 
   useEffect(() => {
+    console.log("Is requester:", isRequester);
+    console.log("Volunteer count:", request?.volunteer_count);
+    console.log(
+      "Hours since published:",
+      differenceInHours(new Date(), new Date(request?.last_published_at))
+    );
     if (request && user) {
       console.log("Request object:", request);
+      console.log("Request status:", request.status); // Add this line
       setIsRequester(request.isRequester);
       setEditFields({
         title: request.title,
@@ -100,7 +107,7 @@ const RequestPage = () => {
         console.log("Using default location:", { lat: 51.505, lng: -0.09 });
       }
     }
-  }, [request, user]);
+  }, [request, user, isRequester]);
 
   const updateMapMarker = (newLatitude, newLongitude) => {
     setLocation({ lat: newLatitude, lng: newLongitude });
@@ -299,26 +306,22 @@ const RequestPage = () => {
               Job Urgency: {jobUrgency()}
             </div>
           </div>
-          {isRequester ? (
-            request?.volunteer_count < 5 &&
-            differenceInHours(
-              new Date(),
-              new Date(request?.last_published_at)
-            ) >= 24 ? (
-              <button
-                onClick={handleRepublish}
-                className="px-6 py-2 text-white bg-blue-500 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
-              >
-                Re-publish
-              </button>
-            ) : null
-          ) : (
+          {isRequester && request?.status === "unfulfilled" ? (
             <button
-              onClick={handleVolunteerClick}
-              className="px-6 py-2 text-white bg-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+              onClick={handleRepublish}
+              className="px-6 py-2 text-white bg-blue-500 border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
             >
-              Volunteer to Help
+              Re-publish
             </button>
+          ) : (
+            !isRequester && (
+              <button
+                onClick={handleVolunteerClick}
+                className="px-6 py-2 text-white bg-black border border-black shadow-md shadow-[#7d7d7d] hover:translate-y-[-2px] hover:shadow-lg transition duration-300 rounded-full"
+              >
+                Volunteer to Help
+              </button>
+            )
           )}
         </div>
       </div>
