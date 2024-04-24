@@ -19,7 +19,7 @@ const Dashboard = () => {
 
   // Fetch active requests
   const fetchActiveRequests = async (includeTimedOut = false) => {
-    const { data } = await axios.get("http://localhost:4000/requests/active", {
+    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/requests/active`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -48,7 +48,7 @@ const Dashboard = () => {
     "unfulfilledCount",
     async () => {
       const response = await axios.get(
-        "http://localhost:4000/requests/unfulfilled-count"
+        `${import.meta.env.VITE_API_URL}/requests/unfulfilled-count`
       );
 
       console.log("Unfulfilled Count Response:", response.data);

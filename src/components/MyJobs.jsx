@@ -8,7 +8,7 @@ import { useUser } from "../contexts/UserContext";
 
 const fetchMyRequests = async (userId, token, includeTimedOut = false) => {
   const response = await axios.get(
-    `http://localhost:4000/users/${userId}/my-requests`,
+    `${import.meta.env.VITE_API_URL}/users/${userId}/my-requests`,
     {
       headers: { Authorization: `Bearer ${token}` },
       params: {
@@ -23,7 +23,7 @@ const fetchMyRequests = async (userId, token, includeTimedOut = false) => {
 
 const fetchVolunteeredJobs = async (userId, token) => {
   const response = await axios.get(
-    `http://localhost:4000/users/${userId}/volunteered-jobs`,
+    `${import.meta.env.VITE_API_URL}/users/${userId}/volunteered-jobs`,
     {
       headers: { Authorization: `Bearer ${token}` },
     }
@@ -52,7 +52,7 @@ const MyJobsComponent = () => {
   const markJobAsCompletedMutation = useMutation(
     async (jobId) => {
       await axios.patch(
-        `http://localhost:4000/users/${userId}/requests/${jobId}/mark-as-completed`,
+        `${import.meta.env.VITE_API_URL}/users/${userId}/requests/${jobId}/mark-as-completed`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

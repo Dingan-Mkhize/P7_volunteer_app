@@ -13,7 +13,7 @@ const Home = () => {
     "unfulfilledCount",
     async () => {
       const response = await axios.get(
-        "http://localhost:4000/requests/unfulfilled-count"
+        `${import.meta.env.VITE_API_URL}/requests/unfulfilled-count`
       );
 
       console.log("Unfulfilled Count Response:", response.data);

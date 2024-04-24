@@ -78,12 +78,15 @@ const Message = () => {
   const { data: requests, isLoading: isLoadingRequests } = useQuery(
     "requests",
     async () => {
-      const response = await axios.get(`http://localhost:4000/requests`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: {
-          includeTimedOut: false,
-        },
-      });
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/requests`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          params: {
+            includeTimedOut: false,
+          },
+        }
+      );
       console.log("Requests data:", response.data);
       return response.data;
     },
@@ -96,7 +99,7 @@ const Message = () => {
     async () => {
       if (activeRequestId) {
         const response = await axios.get(
-          `http://localhost:4000/requests/${activeRequestId}/messages`,
+          `${import.meta.env.VITE_API_URL}/requests/${activeRequestId}/messages`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const fetchedMessages = response.data;
@@ -132,7 +135,7 @@ const Message = () => {
   const sendMessageMutation = useMutation(
     async (messageData) => {
       await axios.post(
-        `http://localhost:4000/requests/${activeRequestId}/messages`,
+        `${import.meta.env.VITE_API_URL}/requests/${activeRequestId}/messages`,
         {
           content: messageData.content,
           receiver_id: receiverId, // use dynamically determined receiverId

@@ -18,7 +18,7 @@ const LogIn = () => {
   const { login } = useUser();
 
   const loginMutation = useMutation(
-    (loginData) => axios.post("http://localhost:4000/login", loginData),
+    (loginData) => axios.post(`${import.meta.env.VITE_API_URL}/login`, loginData),
     {
       onSuccess: (response) => {
         // Simplified to directly use the login function from the context

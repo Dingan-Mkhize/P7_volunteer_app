@@ -19,7 +19,7 @@ const SignUpPage = () => {
   const [governmentId, setGovernmentId] = useState(null);
 
   const signupMutation = useMutation((newUserData) => {
-    return axios.post("http://localhost:4000/signup", newUserData, {
+    return axios.post(`${import.meta.env.VITE_API_URL}/signup`, newUserData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
   });

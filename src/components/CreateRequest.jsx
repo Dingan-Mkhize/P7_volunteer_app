@@ -90,7 +90,7 @@ const CreateRequest = () => {
   const submitRequestMutation = useMutation(
     (newRequestData) => {
       return axios.post(
-        `http://localhost:4000/users/${user.id}/requests`,
+        `${import.meta.env.VITE_API_URL}/users/${user.id}/requests`,
         newRequestData,
         {
           headers: { Authorization: `Bearer ${token}` },

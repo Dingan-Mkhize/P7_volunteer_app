@@ -12,7 +12,7 @@ import "../index.css";
 
 const fetchRequestDetails = async (jobId, token, includeTimedOut = false) => {
   return axios
-    .get(`http://localhost:4000/requests/${jobId}`, {
+    .get(`${import.meta.env.VITE_API_URL}/requests/${jobId}`, {
       headers: { Authorization: `Bearer ${token}` },
       params: { includeTimedOut },
     })
@@ -131,7 +131,7 @@ const RequestPage = () => {
 
     try {
       const response = await axios.patch(
-        `http://localhost:4000/users/${user.id}/requests/${jobId}`,
+        `${import.meta.env.VITE_API_URL}/users/${user.id}/requests/${jobId}`,
         updatedFields,
         { headers }
       );
@@ -153,7 +153,7 @@ const RequestPage = () => {
   const republishRequest = async () => {
     try {
       await axios.post(
-        `http://localhost:4000/requests/${jobId}/republish`,
+        `${import.meta.env.VITE_API_URL}/requests/${jobId}/republish`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -169,7 +169,7 @@ const RequestPage = () => {
   const volunteerForRequest = async () => {
     try {
       await axios.post(
-        `http://localhost:4000/requests/${jobId}/volunteer`,
+        `${import.meta.env.VITE_API_URL}/requests/${jobId}/volunteer`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
