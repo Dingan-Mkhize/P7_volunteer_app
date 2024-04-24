@@ -271,7 +271,7 @@ const RequestPage = () => {
           {/* Keep this on top */}
           <div className="flex flex-col md:flex-row justify-center gap-5 w-full ">
             {/* Map container */}
-            <div className="leaflet-container leaflet-control-attribution w-full md:w-1/2 md:order-2 border border-black shadow-md shadow-[#7d7d7d] rounded-2xl">
+            <div className="leaflet-container leaflet-control-attribution w-full md:w-1/2 md:order-2 border border-black shadow-md shadow-[#7d7d7d] rounded-xl">
               {location.lat !== undefined &&
               location.lng !== undefined &&
               !isNaN(location.lat) &&

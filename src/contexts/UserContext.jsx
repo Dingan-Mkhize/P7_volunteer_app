@@ -12,6 +12,7 @@ import axios from "axios";
 
 const UserContext = createContext();
 
+/* eslint-disable react-refresh/only-export-components */
 export const useUser = () => useContext(UserContext);
 
 function parseJwt(token) {

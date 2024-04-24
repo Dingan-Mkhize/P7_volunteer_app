@@ -1,4 +1,5 @@
 // App.jsx
+import PropTypes from "prop-types";
 import {
   BrowserRouter as Router,
   Routes,
@@ -49,5 +50,9 @@ function UserProviderWrapper({ children }) {
 
   return <UserProvider navigate={navigate}>{children}</UserProvider>;
 }
+
+UserProviderWrapper.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default App;

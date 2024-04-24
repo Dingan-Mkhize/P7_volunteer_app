@@ -169,7 +169,7 @@ const CreateRequest = () => {
           <div className="mt-6 text-lg leading-7 text-center text-black max-md:max-w-full">
             Reach out to the community. We are here to help!
           </div>
-          <div className="Z-0 leaflet-container leaflet-control-attribution border border-black shadow-md shadow-[#7d7d7d] rounded-2xl my-4">
+          <div className="Z-0 leaflet-container leaflet-control-attribution border border-black shadow-md shadow-[#7d7d7d] rounded-xl my-4">
             <MapComponent
               position={[latitude, longitude]}
               zoomLevel={13}
@@ -276,7 +276,7 @@ const CreateRequest = () => {
                 id="description"
                 value={description}
                 onChange={handleDescriptionChange}
-                className="mt-2 p-3 bg-white border border-black shadow-md shadow-[#7d7d7d] rounded-3xl w-full h-48"
+                className="mt-2 p-3 bg-white border border-black shadow-md shadow-[#7d7d7d] rounded-xl w-full h-48"
                 placeholder="Type your description (max 300 words)..."
               ></textarea>
               {descriptionError && (

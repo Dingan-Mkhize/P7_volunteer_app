@@ -32,7 +32,7 @@ const RequestListItem = ({
         color="blue"
         padding="p-6"
       />
-      <div className="ml-3 flex-1">
+      <div className="mx-1 my-1 flex-1">
         <p className="text-sm font-medium">{title}</p>
         <span className="text-xs text-gray-500">
           Requested by: {requesterFullName}
@@ -207,7 +207,7 @@ const Message = () => {
         </div>
         <div className="flex flex-col lg:flex-row flex-1 py-3 overflow-hidden">
           {/* Sidebar - Adjusted for mobile */}
-          <div className="lg:w-1/4 w-full flex flex-col justify-between bg-gray-100 p-4 border border-black shadow-md shadow-[#7d7d7d] rounded-xl mt-3 mb-3 lg:mb-0 lg:mt-0 lg:mr-3">
+          <div className="lg:w-1/4 w-full flex flex-col justify-between bg-gray-100 p-3 border border-black shadow-md shadow-[#7d7d7d] rounded-xl mt-3 mb-3 lg:mb-0 lg:mt-0 lg:mr-3">
             {/* Wrap the request list in a div that will receive the animation class */}
             <div className={`overflow-y-auto ${animationClass}`}>
               {displayedRequests.map((request, index) => (
@@ -220,6 +220,7 @@ const Message = () => {
                   animationDelay={index}
                   requesterFirstName={request.user?.first_name || ""}
                   requesterLastName={request.user?.last_name || ""}
+                  className="pr-4"
                 />
               ))}
             </div>
@@ -267,7 +268,8 @@ const Message = () => {
                         >
                           {message.content}
                           <div className="text-xs text-gray-500 mt-1">
-                            {message.sender.full_name} - {message.createdAtFormatted}
+                            {message.sender.full_name} -{" "}
+                            {message.createdAtFormatted}
                           </div>
                         </div>
                       </div>

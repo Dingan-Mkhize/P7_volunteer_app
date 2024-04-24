@@ -181,7 +181,7 @@ const Home = () => {
       </div>
       <div className="items-center bg-white flex w-full flex-col px-20 py-12 max-md:max-w-full max-md:px-5">
         {/*  Contact form Link */}
-        <div className="text-black text-center text-3xl font-bold leading-10 mt-20 max-md:max-w-full max-md:mt-10">
+        <div className="text-black text-center text-3xl font-bold leading-10 mt-9 max-md:max-w-full max-md:mt-10">
           Still have questions?
         </div>
         <div className="text-black text-center text-lg leading-7 mb-4 mt-4 max-md:max-w-full">
