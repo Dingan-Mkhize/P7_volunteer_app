@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "start": "serve -s dist -l 3000",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -22,7 +23,8 @@
     "react-leaflet": "^4.2.1",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.21.1",
-    "react-tabs": "^6.0.2"
+    "react-tabs": "^6.0.2",
+    "serve": "^14.2.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
