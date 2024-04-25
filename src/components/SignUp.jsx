@@ -19,9 +19,13 @@ const SignUpPage = () => {
   const [governmentId, setGovernmentId] = useState(null);
 
   const signupMutation = useMutation((newUserData) => {
-    return axios.post(`${import.meta.env.VITE_API_URL}/signup`, newUserData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    return axios.post(
+      `https://hands-united-rails.herokuapp.com/signup`,
+      newUserData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
   });
 
   // Handle the form submission
