@@ -63,7 +63,7 @@ export const UserProvider = ({ children, navigate }) => {
     if (!token) return;
 
     try {
-      const response = await axios.get("http://localhost:4000/current_user", {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/current_user`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUser(response.data);
