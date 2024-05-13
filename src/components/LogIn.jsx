@@ -64,13 +64,13 @@ const LogIn = () => {
           Welcome Back To Hands United
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center rounded-2xl border border-black shadow-lg shadow-[#000] px-12 mt-9 mb-9 bg-white bg-opacity-90">
-        <div className="flex justify-center py-6 px-16">
+      <div className="flex flex-col justify-center items-center rounded-2xl border border-black shadow-lg shadow-[#000] px-12 mt-9 mb-9 bg-white bg-opacity-90 w-full max-w-full sm:max-w-xs md:max-w-sm lg:max-w-lg">
+        <div className="flex justify-center pt-9">
           <img
             loading="lazy"
             src={Logo}
             alt="Hands United Logo"
-            className="w-36 h-33 object-contain object-center overflow-hidden border border-black rounded-full shadow-lg shadow-[#7d7d7d]"
+            className="w-24 sm:w-28 md:w-36 lg:w-40 object-contain object-center border border-black rounded-full shadow-lg shadow-[#7d7d7d]"
           />
         </div>
         <form
