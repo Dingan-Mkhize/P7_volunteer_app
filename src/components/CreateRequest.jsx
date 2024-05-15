@@ -179,7 +179,7 @@ const CreateRequest = () => {
             />
           </div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-            <div className="flex gap-5 justify-between mt-12 leading-6 whitespace-nowrap max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
+            <div className="flex gap-5 justify-between mt-12 leading-6 max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
               <div className="flex flex-col flex-1">
                 <label htmlFor="title" className="block">
                   Title of your request (required):
