@@ -15,7 +15,6 @@ const Dashboard = () => {
   const requestsPerPage = 3;
   const [urgentRequests, setUrgentRequests] = useState([]);
   const [sidebarRequests, setSidebarRequests] = useState([]);
-  //const [activeRequests, setActiveRequests] = useState([]);
 
   // Fetch active requests
   const fetchActiveRequests = async (includeTimedOut = false) => {

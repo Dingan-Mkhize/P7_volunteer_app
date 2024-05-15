@@ -221,7 +221,7 @@ const CreateRequest = () => {
               </div>
             </div>
 
-            <div className="flex gap-5 justify-between mt-6 text-base leading-6 text-black whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
+            <div className="flex gap-5 justify-between mt-6 text-base leading-6 text-black max-md:flex-wrap max-md:max-w-full">
               <div className="flex flex-col flex-1">
                 <label htmlFor="date" className="block">
                   Date:
