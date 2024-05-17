@@ -182,21 +182,21 @@ const CreateRequest = () => {
             <div className="flex gap-5 justify-between mt-12 leading-6 max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
               <div className="flex flex-col flex-1">
                 <label htmlFor="title" className="block">
-                  Title of your request (required):
+                  Request Title (required):
                 </label>
                 <input
                   id="title"
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="shrink-0 mt-2 h-12 bg-white border border-black shadow-md shadow-[#7d7d7d] rounded-3xl px-4"
+                  className="shrink-0 mt-2 h-12 bg-white border border-black shadow-md shadow-[#7d7d7d] rounded-3xl px-4 w-full"
                   required
                 />
               </div>
-              <div className="flex flex-col flex-1 relative">
+              <div className="flex flex-col flex-1">
                 <label
                   htmlFor="locationDescription"
-                  className="text font-medium text-gray-700"
+                  className="block"
                 >
                   Location Description:
                 </label>
@@ -205,7 +205,7 @@ const CreateRequest = () => {
                   type="text"
                   value={locationDescription}
                   onChange={handleLocationChange}
-                  className="shrink-0 mt-2 h-12 bg-white border border-black shadow-md shadow-[#7d7d7d] rounded-3xl px-4"
+                  className="shrink-0 mt-2 h-12 bg-white border border-black shadow-md shadow-[#7d7d7d] rounded-3xl px-4 w-full"
                   placeholder="Enter a location description"
                 />
                 {/* Invoke the AutocompleteModal here */}
@@ -231,7 +231,7 @@ const CreateRequest = () => {
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="shrink-0 mt-2 h-12 bg-white border border-black shadow-md shadow-[#7d7d7d] rounded-3xl px-4"
+                  className="shrink-0 mt-2 h-12 bg-white border border-black shadow-md shadow-[#7d7d7d] rounded-3xl px-4 w-full"
                 />
               </div>
               <div className="flex flex-col flex-1">
