@@ -61,9 +61,33 @@ const Dashboard = () => {
   // Sort and set urgent and sidebar requests
   useEffect(() => {
     if (Array.isArray(activeRequests)) {
-      const sortedRequests = activeRequests.sort(
+      console.log("Before Validation and Sorting:", activeRequests); // Added log
+
+      const currentTime = new Date().getTime();
+      const validRequests = activeRequests.filter((request) => {
+        const isValid = typeof request.created_at === "string";
+        if (!isValid) {
+          console.error("Invalid created_at value:", request);
+        }
+        return isValid;
+      });
+
+      console.log("Valid Requests:", validRequests); // Added log
+
+      const requestsWithUrgency = validRequests.map((request) => {
+        const requestTime = new Date(request.created_at).getTime();
+        const timeElapsed = (currentTime - requestTime) / (1000 * 60 * 60); // Time elapsed in hours
+        const urgency = Math.min(timeElapsed, 24); // Cap the urgency at 24 hours
+        return { ...request, urgency };
+      });
+
+      console.log("Requests with Urgency:", requestsWithUrgency); // Added log
+
+      const sortedRequests = requestsWithUrgency.sort(
         (a, b) => b.urgency - a.urgency
       );
+      console.log("Sorted Requests:", sortedRequests); // Added log
+
       setUrgentRequests(sortedRequests.slice(0, 3));
       setSidebarRequests(sortedRequests.slice(3));
     }
